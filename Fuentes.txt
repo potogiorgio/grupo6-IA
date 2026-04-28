@@ -1,0 +1,18 @@
+3. FUENTES
+
+API REST
+
+Arxiv api: donde se utilizará para elegir papers sobre astrofísica relacionados con galaxias incluyendo metadata como el titulo, el abstract, los autores,
+la fecha de publicación.
+
+https://arxiv.org/list/astro-ph.GA/recent?skip=0&show=50
+
+SPARQL:
+
+wikidata sparql: sera elegido para buscar topicos como el autor o la organización.
+
+https://query.wikidata.org/
+
+
+Uso de arxiv para obtener el id del paper, uso de ror para el id de la organización, doi para identificar la version del paper, orcid para obtener el codigo
+para identificar autores, wikidata para buscar topicos como el autor o la organización.
