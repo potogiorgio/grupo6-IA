@@ -1,9 +1,0 @@
-2. CASO DE USO
-El objetivo de este proyecto es construir un Knowledge Graph a partir de publicaciones científicas en el ámbito de la astrofísica.
-
-- Agrupar articulos en función de la galaxia que estudie.
-- Mirar la similitud de papers. 
-- Representar relaciones entre autores u organizaciones como la NASA.
-- Extraer entidades desde la sección de acknowledgements. 
-
-Este grafo de conocimiento facilitará la exploración de la investigación en astrofísica.
