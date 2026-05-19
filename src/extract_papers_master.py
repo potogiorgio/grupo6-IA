@@ -38,30 +38,6 @@ def clean_acknowledgements(text: str) -> str:
     if not text:
         return ""
 
-    markers = [
-        "ACKNOWLEDGEMENTS",
-        "ACKNOWLEDGMENTS",
-        "Acknowledgements",
-        "Acknowledgments",
-        "Acknowledgement",
-        "Acknowledgment",
-    ]
-
-    # Si GROBID duplicó el bloque, cortar en la segunda aparición del encabezado.
-    for marker in markers:
-        positions = [m.start() for m in re.finditer(re.escape(marker), text)]
-        if len(positions) >= 2:
-            text = text[:positions[1]].strip()
-            break
-
-    # Si parece texto duplicado mitad + mitad.
-    n = len(text)
-    if n > 200:
-        first = text[: n // 2].strip()
-        second = text[n // 2 :].strip()
-        if first[:120] == second[:120]:
-            text = first
-
     text = re.sub(r"^(ACKNOWLEDGEMENTS|ACKNOWLEDGMENTS)\s*", "Acknowledgements. ", text)
     text = re.sub(r"^(Acknowledgements|Acknowledgments)\s*\.?", "Acknowledgements. ", text)
 
@@ -79,6 +55,16 @@ def split_camel_case_name(name: str) -> str:
     name = re.sub(r"\b([A-Z]{2,})([A-Z][a-z])", r"\1 \2", name)
 
     return normalize_spaces(name)
+
+def clean_author_symbols(text: str) -> str:
+    if not text:
+        return ""
+
+    text = re.sub(r"[^\w\s\-'.]", " ", text, flags=re.UNICODE)
+
+    text = re.sub(r"\b\d+\b", " ", text)
+
+    return normalize_spaces(text)
 
 
 def clean_author_name(text: str) -> str:
@@ -126,7 +112,7 @@ def clean_author_name(text: str) -> str:
     if positions:
         text = padded[:min(positions)].strip()
 
-    text = re.sub(r"[†∔*\[\]]+", "", text)
+    text = clean_author_symbols(text)
     text = split_camel_case_name(text)
 
     # Quitar restos numéricos al final
@@ -162,11 +148,22 @@ def extract_authors(root) -> str:
 def extract_acknowledgements(root) -> str:
     texts = []
 
+    # divs que GROBID marcó como acknowledgement
+    ack_divs = root.findall(".//tei:div[@type='acknowledgement']", NS)
+
+    if ack_divs:
+        for div in ack_divs:
+            txt = text_or_empty(div)
+            if txt:
+                texts.append(txt)
+
+        return clean_acknowledgements(" ".join(texts))
+
+    # si no hay type='acknowledgement', buscamos por el encabezado
     for div in root.findall(".//tei:div", NS):
-        div_type = (div.attrib.get("type") or "").lower()
         head = text_or_empty(div.find("tei:head", NS)).lower()
 
-        if "acknowledg" in div_type or "acknowledg" in head:
+        if "acknowledg" in head:
             txt = text_or_empty(div)
             if txt:
                 texts.append(txt)
