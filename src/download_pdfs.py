@@ -13,10 +13,30 @@ def safe_makedirs(path: str) -> None:
 def download(url: str, out_path: str) -> None:
     req = urllib.request.Request(
         url,
-        headers={"User-Agent": "Mozilla/5.0 (paper-downloader)"},
+        headers={
+            "User-Agent": "Mozilla/5.0 (paper-downloader)",
+            "Accept": "application/pdf,text/html;q=0.9,*/*;q=0.8",
+        },
     )
-    with urllib.request.urlopen(req) as resp, open(out_path, "wb") as f:
-        f.write(resp.read())
+
+    with urllib.request.urlopen(req, timeout=60) as resp:
+        content_type = resp.headers.get("Content-Type", "")
+        data = resp.read()
+
+    if not data:
+        raise RuntimeError("archivo descargado vacío")
+
+    if not data.startswith(b"%PDF"):
+        preview = data[:200].decode("utf-8", errors="replace")
+        raise RuntimeError(
+            f"la URL no devolvió un PDF real. "
+            f"Content-Type={content_type}. "
+            f"Inicio del archivo={preview!r}"
+        )
+
+    with open(out_path, "wb") as f:
+        f.write(data)
+        
 
 def main() -> int:
     if not os.path.exists(CSV_PATH):
