@@ -1,0 +1,15 @@
+services:
+  grobid:
+    image: lfoppiano/grobid:0.7.2
+    ports:
+      - "8070:8070"
+
+  analysis:
+    build: .
+    depends_on:
+      - grobid
+    environment:
+      GROBID_URL: "http://grobid:8070/api/processFulltextDocument"
+    volumes:
+      - ./outputs:/app/outputs
+      - ./data:/app/data
