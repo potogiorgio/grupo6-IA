@@ -2,13 +2,15 @@ import os
 import csv
 from itertools import combinations
 
-from sklearn.feature_extraction.text import TfidfVectorizer
+from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 
 INPUT_CSV = "data/intermediate/papers_master.csv"
-OUT_CSV = "data/intermediate/similarity_relations.csv"
+OUT_CSV = "data/intermediate/semantic_similarity_relations.csv"
 
 TOP_K_PER_PAPER = 3
+
+MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
 
 
 def read_papers():
@@ -19,13 +21,16 @@ def read_papers():
 
         for row in reader:
             if row.get("usable_for_similarity") == "yes":
+                title = (row.get("title") or "").strip()
                 abstract = (row.get("abstract") or "").strip()
 
                 if abstract:
+                    text = f"{title}. {abstract}"
+
                     papers.append({
                         "id": row["id"],
-                        "title": row["title"],
-                        "abstract": abstract,
+                        "title": title,
+                        "text": text,
                     })
 
     return papers
@@ -39,18 +44,19 @@ def main():
     if len(papers) < 2:
         raise SystemExit("Necesitas al menos 2 papers con abstract para calcular similitud.")
 
-    abstracts = [p["abstract"] for p in papers]
+    texts = [p["text"] for p in papers]
 
-    vectorizer = TfidfVectorizer(
-        stop_words="english",
-        lowercase=True,
-        max_df=0.85,
-        min_df=1,
-        ngram_range=(1, 2),
+    print(f"Cargando modelo: {MODEL_NAME}")
+    model = SentenceTransformer(MODEL_NAME)
+
+    print("Calculando embeddings...")
+    embeddings = model.encode(
+        texts,
+        normalize_embeddings=True,
+        show_progress_bar=True,
     )
 
-    tfidf = vectorizer.fit_transform(abstracts)
-    sim_matrix = cosine_similarity(tfidf)
+    sim_matrix = cosine_similarity(embeddings)
 
     candidate_rows = []
 
@@ -62,7 +68,7 @@ def main():
             "target_paper": papers[j]["id"],
             "similarity_score": round(score, 4),
             "similarity_metric": "cosine_similarity",
-            "representation_method": "tfidf_ngrams_1_2",
+            "representation_method": MODEL_NAME,
         })
 
     selected = {}
@@ -89,7 +95,7 @@ def main():
     rows = sorted(rows, key=lambda r: r["similarity_score"], reverse=True)
 
     for idx, row in enumerate(rows, start=1):
-        row["similarity_id"] = f"similarity_{idx:04d}"
+        row["similarity_id"] = f"semantic_similarity_{idx:04d}"
 
     fieldnames = [
         "similarity_id",
@@ -107,9 +113,9 @@ def main():
 
     print(f"Guardado: {OUT_CSV}")
     print(f"Papers usados: {len(papers)}")
-    print(f"Relaciones de similitud exportadas: {len(rows)}")
+    print(f"Relaciones exportadas: {len(rows)}")
 
-    print("\nTop 10 similitudes:")
+    print("\nTop 10 similitudes semánticas:")
     for row in rows[:10]:
         print(
             f"{row['source_paper']} - {row['target_paper']}: "
