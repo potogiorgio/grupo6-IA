@@ -1,0 +1,400 @@
+@prefix : <https://w3id.org/grupo6-ia/ontology#> .
+@prefix bibo: <http://purl.org/ontology/bibo/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix org: <http://www.w3.org/ns/org#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <https://schema.org/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/grupo6-ia/ontology>
+    a owl:Ontology ;
+    dcterms:title "Ontologia del Knowledge Graph de publicaciones sobre galaxias"@es ;
+    dcterms:description "Ontologia inicial formalizada a partir del diagrama ontologia.png para representar papers cientificos, autores, organizaciones, financiacion, galaxias estudiadas, relaciones de similitud semantica y asignaciones de topics en el proyecto Grupo 6."@es ;
+    dcterms:source "ontologia/ontologia.png" ;
+    owl:versionInfo "0.1.0" .
+
+#################################################################
+# Clases
+#################################################################
+
+:Paper
+    a owl:Class ;
+    rdfs:label "Paper"@es ;
+    rdfs:comment "Publicacion cientifica incluida en el corpus del proyecto."@es .
+
+:Person
+    a owl:Class ;
+    rdfs:label "Persona"@es ;
+    rdfs:comment "Autor, autora o persona reconocida en una publicacion."@es .
+
+:Organization
+    a owl:Class ;
+    rdfs:label "Organizacion"@es ;
+    rdfs:comment "Institucion, afiliacion u organizacion financiadora."@es .
+
+:Project
+    a owl:Class ;
+    rdfs:label "Proyecto"@es ;
+    rdfs:comment "Proyecto o programa de financiacion mencionado en los metadatos o acknowledgements."@es .
+
+:SimilarityRelation
+    a owl:Class ;
+    rdfs:label "Relacion de similitud"@es ;
+    rdfs:comment "Relacion calculada entre papers mediante un metodo de similitud documentado."@es .
+
+:TopicAssignment
+    a owl:Class ;
+    rdfs:label "Asignacion de topic"@es ;
+    rdfs:comment "Resultado de asignar un paper a un topic mediante un modelo o metodo documentado."@es .
+
+:Topic
+    a owl:Class ;
+    rdfs:label "Topic"@es ;
+    rdfs:comment "Tema o cluster tematico asociado a un conjunto de papers."@es .
+
+:GalaxyStudyEvidence
+    a owl:Class ;
+    rdfs:label "Evidencia de estudio de galaxia"@es ;
+    rdfs:comment "Mencion o evidencia textual que vincula un paper con una galaxia estudiada."@es .
+
+:Galaxy
+    a owl:Class ;
+    rdfs:label "Galaxia"@es ;
+    rdfs:comment "Galaxia, sistema galactico u objeto astronomico de interes para el corpus."@es .
+
+#################################################################
+# Propiedades de objeto
+#################################################################
+
+:hasAuthor
+    a owl:ObjectProperty ;
+    rdfs:isDefinedBy <https://w3id.org/grupo6-ia/ontology> ;
+    rdfs:label "tiene autor"@es ;
+    rdfs:label "hasAuthor"@en ;
+    rdfs:domain :Paper ;
+    rdfs:range :Person ;
+    rdfs:subPropertyOf dcterms:creator .
+
+:acknowledgesPerson
+    a owl:ObjectProperty ;
+    rdfs:isDefinedBy <https://w3id.org/grupo6-ia/ontology> ;
+    rdfs:label "reconoce a persona"@es ;
+    rdfs:label "acknowledgesPerson"@en ;
+    rdfs:domain :Paper ;
+    rdfs:range :Person .
+
+:acknowledgesOrganization
+    a owl:ObjectProperty ;
+    rdfs:isDefinedBy <https://w3id.org/grupo6-ia/ontology> ;
+    rdfs:label "reconoce a organizacion"@es ;
+    rdfs:label "acknowledgesOrganization"@en ;
+    rdfs:domain :Paper ;
+    rdfs:range :Organization .
+
+:affiliatedTo
+    a owl:ObjectProperty ;
+    rdfs:isDefinedBy <https://w3id.org/grupo6-ia/ontology> ;
+    rdfs:label "afiliado a"@es ;
+    rdfs:label "affiliatedTo"@en ;
+    rdfs:domain :Person ;
+    rdfs:range :Organization ;
+    rdfs:subPropertyOf org:memberOf .
+
+:fundedBy
+    a owl:ObjectProperty ;
+    rdfs:isDefinedBy <https://w3id.org/grupo6-ia/ontology> ;
+    rdfs:label "financiado por proyecto"@es ;
+    rdfs:label "fundedBy"@en ;
+    rdfs:domain :Paper ;
+    rdfs:range :Project .
+
+:fundedByOrganization
+    a owl:ObjectProperty ;
+    rdfs:isDefinedBy <https://w3id.org/grupo6-ia/ontology> ;
+    rdfs:label "proyecto financiado por organizacion"@es ;
+    rdfs:label "fundedByOrganization"@en ;
+    rdfs:domain :Project ;
+    rdfs:range :Organization .
+
+:hasSimilarityRelation
+    a owl:ObjectProperty ;
+    rdfs:isDefinedBy <https://w3id.org/grupo6-ia/ontology> ;
+    rdfs:label "tiene relacion de similitud"@es ;
+    rdfs:label "hasSimilarityRelation"@en ;
+    rdfs:domain :Paper ;
+    rdfs:range :SimilarityRelation .
+
+:similarPaper
+    a owl:ObjectProperty ;
+    rdfs:isDefinedBy <https://w3id.org/grupo6-ia/ontology> ;
+    rdfs:label "paper similar"@es ;
+    rdfs:label "similarPaper"@en ;
+    rdfs:domain :SimilarityRelation ;
+    rdfs:range :Paper .
+
+:hasTopicAssignment
+    a owl:ObjectProperty ;
+    rdfs:isDefinedBy <https://w3id.org/grupo6-ia/ontology> ;
+    rdfs:label "tiene asignacion de topic"@es ;
+    rdfs:label "hasTopicAssignment"@en ;
+    rdfs:domain :Paper ;
+    rdfs:range :TopicAssignment .
+
+:assignedTopic
+    a owl:ObjectProperty ;
+    rdfs:isDefinedBy <https://w3id.org/grupo6-ia/ontology> ;
+    rdfs:label "topic asignado"@es ;
+    rdfs:label "assignedTopic"@en ;
+    rdfs:domain :TopicAssignment ;
+    rdfs:range :Topic .
+
+:hasGalaxyStudyEvidence
+    a owl:ObjectProperty ;
+    rdfs:isDefinedBy <https://w3id.org/grupo6-ia/ontology> ;
+    rdfs:label "tiene evidencia de estudio de galaxia"@es ;
+    rdfs:label "hasGalaxyStudyEvidence"@en ;
+    rdfs:domain :Paper ;
+    rdfs:range :GalaxyStudyEvidence .
+
+:identifiesGalaxy
+    a owl:ObjectProperty ;
+    rdfs:isDefinedBy <https://w3id.org/grupo6-ia/ontology> ;
+    rdfs:label "identifica galaxia"@es ;
+    rdfs:label "identifiesGalaxy"@en ;
+    rdfs:domain :GalaxyStudyEvidence ;
+    rdfs:range :Galaxy .
+
+:studiesGalaxy
+    a owl:ObjectProperty ;
+    rdfs:isDefinedBy <https://w3id.org/grupo6-ia/ontology> ;
+    rdfs:label "estudia galaxia"@es ;
+    rdfs:label "studiesGalaxy"@en ;
+    rdfs:domain :Paper ;
+    rdfs:range :Galaxy .
+
+#################################################################
+# Propiedades de datos
+#################################################################
+
+:title
+    a owl:DatatypeProperty ;
+    rdfs:isDefinedBy <https://w3id.org/grupo6-ia/ontology> ;
+    rdfs:label "titulo"@es ;
+    rdfs:label "title"@en ;
+    rdfs:domain :Paper ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf dcterms:title .
+
+:abstract
+    a owl:DatatypeProperty ;
+    rdfs:isDefinedBy <https://w3id.org/grupo6-ia/ontology> ;
+    rdfs:label "resumen"@es ;
+    rdfs:label "abstract"@en ;
+    rdfs:domain :Paper ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf dcterms:abstract .
+
+:publicationDate
+    a owl:DatatypeProperty ;
+    rdfs:isDefinedBy <https://w3id.org/grupo6-ia/ontology> ;
+    rdfs:label "fecha de publicacion"@es ;
+    rdfs:label "publicationDate"@en ;
+    rdfs:domain :Paper ;
+    rdfs:range xsd:date ;
+    rdfs:subPropertyOf dcterms:issued .
+
+:doi
+    a owl:DatatypeProperty ;
+    rdfs:isDefinedBy <https://w3id.org/grupo6-ia/ontology> ;
+    rdfs:label "DOI"@es ;
+    rdfs:label "doi"@en ;
+    rdfs:domain :Paper ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf bibo:doi .
+
+:openAireID
+    a owl:DatatypeProperty ;
+    rdfs:isDefinedBy <https://w3id.org/grupo6-ia/ontology> ;
+    rdfs:label "identificador OpenAIRE"@es ;
+    rdfs:label "openAireID"@en ;
+    rdfs:domain :Paper ;
+    rdfs:range xsd:string .
+
+:personName
+    a owl:DatatypeProperty ;
+    rdfs:isDefinedBy <https://w3id.org/grupo6-ia/ontology> ;
+    rdfs:label "nombre de persona"@es ;
+    rdfs:label "name"@en ;
+    rdfs:domain :Person ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf foaf:name .
+
+:orcid
+    a owl:DatatypeProperty ;
+    rdfs:isDefinedBy <https://w3id.org/grupo6-ia/ontology> ;
+    rdfs:label "ORCID"@es ;
+    rdfs:label "orcid"@en ;
+    rdfs:domain :Person ;
+    rdfs:range xsd:string .
+
+:personWikidataID
+    a owl:DatatypeProperty ;
+    rdfs:isDefinedBy <https://w3id.org/grupo6-ia/ontology> ;
+    rdfs:label "identificador Wikidata de persona"@es ;
+    rdfs:label "wikidataID"@en ;
+    rdfs:domain :Person ;
+    rdfs:range xsd:string .
+
+:organizationName
+    a owl:DatatypeProperty ;
+    rdfs:isDefinedBy <https://w3id.org/grupo6-ia/ontology> ;
+    rdfs:label "nombre de organizacion"@es ;
+    rdfs:label "name"@en ;
+    rdfs:domain :Organization ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf foaf:name .
+
+:rorID
+    a owl:DatatypeProperty ;
+    rdfs:isDefinedBy <https://w3id.org/grupo6-ia/ontology> ;
+    rdfs:label "identificador ROR"@es ;
+    rdfs:label "rorID"@en ;
+    rdfs:domain :Organization ;
+    rdfs:range xsd:string .
+
+:organizationWikidataID
+    a owl:DatatypeProperty ;
+    rdfs:isDefinedBy <https://w3id.org/grupo6-ia/ontology> ;
+    rdfs:label "identificador Wikidata de organizacion"@es ;
+    rdfs:label "wikidataID"@en ;
+    rdfs:domain :Organization ;
+    rdfs:range xsd:string .
+
+:country
+    a owl:DatatypeProperty ;
+    rdfs:isDefinedBy <https://w3id.org/grupo6-ia/ontology> ;
+    rdfs:label "pais"@es ;
+    rdfs:label "country"@en ;
+    rdfs:domain :Organization ;
+    rdfs:range xsd:string .
+
+:projectName
+    a owl:DatatypeProperty ;
+    rdfs:isDefinedBy <https://w3id.org/grupo6-ia/ontology> ;
+    rdfs:label "nombre de proyecto"@es ;
+    rdfs:label "name"@en ;
+    rdfs:domain :Project ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf dcterms:title .
+
+:fundingID
+    a owl:DatatypeProperty ;
+    rdfs:isDefinedBy <https://w3id.org/grupo6-ia/ontology> ;
+    rdfs:label "identificador de financiacion"@es ;
+    rdfs:label "fundingID"@en ;
+    rdfs:domain :Project ;
+    rdfs:range xsd:string .
+
+:similarityScore
+    a owl:DatatypeProperty ;
+    rdfs:isDefinedBy <https://w3id.org/grupo6-ia/ontology> ;
+    rdfs:label "score de similitud"@es ;
+    rdfs:label "similarityScore"@en ;
+    rdfs:domain :SimilarityRelation ;
+    rdfs:range xsd:float .
+
+:similarityMetric
+    a owl:DatatypeProperty ;
+    rdfs:isDefinedBy <https://w3id.org/grupo6-ia/ontology> ;
+    rdfs:label "metrica de similitud"@es ;
+    rdfs:label "similarityMetric"@en ;
+    rdfs:domain :SimilarityRelation ;
+    rdfs:range xsd:string .
+
+:topicScore
+    a owl:DatatypeProperty ;
+    rdfs:isDefinedBy <https://w3id.org/grupo6-ia/ontology> ;
+    rdfs:label "score de topic"@es ;
+    rdfs:label "topicScore"@en ;
+    rdfs:domain :TopicAssignment ;
+    rdfs:range xsd:float .
+
+:topicName
+    a owl:DatatypeProperty ;
+    rdfs:isDefinedBy <https://w3id.org/grupo6-ia/ontology> ;
+    rdfs:label "nombre de topic"@es ;
+    rdfs:label "name"@en ;
+    rdfs:domain :Topic ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf skos:prefLabel .
+
+:description
+    a owl:DatatypeProperty ;
+    rdfs:isDefinedBy <https://w3id.org/grupo6-ia/ontology> ;
+    rdfs:label "descripcion"@es ;
+    rdfs:label "description"@en ;
+    rdfs:domain :Topic ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf dcterms:description .
+
+:topicLabel
+    a owl:DatatypeProperty ;
+    rdfs:isDefinedBy <https://w3id.org/grupo6-ia/ontology> ;
+    rdfs:label "etiqueta de topic"@es ;
+    rdfs:label "topicLabel"@en ;
+    rdfs:domain :Topic ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf skos:prefLabel .
+
+:mentionText
+    a owl:DatatypeProperty ;
+    rdfs:isDefinedBy <https://w3id.org/grupo6-ia/ontology> ;
+    rdfs:label "texto de mencion"@es ;
+    rdfs:label "mentionText"@en ;
+    rdfs:domain :GalaxyStudyEvidence ;
+    rdfs:range xsd:string .
+
+:sourceSection
+    a owl:DatatypeProperty ;
+    rdfs:isDefinedBy <https://w3id.org/grupo6-ia/ontology> ;
+    rdfs:label "seccion fuente"@es ;
+    rdfs:label "sourceSection"@en ;
+    rdfs:domain :GalaxyStudyEvidence ;
+    rdfs:range xsd:string .
+
+:confidenceScore
+    a owl:DatatypeProperty ;
+    rdfs:isDefinedBy <https://w3id.org/grupo6-ia/ontology> ;
+    rdfs:label "score de confianza"@es ;
+    rdfs:label "confidenceScore"@en ;
+    rdfs:domain :GalaxyStudyEvidence ;
+    rdfs:range xsd:float .
+
+:galaxyName
+    a owl:DatatypeProperty ;
+    rdfs:isDefinedBy <https://w3id.org/grupo6-ia/ontology> ;
+    rdfs:label "nombre de galaxia"@es ;
+    rdfs:label "name"@en ;
+    rdfs:domain :Galaxy ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf skos:prefLabel .
+
+:galaxyWikidataID
+    a owl:DatatypeProperty ;
+    rdfs:isDefinedBy <https://w3id.org/grupo6-ia/ontology> ;
+    rdfs:label "identificador Wikidata de galaxia"@es ;
+    rdfs:label "wikidataID"@en ;
+    rdfs:domain :Galaxy ;
+    rdfs:range xsd:string .
+
+:galaxyType
+    a owl:DatatypeProperty ;
+    rdfs:isDefinedBy <https://w3id.org/grupo6-ia/ontology> ;
+    rdfs:label "tipo de galaxia"@es ;
+    rdfs:label "galaxyType"@en ;
+    rdfs:domain :Galaxy ;
+    rdfs:range xsd:string .
