@@ -26,8 +26,9 @@ kg:paper_002
     onto:doi "10.1017/s0074180900242587" ;
     onto:openAireID "https://explore.openaire.eu/search/publication?pid=10.1017/s0074180900242587" ;
     onto:hasAuthor kg:person_debra_meloy_elmegreen_ibm_thomas_j_watson_research_5ece69e0 ;
-    onto:hasSimilarityRelation kg:semantic_similarity_0008 ;
-    onto:hasSimilarityRelation kg:semantic_similarity_0009 .
+    onto:hasSimilarityRelation kg:semantic_similarity_0030 ;
+    onto:hasSimilarityRelation kg:semantic_similarity_0036 ;
+    onto:hasSimilarityRelation kg:semantic_similarity_0037 .
 
 kg:paper_003
     a onto:Paper ;
@@ -48,7 +49,8 @@ kg:paper_004
     onto:hasAuthor kg:person_s_ren_slarsen_uc_observatories_lick_ec2e78a1 ;
     onto:hasAuthor kg:person_duncan_aforbes_astrophysics_supercomputing_swinburne_744e5e8b ;
     onto:hasAuthor kg:person_jean_pbrodie_uc_observatories_lick_35445c57 ;
-    onto:hasSimilarityRelation kg:semantic_similarity_0001 .
+    onto:hasSimilarityRelation kg:semantic_similarity_0021 ;
+    onto:hasSimilarityRelation kg:semantic_similarity_0031 .
 
 kg:paper_005
     a onto:Paper ;
@@ -154,7 +156,8 @@ kg:paper_013
     onto:hasAuthor kg:person_rosemary_f_gwyse_the_95f93229 ;
     onto:hasAuthor kg:person_takanobu_kirihara_the_adc1e8c0 ;
     onto:hasAuthor kg:person_miho_nishigaki_the_2e0230a3 ;
-    onto:hasAuthor kg:person_itsuki_ogami_the_9c8fd58b .
+    onto:hasAuthor kg:person_itsuki_ogami_the_9c8fd58b ;
+    onto:hasSimilarityRelation kg:semantic_similarity_0040 .
 
 kg:paper_014
     a onto:Paper ;
@@ -164,7 +167,7 @@ kg:paper_014
     onto:openAireID "https://explore.openaire.eu/search/publication?pid=10.1007/978-94-011-3432-3_93" ;
     onto:hasAuthor kg:person_neill_reid_cd8572b3 ;
     onto:hasAuthor kg:person_wendy_lfreedman_the_observatories_of_the_carnegie_institution_of_washington_pasadena_ca_usa_0ef3adde ;
-    onto:hasSimilarityRelation kg:semantic_similarity_0003 .
+    onto:hasSimilarityRelation kg:semantic_similarity_0023 .
 
 kg:paper_015
     a onto:Paper ;
@@ -224,7 +227,7 @@ kg:paper_019
     onto:openAireID "https://explore.openaire.eu/search/publication?pid=10.3847/2041-8213/ac7c06" ;
     onto:hasAuthor kg:person_sean_tlinden_412c8f62 ;
     onto:hasAuthor kg:person_jchristopher_mihos_a426c068 ;
-    onto:hasSimilarityRelation kg:semantic_similarity_0005 .
+    onto:hasSimilarityRelation kg:semantic_similarity_0026 .
 
 kg:paper_020
     a onto:Paper ;
@@ -248,7 +251,8 @@ kg:paper_021
     onto:hasAuthor kg:person_beno_t_epinat_e153ff4e ;
     onto:hasAuthor kg:person_clare_ldobbs_e_52cac618 ;
     onto:hasAuthor kg:person_miguel_querejeta_72cbdf33 ;
-    onto:hasAuthor kg:person_s_de_accd3e85 .
+    onto:hasAuthor kg:person_s_de_accd3e85 ;
+    onto:hasSimilarityRelation kg:semantic_similarity_0038 .
 
 kg:paper_022
     a onto:Paper ;
@@ -266,7 +270,8 @@ kg:paper_023
     onto:openAireID "https://explore.openaire.eu/search/publication?pid=10.3847/2041-8213/ad9f5e" ;
     onto:hasAuthor kg:person_chunyi_zhang_edf4f323 ;
     onto:hasAuthor kg:person_junfeng_wang_b5407142 ;
-    onto:hasAuthor kg:person_tian_wen_cao_ffb6bf70 .
+    onto:hasAuthor kg:person_tian_wen_cao_ffb6bf70 ;
+    onto:hasSimilarityRelation kg:semantic_similarity_0039 .
 
 kg:paper_024
     a onto:Paper ;
@@ -302,8 +307,9 @@ kg:paper_025
     onto:doi "10.1017/s1743921305003455" ;
     onto:openAireID "https://explore.openaire.eu/search/publication?pid=10.1017/s1743921305003455" ;
     onto:hasAuthor kg:person_matthew_gcoleman_research_6cc83121 ;
-    onto:hasSimilarityRelation kg:semantic_similarity_0002 ;
-    onto:hasSimilarityRelation kg:semantic_similarity_0004 .
+    onto:hasSimilarityRelation kg:semantic_similarity_0022 ;
+    onto:hasSimilarityRelation kg:semantic_similarity_0029 ;
+    onto:hasSimilarityRelation kg:semantic_similarity_0035 .
 
 kg:paper_026
     a onto:Paper ;
@@ -316,7 +322,9 @@ kg:paper_026
     onto:hasAuthor kg:person_je_hesser_f43893d5 ;
     onto:hasAuthor kg:person_univ_of_california_reines_hall_irvine_ca_usa_ef7e90ac ;
     onto:hasAuthor kg:person_dominion_astrophysical_obs_v8x_4m6_victoria_bc_canada_e26d04fd ;
-    onto:hasSimilarityRelation kg:semantic_similarity_0010 .
+    onto:hasSimilarityRelation kg:semantic_similarity_0024 ;
+    onto:hasSimilarityRelation kg:semantic_similarity_0032 ;
+    onto:hasSimilarityRelation kg:semantic_similarity_0033 .
 
 kg:paper_027
     a onto:Paper ;
@@ -334,7 +342,8 @@ kg:paper_028
     onto:doi "10.1017/s1743921305006356" ;
     onto:openAireID "https://explore.openaire.eu/search/publication?pid=10.1017/s1743921305006356" ;
     onto:hasAuthor kg:person_kim_avenn_macalester_college_grand_avenue_saint_paul_mn_527a6936 ;
-    onto:hasAuthor kg:person_vhill_gepi_umr_observatoire_de_meudon_cnrs_france_12f65a40 .
+    onto:hasAuthor kg:person_vhill_gepi_umr_observatoire_de_meudon_cnrs_france_12f65a40 ;
+    onto:hasSimilarityRelation kg:semantic_similarity_0027 .
 
 kg:paper_029
     a onto:Paper ;
@@ -359,61 +368,124 @@ kg:paper_030
     onto:hasAuthor kg:person_gaspar_galaz_carnegie_institution_of_washington_las_campanas_observa_tory_casilla_la_serena_chile_ea38f952 ;
     onto:hasAuthor kg:person_val_rie_de_lapparent_e6c4d787 .
 
-kg:semantic_similarity_0001
+kg:semantic_similarity_0021
     a onto:SimilarityRelation ;
     onto:similarPaper kg:paper_009 ;
-    onto:similarityScore "0.7962"^^xsd:float ;
+    onto:similarityScore "0.8215"^^xsd:float ;
     onto:similarityMetric "cosine_similarity" ;
-    dcterms:description "representation_method=sentence-transformers/all-MiniLM-L6-v2; selection_method=top_10; rank=1" .
+    dcterms:description "representation_method=sentence-transformers/all-mpnet-base-v2; selection_method=top_20; rank=1" .
 
-kg:semantic_similarity_0002
+kg:semantic_similarity_0022
     a onto:SimilarityRelation ;
     onto:similarPaper kg:paper_026 ;
-    onto:similarityScore "0.7613"^^xsd:float ;
+    onto:similarityScore "0.8205"^^xsd:float ;
     onto:similarityMetric "cosine_similarity" ;
-    dcterms:description "representation_method=sentence-transformers/all-MiniLM-L6-v2; selection_method=top_10; rank=2" .
+    dcterms:description "representation_method=sentence-transformers/all-mpnet-base-v2; selection_method=top_20; rank=2" .
 
-kg:semantic_similarity_0003
+kg:semantic_similarity_0023
     a onto:SimilarityRelation ;
     onto:similarPaper kg:paper_022 ;
+    onto:similarityScore "0.8073"^^xsd:float ;
+    onto:similarityMetric "cosine_similarity" ;
+    dcterms:description "representation_method=sentence-transformers/all-mpnet-base-v2; selection_method=top_20; rank=3" .
+
+kg:semantic_similarity_0024
+    a onto:SimilarityRelation ;
+    onto:similarPaper kg:paper_029 ;
+    onto:similarityScore "0.7488"^^xsd:float ;
+    onto:similarityMetric "cosine_similarity" ;
+    dcterms:description "representation_method=sentence-transformers/all-mpnet-base-v2; selection_method=top_20; rank=4" .
+
+kg:semantic_similarity_0026
+    a onto:SimilarityRelation ;
+    onto:similarPaper kg:paper_021 ;
+    onto:similarityScore "0.7371"^^xsd:float ;
+    onto:similarityMetric "cosine_similarity" ;
+    dcterms:description "representation_method=sentence-transformers/all-mpnet-base-v2; selection_method=top_20; rank=6" .
+
+kg:semantic_similarity_0027
+    a onto:SimilarityRelation ;
+    onto:similarPaper kg:paper_029 ;
+    onto:similarityScore "0.7344"^^xsd:float ;
+    onto:similarityMetric "cosine_similarity" ;
+    dcterms:description "representation_method=sentence-transformers/all-mpnet-base-v2; selection_method=top_20; rank=7" .
+
+kg:semantic_similarity_0029
+    a onto:SimilarityRelation ;
+    onto:similarPaper kg:paper_029 ;
     onto:similarityScore "0.7271"^^xsd:float ;
     onto:similarityMetric "cosine_similarity" ;
-    dcterms:description "representation_method=sentence-transformers/all-MiniLM-L6-v2; selection_method=top_10; rank=3" .
+    dcterms:description "representation_method=sentence-transformers/all-mpnet-base-v2; selection_method=top_20; rank=9" .
 
-kg:semantic_similarity_0004
-    a onto:SimilarityRelation ;
-    onto:similarPaper kg:paper_027 ;
-    onto:similarityScore "0.7195"^^xsd:float ;
-    onto:similarityMetric "cosine_similarity" ;
-    dcterms:description "representation_method=sentence-transformers/all-MiniLM-L6-v2; selection_method=top_10; rank=4" .
-
-kg:semantic_similarity_0005
+kg:semantic_similarity_0030
     a onto:SimilarityRelation ;
     onto:similarPaper kg:paper_021 ;
+    onto:similarityScore "0.7258"^^xsd:float ;
+    onto:similarityMetric "cosine_similarity" ;
+    dcterms:description "representation_method=sentence-transformers/all-mpnet-base-v2; selection_method=top_20; rank=10" .
+
+kg:semantic_similarity_0031
+    a onto:SimilarityRelation ;
+    onto:similarPaper kg:paper_020 ;
+    onto:similarityScore "0.7229"^^xsd:float ;
+    onto:similarityMetric "cosine_similarity" ;
+    dcterms:description "representation_method=sentence-transformers/all-mpnet-base-v2; selection_method=top_20; rank=11" .
+
+kg:semantic_similarity_0032
+    a onto:SimilarityRelation ;
+    onto:similarPaper kg:paper_028 ;
+    onto:similarityScore "0.7158"^^xsd:float ;
+    onto:similarityMetric "cosine_similarity" ;
+    dcterms:description "representation_method=sentence-transformers/all-mpnet-base-v2; selection_method=top_20; rank=12" .
+
+kg:semantic_similarity_0033
+    a onto:SimilarityRelation ;
+    onto:similarPaper kg:paper_027 ;
+    onto:similarityScore "0.7125"^^xsd:float ;
+    onto:similarityMetric "cosine_similarity" ;
+    dcterms:description "representation_method=sentence-transformers/all-mpnet-base-v2; selection_method=top_20; rank=13" .
+
+kg:semantic_similarity_0035
+    a onto:SimilarityRelation ;
+    onto:similarPaper kg:paper_027 ;
     onto:similarityScore "0.7071"^^xsd:float ;
     onto:similarityMetric "cosine_similarity" ;
-    dcterms:description "representation_method=sentence-transformers/all-MiniLM-L6-v2; selection_method=top_10; rank=5" .
+    dcterms:description "representation_method=sentence-transformers/all-mpnet-base-v2; selection_method=top_20; rank=15" .
 
-kg:semantic_similarity_0008
+kg:semantic_similarity_0036
     a onto:SimilarityRelation ;
-    onto:similarPaper kg:paper_019 ;
-    onto:similarityScore "0.689"^^xsd:float ;
+    onto:similarPaper kg:paper_024 ;
+    onto:similarityScore "0.6978"^^xsd:float ;
     onto:similarityMetric "cosine_similarity" ;
-    dcterms:description "representation_method=sentence-transformers/all-MiniLM-L6-v2; selection_method=top_10; rank=8" .
+    dcterms:description "representation_method=sentence-transformers/all-mpnet-base-v2; selection_method=top_20; rank=16" .
 
-kg:semantic_similarity_0009
+kg:semantic_similarity_0037
     a onto:SimilarityRelation ;
-    onto:similarPaper kg:paper_021 ;
-    onto:similarityScore "0.6651"^^xsd:float ;
+    onto:similarPaper kg:paper_012 ;
+    onto:similarityScore "0.686"^^xsd:float ;
     onto:similarityMetric "cosine_similarity" ;
-    dcterms:description "representation_method=sentence-transformers/all-MiniLM-L6-v2; selection_method=top_10; rank=9" .
+    dcterms:description "representation_method=sentence-transformers/all-mpnet-base-v2; selection_method=top_20; rank=17" .
 
-kg:semantic_similarity_0010
+kg:semantic_similarity_0038
     a onto:SimilarityRelation ;
-    onto:similarPaper kg:paper_027 ;
-    onto:similarityScore "0.6631"^^xsd:float ;
+    onto:similarPaper kg:paper_024 ;
+    onto:similarityScore "0.6823"^^xsd:float ;
     onto:similarityMetric "cosine_similarity" ;
-    dcterms:description "representation_method=sentence-transformers/all-MiniLM-L6-v2; selection_method=top_10; rank=10" .
+    dcterms:description "representation_method=sentence-transformers/all-mpnet-base-v2; selection_method=top_20; rank=18" .
+
+kg:semantic_similarity_0039
+    a onto:SimilarityRelation ;
+    onto:similarPaper kg:paper_024 ;
+    onto:similarityScore "0.6809"^^xsd:float ;
+    onto:similarityMetric "cosine_similarity" ;
+    dcterms:description "representation_method=sentence-transformers/all-mpnet-base-v2; selection_method=top_20; rank=19" .
+
+kg:semantic_similarity_0040
+    a onto:SimilarityRelation ;
+    onto:similarPaper kg:paper_018 ;
+    onto:similarityScore "0.6789"^^xsd:float ;
+    onto:similarityMetric "cosine_similarity" ;
+    dcterms:description "representation_method=sentence-transformers/all-mpnet-base-v2; selection_method=top_20; rank=20" .
 
 kg:person_aa_nucita_b3b90050
     a onto:Person ;

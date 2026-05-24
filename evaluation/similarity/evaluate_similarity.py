@@ -21,6 +21,7 @@ DEFAULT_MODELS = [
 ]
 SIMILARITY_METRIC = "cosine_similarity"
 DEFAULT_TOP_K = 10
+DEFAULT_SELECTED_MODEL = "sentence-transformers/all-mpnet-base-v2"
 RELEVANT_LABELS = {"similar", "parcialmente similar"}
 
 
@@ -68,9 +69,9 @@ def load_sentence_transformer():
     return SentenceTransformer
 
 
-def compute_model_rows(papers: list[dict], model_name: str, top_k: int) -> list[dict]:
+def compute_model_rows(papers: list[dict], model_name: str, top_k: int, local_files_only: bool) -> list[dict]:
     SentenceTransformer = load_sentence_transformer()
-    model = SentenceTransformer(model_name)
+    model = SentenceTransformer(model_name, local_files_only=local_files_only)
 
     texts = [paper["text"] for paper in papers]
     embeddings = model.encode(texts, normalize_embeddings=True, show_progress_bar=False)
@@ -171,7 +172,8 @@ def write_csv(path: str, rows: list[dict]) -> None:
         writer.writerows(rows)
 
 
-def accepted_relation_rows(rows: list[dict]) -> list[dict]:
+def accepted_relation_rows(rows: list[dict], selected_model: str) -> list[dict]:
+    rows = [row for row in rows if row.get("model_name") == selected_model]
     reviewed = [row for row in rows if (row.get("final_label") or "").strip()]
     if not reviewed:
         return rows
@@ -182,7 +184,7 @@ def accepted_relation_rows(rows: list[dict]) -> list[dict]:
     ]
 
 
-def write_report(path: str, papers: list[dict], rows_by_model: dict[str, list[dict]], top_k: int) -> None:
+def write_report(path: str, papers: list[dict], rows_by_model: dict[str, list[dict]], top_k: int, selected_model: str, local_files_only: bool) -> None:
     lines = [
         "# Evaluacion de similarity con sentence embeddings",
         "",
@@ -194,6 +196,8 @@ def write_report(path: str, papers: list[dict], rows_by_model: dict[str, list[di
         "- Texto usado: `abstract`",
         f"- Metrica: `{SIMILARITY_METRIC}`",
         f"- Ranking: top {top_k} pares por modelo",
+        f"- Modelo elegido para salida KG: `{selected_model}`",
+        f"- Modo offline/cache local: `{str(local_files_only).lower()}`",
         f"- Version local de sentence-transformers: `{package_version('sentence-transformers')}`",
         "- Etiquetas relevantes para precision@k: `similar`, `parcialmente similar`",
         "- Revisiones exactas de modelos Hugging Face: pendiente fijar hash/revision para la entrega final",
@@ -237,7 +241,14 @@ def main() -> int:
     parser.add_argument("--review", default=REVIEW_CSV)
     parser.add_argument("--top-k", type=int, default=DEFAULT_TOP_K)
     parser.add_argument("--models", nargs="+", default=DEFAULT_MODELS)
+    parser.add_argument("--selected-model", default=DEFAULT_SELECTED_MODEL)
+    parser.add_argument("--allow-download", action="store_true", help="Permite descargar/verificar modelos en Hugging Face")
     args = parser.parse_args()
+
+    local_files_only = not args.allow_download
+    if local_files_only:
+        os.environ.setdefault("HF_HUB_OFFLINE", "1")
+        os.environ.setdefault("TRANSFORMERS_OFFLINE", "1")
 
     papers = read_papers(args.input)
     gold = read_gold(args.gold)
@@ -246,7 +257,7 @@ def main() -> int:
     all_rows = []
     rows_by_model = {}
     for model_name in args.models:
-        rows = compute_model_rows(papers, model_name, args.top_k)
+        rows = compute_model_rows(papers, model_name, args.top_k, local_files_only)
         for rank, row in enumerate(rows, start=1):
             row["model_name"] = model_name
             row["rank"] = rank
@@ -257,9 +268,9 @@ def main() -> int:
         rows_by_model[model_name] = rows
         all_rows.extend(rows)
 
-    write_csv(args.output, accepted_relation_rows(all_rows))
+    write_csv(args.output, accepted_relation_rows(all_rows, args.selected_model))
     write_csv(args.review, all_rows)
-    write_report(args.report, papers, rows_by_model, args.top_k)
+    write_report(args.report, papers, rows_by_model, args.top_k, args.selected_model, local_files_only)
 
     print(f"Guardado: {args.output}")
     print(f"Guardado: {args.review}")

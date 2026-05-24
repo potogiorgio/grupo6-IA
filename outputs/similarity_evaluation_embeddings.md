@@ -7,7 +7,9 @@
 - Revision manual asistida: `data/evaluation/similarity_manual_review.csv`
 - Texto usado: `abstract`
 - Metrica: `cosine_similarity`
-- Ranking: top 10 pares por modelo
+- Ranking: top 20 pares por modelo
+- Modelo elegido para salida KG: `sentence-transformers/all-mpnet-base-v2`
+- Modo offline/cache local: `true`
 - Version local de sentence-transformers: `5.1.2`
 - Etiquetas relevantes para precision@k: `similar`, `parcialmente similar`
 - Revisiones exactas de modelos Hugging Face: pendiente fijar hash/revision para la entrega final
@@ -22,13 +24,11 @@ Modelos comparados:
 
 | Modelo | Pares revisados | Precision@k manual | Precision@k contra gold positivo |
 |---|---:|---:|---:|
-| `sentence-transformers/all-MiniLM-L6-v2` | 10/10 | 0.8000 | 0.5000 |
-| `sentence-transformers/all-mpnet-base-v2` | 10/10 | 0.8000 | 0.4000 |
-| `sentence-transformers/paraphrase-MiniLM-L6-v2` | 10/10 | 0.8000 | 0.5000 |
+| `sentence-transformers/all-MiniLM-L6-v2` | 20/20 | 0.6000 | 0.3000 |
+| `sentence-transformers/all-mpnet-base-v2` | 20/20 | 0.8500 | 0.5000 |
+| `sentence-transformers/paraphrase-MiniLM-L6-v2` | 20/20 | 0.6500 | 0.3500 |
 
-Los tres modelos empatan en precision@10 manual. Como criterio secundario, `sentence-transformers/all-MiniLM-L6-v2` se elige para la integracion final porque obtiene la misma precision@10 que los otros modelos con un modelo mas liviano. Si se prioriza capacidad del modelo por encima de costo computacional, `sentence-transformers/all-mpnet-base-v2` tambien queda defendible, pero no mejora la precision@10 en esta muestra.
-
-El archivo `outputs/semantic_similarity_relations_embeddings.csv` conserva solo las relaciones aceptadas del modelo elegido para alimentar el KG: 8 pares marcados como `similar` o `parcialmente similar`. La planilla `data/evaluation/similarity_manual_review.csv` conserva los 30 pares revisados para trazabilidad de la comparacion.
+Con top 20, `sentence-transformers/all-mpnet-base-v2` obtiene la mejor precision@20 manual y se elige para alimentar el KG. El archivo `outputs/semantic_similarity_relations_embeddings.csv` conserva solo sus 17 pares aceptados como `similar` o `parcialmente similar`. La planilla `data/evaluation/similarity_manual_review.csv` conserva los 60 pares revisados para trazabilidad.
 
 ## Nota metodologica
 
