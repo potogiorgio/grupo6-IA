@@ -1,0 +1,877 @@
+@prefix kg: <https://w3id.org/grupo6-ia/resource/> .
+@prefix onto: <https://w3id.org/grupo6-ia/ontology#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kg:knowledge_graph
+    a dcterms:Dataset ;
+    dcterms:title "Knowledge Graph de publicaciones sobre galaxias"@es ;
+    dcterms:created "2026-05-24"^^xsd:date ;
+    dcterms:source "data/intermediate/papers_master.csv" ;
+    dcterms:conformsTo <https://w3id.org/grupo6-ia/ontology> .
+
+kg:paper_001
+    a onto:Paper ;
+    onto:title "Stellar and dust SED modelling of the Whirlpool interacting galaxy system" ;
+    onto:abstract "Some 300-500 Myr ago, the Whirlpool galaxy (NGC 5194/M51a) and its nearby post-starburst galaxy neighbour, NGC 5195/M51b closely interacted, resulting in significant changes to their star formation activity. Both galaxies display colors indicative of enhanced star formation during closest passage, but since then, star formation has ceased in NGC 5195 yet remained ongoing in the spiral NGC 5194. With a wealth of multi-wavelength (0.2-500 \u00b5m for this study) observations available, this nearby (10 Mpc) system, whose star formation history is well constrained through optical colors of individual stars and its dynamical history, provides the optimal laboratory to test the relation between dust emission and stellar emission within the fundamental framework of today's stellar population synthesis and dust emission models." ;
+    onto:doi "10.1017/s1743921312008848" ;
+    onto:openAireID "https://explore.openaire.eu/search/publication?pid=10.1017/s1743921312008848" ;
+    onto:hasAuthor kg:person_erin_mentuch_095bdc32 ;
+    onto:hasAuthor kg:person_christine_wilson_343848ae .
+
+kg:paper_002
+    a onto:Paper ;
+    onto:title "Spiral structure of the Milky Way and external galaxies" ;
+    onto:abstract "The spiral structure of the Milky Way galaxy has always been somewhat elusive because of our internal vantage point. This review will present methods and data for determining the overall pattern, and will summarize various models that have been proposed. Observations of spirals in external galaxies will also be discussed, because they can provide insight into the spiral structure of the Milky Way. OBSERVATIONS OF SPIRAL STRUCTURE IN OUR GALAXY 1,Spectrophotometric distancesThere are four common methods for determining the distributions of stars and gas. The first method, plotting known stellar distances, is the most direct way to determine the structure of our Galaxy. The only disadvantages of this method are that distances are usually accurate to only M0%, which leads to large uncertainties for distant stars, and that there is a relatively small number of objects to which this method may be applied. Morgan, Sharpless and Osterbrock (1952) first found that OB associations outlined spiral arms in the Milky Way. Open clusters with earliest spectral types less than B3 also prove to be good spiral tracers, as demonstrated by Becker and Fenkart (1970, 1971), Fenkart (1979), and Vogt and Moffat (1975). Figure 1 shows the local spiral structure obtained from these open clusters. Individual 0 stars are not perfect tracers, however. Lynds (1980a) found that only the hottest 0 stars trace the spiral arms; the later types occur in both the arm and interarm regions. A map of exciting stars in HII regions was made by Georgelin and Georgelin (1976). This will be discussed in \u00a71.2. Long-period Cepheids (P>15 days) also tend to occur in spiral arms (Kraft and Schmidt 1963, Tammann 1970, Humphreys 1976, Efremov et a^. 1981, and Berman and Mishurov 1981). Southern surveys reveal that A stars and early M stars show some concentration to spiral arms (Westerlund 1963, McCuskey and Houk 1971, McCuskey 1974); a small part of the Carina Arm is mapped out by A stars 255 H. van Woerden et al. (eds.), The Milky Way Galaxy, 255-272." ;
+    onto:doi "10.1017/s0074180900242587" ;
+    onto:openAireID "https://explore.openaire.eu/search/publication?pid=10.1017/s0074180900242587" ;
+    onto:hasAuthor kg:person_debra_meloy_elmegreen_ibm_thomas_j_watson_research_5ece69e0 .
+
+kg:paper_003
+    a onto:Paper ;
+    onto:title "Deflection of the hypervelocity stars by the dance of the Milky Way and Large Magellanic Cloud" ;
+    onto:abstract "Stars slingshotted by the supermassive black hole at the Galactic centre will escape the Milky Way so quickly that their trajectories will be almost straight lines. Previous works have shown how these 'hypervelocity stars' are subsequently deflected by the gravitational field of the Milky Way and the Large Magellanic Cloud (LMC), but have neglected to account for the reflex motion of the Milky Way in response to the fly by of the LMC. A consequence of this motion is that the hypervelocity stars we see on the outskirts of the Milky Way today were ejected from where the Milky Way centre was hundreds of millions of years ago. This change in perspective causes large apparent deflections in the trajectories of the hypervelocity stars, which are of the same order as the deflections caused by the gravitational force of the Milky Way and LMC. We quantify these deflections by simulating the production of hypervelocity stars in an isolated Milky Way (with a spherical or flattened dark matter halo), in a fixed-in-place Milky Way with a passing LMC, and in a Milky Way which responds to the passage of the LMC. The proper motion precision necessary to measure these deflections will be possible with the combination of Gaia with the proposed GaiaNIR successor mission, and these measurements will unlock the hypervelocity stars as probes of the shape of the Milky Way, the mass of the LMC, and of the dance of these two galaxies." ;
+    onto:doi "10.48550/arxiv.2004.00633" ;
+    onto:openAireID "https://explore.openaire.eu/search/publication?pid=10.48550/arxiv.2004.00633" ;
+    onto:hasAuthor kg:person_dboubert_magdalen_college_833ed9cc ;
+    onto:hasAuthor kg:person_derkal_d2488ac8 ;
+    onto:hasAuthor kg:person_agualandris_7ccf1f5d .
+
+kg:paper_004
+    a onto:Paper ;
+    onto:title "HST photometry of Globular Clusters in the Sombrero Galaxy" ;
+    onto:abstract "We explore the rich globular cluster (GC) system of the nearby Sa galaxy M104, the \"Sombrero\" (NGC 4594), using archive WFPC2 data. The GC colour distribution is found to be bimodal at the > 99% confidence level, with peaks at (V \u2212I) 0 = 0.96\u00b10.03 and 1.21 \u00b1 0.03. The inferred metallicities are very similar to those of globular clusters in our Galaxy and M31. However the Sombrero reveals a much enhanced number of red (metal-rich) GCs compared to other well-studied spirals. Because the Sombrero is dominated by a huge bulge and only has a modest disk, we associate the two sub-populations with the halo and bulge components respectively. Thus our analysis supports the view that the metal-rich GCs in spirals are associated with the bulge rather than with the disk. The Sombrero GCs have typical effective (half-light) radii of \u223c2 pc with the red ones being \u223c30% smaller than blue ones. We identify many similarites between the Sombrero's GC system and those of both late type spirals and early-type galaxies. Thus both the GC system and the Hubble type of the Sombrero galaxy appear to be intermediate in their nature." ;
+    onto:doi "10.48550/arxiv.astro-ph/0107082" ;
+    onto:openAireID "https://explore.openaire.eu/search/publication?pid=10.48550/arxiv.astro-ph/0107082" ;
+    onto:hasAuthor kg:person_s_ren_slarsen_uc_observatories_lick_ec2e78a1 ;
+    onto:hasAuthor kg:person_duncan_aforbes_astrophysics_supercomputing_swinburne_744e5e8b ;
+    onto:hasAuthor kg:person_jean_pbrodie_uc_observatories_lick_35445c57 .
+
+kg:paper_005
+    a onto:Paper ;
+    onto:title "Sombrero Galaxy as an Accelerator of Ultrahigh Energy Cosmic Ray Nuclei" ;
+    onto:abstract "Motivated by a recent proposal that points to the Sombrero galaxy as a source of the highest energy cosmic rays, we investigate the feasibility of accelerating both light and heavy nuclei near the supermassive black hole located at the center of this nearly edge-on galaxy that is just beyond naked-eye visibility. We show that cosmic ray nuclei concentrated in the immediate vicinity of the supermassive black hole could be efficiently accelerated up to the maximum observed energies without suffering catastrophic spallations. Armed with our findings we stand against conventional wisdom and conjecture that accelerators of the highest energy cosmic rays must anti-correlate with the (electromagnetic) source power." ;
+    onto:doi "10.48550/arxiv.2503.13315" ;
+    onto:openAireID "https://explore.openaire.eu/search/publication?pid=10.1103/rr8k-3l3k" ;
+    onto:hasAuthor kg:person_luis_aanchordoqui_b6af394a ;
+    onto:hasAuthor kg:person_karem_pe_al_castillo_4654d86c .
+
+kg:paper_006
+    a onto:Paper ;
+    onto:title "High-Velocity Neutral Hydrogen in the Central Region of the Andromeda Galaxy" ;
+    onto:abstract "Hydrogen-line radiation reaching a radial velocity of -540 km s -1 is observed from the central region of Andromeda. This corresponds to -230 km s\" 1 with respect to the systemic radial velocity. A positive wing is also seen, but its extent cannot be determined because of confusion with foreground Galactic hydrogen. The possibility that antenna beam smearing is responsible for this feature can be rejected. To explain the large velocity range, models involving a rapidly rotating disk, 2-motion, or planar radial streaming are considered. The present data do not allow differentiation among these models, although broad constraints can be placed on them." ;
+    onto:doi "10.1086/151562" ;
+    onto:openAireID "https://explore.openaire.eu/search/publication?pid=10.1086/151562" ;
+    onto:hasAuthor kg:person_robert_nwhitehurst_0d745787 ;
+    onto:hasAuthor kg:person_morton_sroberts_b8c55074 ;
+    onto:hasAuthor kg:person_physics_4122fa5d ;
+    onto:hasAuthor kg:person_green_bank_west_virginia_1d97d266 .
+
+kg:paper_007
+    a onto:Paper ;
+    onto:title "A Photometric Study of Markarian Galaxies" ;
+    onto:abstract "Photoelectric observations have been obtained for 92 Markarian galaxies and an additional five Seyfert galaxies to study the colors of the continuous spectra in these objects. A total of 28 Seyfert galaxies, 42 other galaxies with bright blue nuclei, and 27 diffuse galaxies are included. Multiaperture observations are presented for seven of these galaxies. It is found that galaxies spectroscopically classified as Seyfert galaxies because of broad nuclear emission lines have UB V colors corresponding to nonthermal continua, but the numerous Markarian galaxies with bright nuclei having narrow emission lines do not have such colors; instead, the ultraviolet continua of these galaxies apparently arise from hot stars. New spectroscopic and photographic observations are also presented for some Markarian galaxies of particular interest, including Markarian 3 and 205." ;
+    onto:doi "10.1086/152205" ;
+    onto:openAireID "https://explore.openaire.eu/search/publication?pid=10.1086/152205" ;
+    onto:hasAuthor kg:person_daniel_wweedman_dyer_e31de249 .
+
+kg:paper_008
+    a onto:Paper ;
+    onto:title "The X-ray variability history of Markarian 3" ;
+    onto:abstract "Context. The unified scenario for active galactic nuclei (AGN) postulates that our orientation with respect to a parsec-scale azimuthally-symmetric gas and dust system causes the difference in their phenomenology in the optical/UV and X-ray bands. Only recently have high-resolution radio (VLBI) and IR interferometric observations provided direct constraints on the size and structure of this obscuring system (known historically as the \"torus\"). On the other hand, variability in optically-thick X-ray absorption and reprocessing in heavily obscured AGN often probe smaller scales, down to the broad line region and beyond. Aims. We aim at constraining the geometry of the reprocessing matter in the nearby prototypical Seyfert 2 Galaxy Markarian 3 by studying the time evolution of the spectral components associated to the primary AGN emission and to its Compton-scattering. Methods. We analyzed archival spectroscopic observations of Markarian 3 taken over the last 12 years with the XMM-Newton, Suzaku and Swift observatories, as well as data taken during a monitoring campaign activated by us in 2012.Results. The timescale of the Compton-reflection component variability (originally discovered by ASCA in the mid-'90s) is < \u223c 64 days. This upper limit improves by more than a factor of 15 on previous estimates of the Compton-reflection variability timescale for this source. When the light curve of the Compton-reflection continuum in the 4\u22125 keV band is correlated with the 15-150 keV Swift/BAT curve, a delay > \u223c 1200 days is found. The cross-correlation results depend on the model used to fit the spectra, although the detection of the Compton-reflection component variability is independent of the range of models employed to fit the data. Reanalysis of an archival Chandra image of Markarian 3 indicates that the Compton-reflection and the Fe K \u03b1 emitting regions are extended to the north up to 300 pc. The combination of these findings suggests that the optically-thick reprocessor in Markarian 3 is clumpy. Conclusions. There is mounting experimental evidence that the structure of the optically-thick gas and dust in the nuclear environment of nearby heavily obscured AGN is extended and complex. We discuss possible modifications to the standard unification scenarios encompassing this complexity. Markarian 3, which exhibits X-ray absorption and reprocessing on widely different spatial scales, is an ideal laboratory to test these models." ;
+    onto:doi "10.1051/0004-6361/201219946" ;
+    onto:openAireID "https://explore.openaire.eu/search/publication?pid=10.1051/0004-6361/201219946" ;
+    onto:hasAuthor kg:person_mguainazzi_c7f0b4f1 ;
+    onto:hasAuthor kg:person_vla_parola_5afe04f0 ;
+    onto:hasAuthor kg:person_gminiutti_dep_de_astrofisica_centro_de_astrobiologia_csic_inta_25ea1c1f ;
+    onto:hasAuthor kg:person_asegreto_19ab8a21 ;
+    onto:hasAuthor kg:person_al_longinotti_d99c9125 .
+
+kg:paper_009
+    a onto:Paper ;
+    onto:title "Spectra of globular clusters in the Sombrero galaxy: Evidence for spectroscopic metallicity bimodality" ;
+    onto:abstract "We present a large sample of over 200 integrated-light spectra of confirmed globular clusters (GCs) associated with the Sombrero (M104) galaxy taken with the DEIMOS instrument on the Keck telescope. A significant fraction of the spectra have signal-to-noise levels high enough to allow measurements of GC metallicities using the method of Brodie & Huchra (1990). We find a distribution of spectroscopic metallicities ranging from -2.2 < [Fe/H] < +0.1 that is bimodal, with peaks at [Fe/H] \u223c -1.4 and -0.6. Thus the GC system of the Sombrero galaxy, like a few other galaxies now studied in detail, reveals a bimodal spectroscopic metallicity distribution supporting the long-held belief that colour bimodality reflects two metallicity subpopulations. This further suggests that the transformation from optical colour to metallicity for old stellar populations, such as GCs, is not strongly non-linear. We also explore the radial and magnitude distribution with metallicity for GC subpopulations but small number statistics prevent any clear trends in these distributions." ;
+    onto:doi "10.48550/arxiv.1107.0757" ;
+    onto:openAireID "https://explore.openaire.eu/search/publication?pid=10.25916/sut.26218295.v1" ;
+    onto:hasAuthor kg:person_alan_alves_brito_c1482fb0 ;
+    onto:hasAuthor kg:person_george_k_thau_0f85043c ;
+    onto:hasAuthor kg:person_duncan_aforbes_c2c9ed47 ;
+    onto:hasAuthor kg:person_lee_rspitler_24aca935 ;
+    onto:hasAuthor kg:person_jay_strader_harvard_smithsonian_fcb167e5 ;
+    onto:hasAuthor kg:person_jean_pbrodie_uco_lick_f16fc9f3 ;
+    onto:hasAuthor kg:person_katherine_lrhode_7c703f4f .
+
+kg:paper_010
+    a onto:Paper ;
+    onto:title "Evidence for X-Radiation from the Radio Galaxy M87" ;
+    onto:abstract "During a recent sounding rocket flight, we carried out a survey of the Virgo Cluster of galaxies in the X-ray energy region, 1.5-6 keV. Large area detectors with slat collimators of 2\u00b0 FWHM yielded two crossing celestial lines of position for each detected source. The threshold sensitivity for sources near the centers of the fields of view was about 0.025 counts cm -2 sec -1 , the equivalent of a fluctuation of 3 standard deviations in the background. The radio galaxy M87 and the quasi-stellar source 3C 273 were viewed from sufficiently high altitude so that atmospheric absorption was negligible. In the 500 sq. degrees scanned around the Virgo Cluster, only one source was detected. Its most probable celestial position is |\u00b0 from M87, well within the measurement uncertainty of 6.5 sq. degrees. The intensity of this source is consistent with that of the source reported previously, and identified as M87, by the NRL group (Byram, Chubb, and Friedman 1966;Friedman and Byram 1967). No signal was observed from 3C 273.Our detectors consisted of two banks of argon-filled (3.8 mg/cm 2 ) proportional counters with beryllium windows of 50-ju nominal thickness. Several samples of the beryllium windows were weighed and directly measured to be of thickness 45 \u00b1 5/4. Preliminary results from a chemical analysis indicate that the contamination of other elements is small. The effective window thickness, for X-ray absorption from 1.5 to 6 keV, was certainly less than 70 \u00a1jl and probably less than 60 /4 of beryllium. Each bank of counters had an effective area of 350 cm 2 and a mechanical collimator with an angular response (FWHM) of 2 o X 20\u00b0. The two collimators were oriented so that the long directions of the fields of view intercepted the east-to-west direction of scan at an angle of 60\u00b0 and also crossed one another at an angle of 60\u00b0 (Fig. 1). Aspect was determined to within 5' by star photography. Energetic charged cosmic-ray particles were rejected by a plastic anticoincidence detector. The experiment was carried by an Aerobee rocket, equipped with an attitude control system, which was launched from White Sands Missile Range at l\u00f3Ml\u00f3\" sidereal time, July 7, 1967.The centers of the fields of view tracked about 24\u00b0, from a = 12 h 42 m to a = ll h 06 m at \u00f4 ^ +10\u00b0. The celestial region scanned was thus restricted to high galactic latitudes (Fig. 1). M87 was viewed by both collimators early in the scan while the roll rate was constant within 3 per cent (0?38 \u00b1 0?01 sec -1 ). Thereafter the scan rate varied from 0?34 to 0?46 sec -1 (Fig. 2). The source 3C 273 was transited normally by collimator A and was in the field of view of collimator B during maneuvers just prior to the slow scan. The area-time exposure to 3C 273 was about the same for the two banks of counters. The altitude of the rocket was such that, during the transits of M87 and 3C 273, the absorption by the atmosphere in the direction of these radio sources was about 1 per cent at 2 keV. At the very end of the scan (altitude 100 km), X-rays from the centers of the fields of view (zenith angle 70\u00b0) would have suffered an attenuation of about 25 per cent at 2 keV and 10 per cent at 3 keV." ;
+    onto:doi "10.1086/180125" ;
+    onto:openAireID "https://explore.openaire.eu/search/publication?pid=10.1086/180125" ;
+    onto:hasAuthor kg:person_hbradt_8e78b42c ;
+    onto:hasAuthor kg:person_wmayer_082a6e64 ;
+    onto:hasAuthor kg:person_snaranan_fa1ec98e ;
+    onto:hasAuthor kg:person_srappaport_fde56c5d ;
+    onto:hasAuthor kg:person_gspada_cae6f051 ;
+    onto:hasAuthor kg:person_laboratorio_di_astrof_sica_frascati_italy_4d2865c8 .
+
+kg:paper_011
+    a onto:Paper ;
+    onto:title "Triangulum galaxy viewed byPlanck" ;
+    onto:abstract "We used Planck data to study the M 33 galaxy and find a substantial temperature asymmetry with respect to its minor axis projected onto the sky plane. This temperature asymmetry correlates well with the HI velocity field at 21 cm, at least within a galactocentric distance of 0.5 \u2022 , and it is found to extend up to about 3 \u2022 from the galaxy center. We conclude that the revealed effect, that is, the temperature asymmetry and its extension, implies that we detected the differential rotation of the M 33 galaxy and of its extended baryonic halo." ;
+    onto:doi "10.1051/0004-6361/201628780" ;
+    onto:openAireID "https://explore.openaire.eu/search/publication?pid=10.1051/0004-6361/201628780" ;
+    onto:hasAuthor kg:person_fde_paolis_1482ab58 ;
+    onto:hasAuthor kg:person_vg_gurzadyan_62bfa204 ;
+    onto:hasAuthor kg:person_aa_nucita_b3b90050 ;
+    onto:hasAuthor kg:person_lchemin_lab_umr_cnrs_universit_de_bordeaux_floirac_france_bf401ef5 ;
+    onto:hasAuthor kg:person_aqadir_43064782 ;
+    onto:hasAuthor kg:person_al_kashin_8330f8bb ;
+    onto:hasAuthor kg:person_hg_khachatryan_e3e7a08a ;
+    onto:hasAuthor kg:person_ssargsyan_16854833 ;
+    onto:hasAuthor kg:person_gyegorian_ae495483 ;
+    onto:hasAuthor kg:person_gingrosso_562bcfa6 ;
+    onto:hasAuthor kg:person_ph_hjetzer_physik_institut_universit_t_z_rich_winterthurerstrasse_z_rich_switzerland_625c9d12 ;
+    onto:hasAuthor kg:person_dvetrugno_560e3036 .
+
+kg:paper_012
+    a onto:Paper ;
+    onto:title "Mass spectrum of star formation in the Sombrero galaxy" ;
+    onto:abstract "Observations with the CTIO 4-m telescope confirm the absence of H n regions in the spiral arms of M104. This indicates that stars with M>10M Q are not presently being formed in this galaxy. It is suggested that the difference in the degree of resolution of spiral arms along the Hubble sequence Sa-Sb-Sc might be due to both a systematic variation in the total gas content and to a change in the mass spectrum of star formation." ;
+    onto:doi "10.1086/111957" ;
+    onto:openAireID "https://explore.openaire.eu/search/publication?pid=10.1086/111957" ;
+    onto:hasAuthor kg:person_sidney_van_den_bergh_david_dunlap_d9a0dc75 .
+
+kg:paper_013
+    a onto:Paper ;
+    onto:title "Triangulum IV: A Possible Ultra-Diffuse Satellite of M33" ;
+    onto:abstract "We report the detection of a dwarf satellite candidate (Triangulum IV: Tri IV) of the Triangulum galaxy (M33) using the deep imaging of Subaru/Hyper Suprime-Cam (HSC). From the apparent magnitude of the horizontal branch in Tri IV, the heliocentric distance of Tri IV is estimated to be 932 +49 \u221243 kpc, indicating that Tri IV is located at the distance of 75 +48 \u221240 kpc from the M33 center. This means that Tri IV is the probable satellite of M33, because its distance from M33 is within the virial radius of M33. We also estimate its surface brightness of \u00b5 V = 29.72 +0.10 \u22120.10 mag arcsec \u22122 , and half-light radius of r h = 1749 +523 \u2212425 pc, suggesting that Tri IV is an ultra-diffuse galaxy or dynamically heated galaxy. The surface brightness of Tri IV is too low to be detected in the previous survey, so this detection suggests that much fainter satellites may be present in the outskirts of M33." ;
+    onto:doi "10.48550/arxiv.2407.07481" ;
+    onto:openAireID "https://explore.openaire.eu/search/publication?pid=10.48550/arxiv.2407.07481" ;
+    onto:hasAuthor kg:person_evan_nkirby_the_538d634c ;
+    onto:hasAuthor kg:person_rosemary_f_gwyse_the_95f93229 ;
+    onto:hasAuthor kg:person_takanobu_kirihara_the_adc1e8c0 ;
+    onto:hasAuthor kg:person_miho_nishigaki_the_2e0230a3 ;
+    onto:hasAuthor kg:person_itsuki_ogami_the_9c8fd58b .
+
+kg:paper_014
+    a onto:Paper ;
+    onto:title "A Survey for RR Lyrae Variables in the Large Magellanic Cloud" ;
+    onto:abstract "In this paper we report preliminary results from a survey of RR Lyrae variable stars in the Large Magellanic Cloud.The RR Lyrae variables of the Large Magellanic Cloud (LMC) can be used as powerful probes both of the evolution of low-mass stars through the instability strip (the variation of luminosity with abundance and age and, in consequence, the reliability of these stars as distances indicators) and, using these stars as representatives of the older stellar populations in the LMC, of the kinematics and structure of the LMC during formation. However, with the exception of an outiying ~ 1 sq. deg. field (centred on NGC 2257) (Graham 1975, Nemec et al. 1985), most variable star surveys have concentrated on the clusters of the LMC. In this paper we report preliminary results from a survey that aims to remedy this defect by combining data from the du Pont 100-inch and the UK Schmidt telescopes.The analysis described here is based on ten IllaJ and one IIIaF UK Schmidt plates taken between January and March 1989, and covering the 6\u00b0 \u03c7 6\u00b0 field centred at 5 h 52 m , -65\u00b0. These plates have been measured using the COSMOS facility at the Royal Observatory, Edinburgh, and we have positions, magnitudes, shapes and orientations for ~ 1.1 million images on each plate. Not all of these images are real, with spurious images contributed by diffraction spikes round brighter stars, diffuse gaseous emission, emulsion flaws and the like. Hence, as the first step in our analysis we have paired two J plates, retaining only matched images. The plates have a limiting magnitude of Bj >21.5, significantiy fainter than the magnitude range covered by RR Lyraes, ~ 18.6 <Bj< 20.0, and so this procedure does not introduce any magnitude limit. This matched dataset of 974,017 stars forms the basis for subsequent plate-pairings.We have transformed all the magnitudes onto the same instrumental system and standardised the instrumental scale using standard sequences from CCD observations of stars near H4 (Mateo &Hodge 1986) and NGC 2155 (Mateo, priv. comm.). In doing so, we have adopted the relation" ;
+    onto:doi "10.1017/s0074180900200867" ;
+    onto:openAireID "https://explore.openaire.eu/search/publication?pid=10.1007/978-94-011-3432-3_93" ;
+    onto:hasAuthor kg:person_neill_reid_cd8572b3 ;
+    onto:hasAuthor kg:person_wendy_lfreedman_the_observatories_of_the_carnegie_institution_of_washington_pasadena_ca_usa_0ef3adde .
+
+kg:paper_015
+    a onto:Paper ;
+    onto:title "The Calculations of Gravity Fields and Rotation Curves of Whirlpool Galaxies and Dark Material" ;
+    onto:abstract "The gravity fields and rotation curves of whirlpool galaxies with thin disc distribution of material are calculated numerically. It is proved that the gravity field of mass thin disc distribution is greatly different from that of spherically symmetrical distribution. As long as the Newtonian theory of gravity is used strictly, by the proper mass distributions of thin discs, the flat rotation curves of whirlpool galaxies can be explained well. The rotating curve of the Milky Galaxy is obtained which coincides with practical observation. In this way, it is unnecessary for us to suppose the existence of additional dark material in the illuminant discs of whirlpool galaxy again. Meanwhile, in the space outside the illuminant disc, the quantity of dark material needed to maintain the flatness of rotation curves is greatly decreased. By considering the observation fact that the quantity of non-luminous baryon material is 3~10 times more than luminous material, we can explain the flatness of rotation curves of whirlpool galaxies well without the hypotheses of non-baryon dark material. So it is unnecessary for us to suppose that non-baryon dark material is about 5 times more than baryon material in a single whirlpool galaxy, no mater whether non-baryon dark material exits or not." ;
+    onto:doi "10.48550/arxiv.0903.1962" ;
+    onto:openAireID "https://explore.openaire.eu/search/publication?pid=10.48550/arxiv.0903.1962" ;
+    onto:hasAuthor kg:person_mei_xiaochun_c0ee23eb ;
+    onto:hasAuthor kg:person_xu_kuan_32cc8caf .
+
+kg:paper_016
+    a onto:Paper ;
+    onto:title "Phase-space Correlation in Stellar Streams of the Milky Way Halo: The Clash of Kshir and GD-1*" ;
+    onto:abstract "We report the discovery of a \uf0b0 70 long stellar stream in the Milky Way halo, which criss-crosses the well known \"GD-1\" stream. We show that this new stellar structure (\"Kshir\") and GD-1 lie at similar distance, and are remarkably correlated in kinematics. We propose several explanations for the nature of this new structure and its possible association with GD-1. However, a scenario in which these two streams were accreted onto the Milky Way within the same dark matter sub-halo seems to provide a natural explanation for their phase-space entanglement, and other complexities of this coupled system.Unified Astronomy Thesaurus concepts: Globular star clusters (656); Dark matter (353); Stellar kinematics (1608); Milky Way stellar halo (1060)" ;
+    onto:doi "10.3847/2041-8213/ab530e" ;
+    onto:openAireID "https://explore.openaire.eu/search/publication?pid=10.3847%2F2041-8213%2Fab530e" ;
+    onto:hasAuthor kg:person_khyati_malhan_433x_f_60ede050 ;
+    onto:hasAuthor kg:person_rodrigo_aibata_f_bf2fe2db ;
+    onto:hasAuthor kg:person_raymond_gcarlberg_f_cb131dd3 ;
+    onto:hasAuthor kg:person_michele_bellazzini_810x_f_06f9206f ;
+    onto:hasAuthor kg:person_benoit_famaey_f_d5fa55f2 ;
+    onto:hasAuthor kg:person_nicolas_fmartin_202x_f_cc413c91 .
+
+kg:paper_017
+    a onto:Paper ;
+    onto:title "Mapping the Milky Way with LAMOST \u2013 II. The stellar halo" ;
+    onto:abstract "The radial number density and flattening of the Milky Way's stellar halo is measured with 5351 metal-poor ([Fe/H]< \u22121) K giants from LAMOST DR3, using a nonparametric method which is model independent and largely avoids the influence of halo substucture. The number density profile is well described by a single power law with index 5.03 +0.64 \u22120.64 , and flattening that varies with radius. The stellar halo traced by LAMOST K giants is more flattened at smaller radii, and becomes nearly spherical at larger radii. The flattening, q, is about 0.64, 0.8, 0.96 at r = 15, 20 and 30 kpc (where r = R 2 + [Z/q (r)]2 ), respectively. Moreover, the leading arm of the Sagittarius dwarf galaxy tidal stream in the north, and the trailing arm in the south, are significant in the residual map of density distribution. In addition, an unknown overdensity is identified in the residual map at (R,Z)=(30,15) kpc." ;
+    onto:doi "10.48550/arxiv.1706.08650" ;
+    onto:openAireID "https://explore.openaire.eu/search/publication?pid=10.1093/mnras/stx2361" ;
+    onto:hasAuthor kg:person_yan_xu_key_laboratory_of_optical_astronomy_20554423 ;
+    onto:hasAuthor kg:person_chao_liu_key_laboratory_of_optical_astronomy_8c7c7c7a ;
+    onto:hasAuthor kg:person_xiang_xiang_xue_key_laboratory_of_optical_astronomy_980d6a44 ;
+    onto:hasAuthor kg:person_heidi_jo_newberg_b309e646 ;
+    onto:hasAuthor kg:person_lcarlin_lsst_north_cherry_avenue_tucson_az_usa_5d18dc2c ;
+    onto:hasAuthor kg:person_qi_ran_xia_key_laboratory_of_optical_astronomy_7357afc4 ;
+    onto:hasAuthor kg:person_li_cai_deng_key_laboratory_of_optical_astronomy_da603b28 ;
+    onto:hasAuthor kg:person_jing_li_key_laboratory_of_galaxies_and_cosmology_shanghai_eef373dd ;
+    onto:hasAuthor kg:person_yong_zhang_nanjing_f1d62add ;
+    onto:hasAuthor kg:person_yonghui_hou_nanjing_93ab1c58 ;
+    onto:hasAuthor kg:person_yuefei_wang_nanjing_175f2078 ;
+    onto:hasAuthor kg:person_zihuang_cao_key_laboratory_of_optical_astronomy_4773109c .
+
+kg:paper_018
+    a onto:Paper ;
+    onto:title "Dwarf Spheroidal Galaxies in the M101 Group and Behind it" ;
+    onto:abstract "We use images from the Hubble Space Telescope to determine the distances to a dozen objects with low surface brightness recently observed around the bright nearby spiral M101.Only two dwarf galaxies, M101-DwA and M101-Dw9, turn out to be actual satellites of M101 at distances of about 7 Mpc. The other objects are probably members of a distant group around the S0-galaxies NGC 5485/5473. Based on the radial velocities and projected separations of the 9 satellites, we obtain an estimate of (8.5 \u00b1 3.0) \u00d7 10 11 M \u2299 for the total mass of M101, which is consistent with a ratio 16 \u00b1 6 for the total mass to the stellar mass of the galaxy." ;
+    onto:doi "10.48550/arxiv.1907.12417" ;
+    onto:openAireID "https://explore.openaire.eu/search/publication?pid=10.1007/s10511-019-09582-7" ;
+    onto:hasAuthor kg:person_id_karachentsev_special_astrophysical_05f992ac ;
+    onto:hasAuthor kg:person_ln_makarova_special_astrophysical_73b35cac .
+
+kg:paper_019
+    a onto:Paper ;
+    onto:title "A Dynamical Model of the M101/NGC 5474 Encounter" ;
+    onto:abstract "We present the first dynamical simulation that recreates the major properties of the archetypal nearby spiral galaxy M101. Our model describes a grazing but relatively close (\u223c14 kpc) passage of the companion galaxy NGC 5474 through M101\u02bcs outer disk approximately 200 Myr ago. The passage is retrograde for both disks, yielding a relatively strong gravitational response while suppressing the formation of long tidal tails. The simulation reproduces M101\u02bcs overall lopsidedness, as well as the extended NE Plume and the sharp western edge of the galaxy's disk. The post-starburst populations observed in M101\u02bcs NE Plume are likely a result of star formation triggered at the point of contact where the galaxies collided. Over time, this material will mix azimuthally, leaving behind diffuse, kinematically coherent stellar streams in M101\u02bcs outer disk. At late times after the encounter, the density profile of M101\u02bcs disk shows a broken \"upbending\" profile similar to those seen in spiral galaxies in denser environments, further demonstrating the connection between interactions and long-term structural changes in galaxy disks." ;
+    onto:doi "10.3847/2041-8213/ac7c06" ;
+    onto:openAireID "https://explore.openaire.eu/search/publication?pid=10.3847/2041-8213/ac7c06" ;
+    onto:hasAuthor kg:person_sean_tlinden_412c8f62 ;
+    onto:hasAuthor kg:person_jchristopher_mihos_a426c068 .
+
+kg:paper_020
+    a onto:Paper ;
+    onto:title "Beyond Morphology: Challenges in Decomposing Massive Stellar Halos in Sombrero-like, Halo-Embedded Disk Galaxies, Halo-Embedded Disk Galaxies" ;
+    onto:abstract "Aims. Sombrero-like galaxies exhibit unique structural properties that challenge traditional photometric decomposition methods. We investigate the structural differences of Sombrero-like galaxies using both conventional photometric and kinematic decomposition approaches. This study aims to explore the extent to which photometric decomposition misidentifies key structural components, particularly the stellar halo. Methods. We selected 270 Sombrero-like galaxies at redshift z = 0 from the TNG50 run of IllustrisTNG (TNG) simulations, filtering those with stellar mass M * > 10 10 M and stellar halo mass fraction satisfying 0.3 < f halo < 0.6. Synthetic images of these galaxies are generated using the GALAXEV population synthesis code, and photometric decomposition is performed on face-on and edge-on images using GALFIT. We then compare the decomposition results with kinematic decomposition based on the auto-GMM method, analyzing differences in the recovered structural parameters, including mass fractions and S\u00e9rsic indices, and discussing their implications for identifying the bulge, disk, and stellar halo. Results. Sombrero-like galaxies are characterized by disks embedded in massive stellar halos, namely halo-embedded disk galaxies. These galaxies likely represent 30-60% of TNG50 galaxies, but identifying them is challenging due to structural degeneracies and the presence of disk features (e.g., bars, spirals, star formation) at low or moderate inclinations. Face-on photometric decomposition systematically overestimates disk fractions as stellar halos are almost absent, while edge-on analysis provides only approximate halo fractions. Radial profiles show discrepancies between photometric and kinematic decomposition, particularly in central regions. Additionally, No conclusive link exists between the S\u00e9rsic index, n, and the presence of large stellar halos, challenging the use of n as a merger history proxy. These findings underscore the need for improved decomposition methods to better understand the complex structures of Sombrero-like galaxies. The difficulty in identifying Sombrero-like galaxies, which have often undergone significant merger events, complicates our understanding of galaxy formation and evolution." ;
+    onto:doi "10.1051/0004-6361/202554551" ;
+    onto:openAireID "https://explore.openaire.eu/search/publication?pid=10.1051/0004-6361/202554551" ;
+    onto:hasAuthor kg:person_wu_tao_he_0f06ae0b ;
+    onto:hasAuthor kg:person_min_du_119cc777 ;
+    onto:hasAuthor kg:person_zhao_yu_li_85d5bfb5 ;
+    onto:hasAuthor kg:person_yuan_li_research_85ae6e4b .
+
+kg:paper_021
+    a onto:Paper ;
+    onto:title "Morphology and Kinematics of the Gas in M51: How Interaction with NGC 5195 Has Molded the Structure of Its Arms" ;
+    onto:abstract "The Whirlpool Galaxy is a well-studied grand design galaxy with two major spiral arms, and a large satellite NGC 5195. The arms both show long uniform sections with perturbations (\"kinks\" or sharp turns) in specific regions. Comparing the two arms shows a small radial offset between the main kinked regions. We analyzed the morphology and also the velocity field in the disk of M51 using kinematic maps based on H\u03b1 and CO line emission. These sample complementary radial ranges, with the CO map covering the central zone and the H\u03b1 map extending to cover the outer zone. We looked for indicators of density wave resonance, zones where radial flows of gas in the disk plane reverse their sign. These were present in both velocity maps; their 2D localization placed them along or closely parallel to the spiral arms, at a set of well-defined galactocentric radii, and notably more concentrated along the southern, stronger arm. The results can be well interpreted quantitatively, using a numerical model of the interaction of M51 and NGC 5195 in which the satellite has made two relatively recent passes through the disk plane of M51. During the first pass the pair of dominant spiral arms was stimulated, and during the second pass the strong kinks in both arms were formed at about the same time. The second interaction is particularly well characterized, because the timescale corresponding to the production of the kinks and the recovery of the original pitch angle is identical for the two arms.Unified Astronomy Thesaurus concepts: Galaxy spectroscopy (2171); Galaxy kinematics (602); Galaxy dynamics (591); Spiral arms (1559); Spiral pitch angle (1561); Galaxy interactions (600)" ;
+    onto:doi "10.3847/1538-4357/ad3541" ;
+    onto:openAireID "https://explore.openaire.eu/search/publication?pid=10.3847/1538-4357/ad3541" ;
+    onto:hasAuthor kg:person_joan_font_60172d31 ;
+    onto:hasAuthor kg:person_john_ebeckman_c3b0a818 ;
+    onto:hasAuthor kg:person_beno_t_epinat_e153ff4e ;
+    onto:hasAuthor kg:person_clare_ldobbs_e_52cac618 ;
+    onto:hasAuthor kg:person_miguel_querejeta_72cbdf33 ;
+    onto:hasAuthor kg:person_s_de_accd3e85 .
+
+kg:paper_022
+    a onto:Paper ;
+    onto:title "The Study of Stellar Populations and Dynamics in the Small Magellanic Cloud using the UKST" ;
+    onto:abstract "The combination of the wide field of Schmidt telescope photographic plates with fast measuring machines such as COSMOS and APM, had a major impact on the study of the global properties of the Magellanic Clouds. Results (based on UKST data) regarding the stellar populations and dynamics of the Small Magellanic Cloud are described here in some detail. The stellar content and kinematics of the intercloud region are also outlined, with particular emphasis on the importance of this region in understanding the interaction between the Magellanic Clouds." ;
+    onto:doi "10.1017/s0252921100022260" ;
+    onto:openAireID "https://explore.openaire.eu/search/publication?pid=10.1017%2Fs0252921100022260" ;
+    onto:hasAuthor kg:person_dhatzidimitriou_physics_eef7f4cc .
+
+kg:paper_023
+    a onto:Paper ;
+    onto:title "Fire and Ice in the Whirlpool: Spatially Resolved Scaling Relations between X-Ray-emitting Hot Gas and Cold Molecular Gas in M51" ;
+    onto:abstract "The cold and hot interstellar medium in star-forming galaxies resembles the reservoir for star formation and associated heating by stellar winds and explosions during stellar evolution, respectively. We utilize data from deep Chandra observations and archival millimeter surveys to study the interconnection between these two phases and the relation to star formation activities in M51 on kiloparsec scales. A sharp radial decrease is present in the hot gas surface brightness profile within the inner 2 kpc of M51. The ratio between the total infrared luminosity (L IR ) and the hot gas luminosity (L 0.5 2 keV gas -) shows a positive correlation with the galactic radius in the central region. For the entire galaxy, a twofold correlation is revealed in the L 0.5 2 keV gas --L IR diagram, where L 0.5 2 keV gas -" ;
+    onto:doi "10.3847/2041-8213/ad9f5e" ;
+    onto:openAireID "https://explore.openaire.eu/search/publication?pid=10.3847/2041-8213/ad9f5e" ;
+    onto:hasAuthor kg:person_chunyi_zhang_edf4f323 ;
+    onto:hasAuthor kg:person_junfeng_wang_b5407142 ;
+    onto:hasAuthor kg:person_tian_wen_cao_ffb6bf70 .
+
+kg:paper_024
+    a onto:Paper ;
+    onto:title "Surveying the Whirlpool at Arcseconds with NOEMA (SWAN)" ;
+    onto:abstract "We present the first results from \"Surveying the Whirlpool at Arcseconds with NOEMA\" (SWAN), an IRAM Northern Extended Millimetre Array (NOEMA)+30 m large program that maps emission from several molecular lines at 90 and 110 GHz in the iconic nearby grand-design spiral galaxy M 51 at a cloud-scale resolution (\u223c3 =125 pc). As part of this work, we have obtained the first sensitive cloud-scale map of N 2 H + (1-0) of the inner \u223c5 \u00d7 7 kpc of a normal star-forming galaxy, which we compared to HCN(1-0) and 12 CO(1-0) emission to test their ability in tracing dense, star-forming gas. The average N 2 H + -to-HCN line ratio of our total FoV is 0.20 \u00b1 0.09, with strong regional variations of a factor of 2 throughout the disk, including the south-western spiral arm and the center. The central \u223c1 kpc exhibits elevated HCN emission compared to N 2 H + , probably caused by AGN-driven excitation effects. We find that HCN and N 2 H + are strongly super-linearily correlated in intensity (\u03c1 Sp \u223c 0.8), with an average scatter of \u223c0.14 dex over a span of 1.5 dex in intensity. When excluding the central region, the data are best described by a power law of an exponent of 1.2, indicating that there is more N 2 H + per unit HCN in brighter regions. Our observations demonstrate that the HCN-to-CO line ratio is a sensitive tracer of gas density in agreement with findings of recent galactic studies utilising N 2 H + . The peculiar line ratios present near the AGN and the scatter of the power-law fit in the disk suggest that in addition to a first-order correlation with gas density, second-order physics (such as optical depth, gas temperature) or chemistry (abundance variations) are encoded in the N 2 H + / 12 CO, HCN/ 12 CO, and N 2 H + /HCN ratios." ;
+    onto:doi "10.1051/0004-6361/202348205" ;
+    onto:openAireID "https://explore.openaire.eu/search/publication?pid=10.1051/0004-6361/202348205" ;
+    onto:hasAuthor kg:person_sophia_kstuber_387x_4bbd744f ;
+    onto:hasAuthor kg:person_jerome_pety_33672a10 ;
+    onto:hasAuthor kg:person_eva_schinnerer_1113255d ;
+    onto:hasAuthor kg:person_frank_bigiel_210f619b ;
+    onto:hasAuthor kg:person_antonio_usero_d362c1fd ;
+    onto:hasAuthor kg:person_ivana_be_li_47c87176 ;
+    onto:hasAuthor kg:person_miguel_querejeta_af15646c ;
+    onto:hasAuthor kg:person_mar_a_jjim_nez_donaire_d226ad5f ;
+    onto:hasAuthor kg:person_adam_leroy_2a2e0220 ;
+    onto:hasAuthor kg:person_jakob_den_brok_da8abf87 ;
+    onto:hasAuthor kg:person_lukas_neumann_6613f42c ;
+    onto:hasAuthor kg:person_cosima_eibensteiner_e1052e16 ;
+    onto:hasAuthor kg:person_yu_hsuan_teng_c9bcad51 ;
+    onto:hasAuthor kg:person_ashley_barnes_cabdf7f1 ;
+    onto:hasAuthor kg:person_m_lanie_chevance_dc845f5a ;
+    onto:hasAuthor kg:person_dario_colombo_04aed7d4 ;
+    onto:hasAuthor kg:person_daniel_adale_92a15e4e ;
+    onto:hasAuthor kg:person_simon_c_oglover_6823e5b2 ;
+    onto:hasAuthor kg:person_daizhong_liu_04206cdb ;
+    onto:hasAuthor kg:person_hsi_an_pan_126ec05b .
+
+kg:paper_025
+    a onto:Paper ;
+    onto:title "A recent merger in the Fornax dwarf spheroidal galaxy" ;
+    onto:abstract "This contribution describes a recent photometric survey of the Fornax dwarf spheroidal galaxy. CCD photometry in two colours (V and I) was obtained for a 10 degree 2 region centred on Fornax. By selecting stars sharing the colour-magnitude space of this system's RGB, we were able to remove the majority of field stars, and thereby probe the structure of Fornax at a previously unattained level. The data indicate that this dwarf galaxy contains two shells, both aligned with the Fornax major axis. Also, two 'lobed' structures sharing the alignment of these shells were discovered beyond the nominal tidal radius. These structures appear to be the remnant of a companion dwarf galaxy which merged with Fornax approximately 2 Gyr ago." ;
+    onto:doi "10.1017/s1743921305003455" ;
+    onto:openAireID "https://explore.openaire.eu/search/publication?pid=10.1017/s1743921305003455" ;
+    onto:hasAuthor kg:person_matthew_gcoleman_research_6cc83121 .
+
+kg:paper_026
+    a onto:Paper ;
+    onto:title "New Photometric Surveys of the Fornax Dwarf Spheroidal Galaxy" ;
+    onto:abstract "We report on our new photometric surveys of star fields in the Fornax dwarf spheroidal (dSph) galaxy designed to investigate its star formation and chemical evolution histories." ;
+    onto:doi "10.1017/s0074180900204099" ;
+    onto:openAireID "https://explore.openaire.eu/search/publication?pid=10.1017/s0074180900204099" ;
+    onto:hasAuthor kg:person_ta_smecker_hane_21c144af ;
+    onto:hasAuthor kg:person_pb_stetson_07025ce3 ;
+    onto:hasAuthor kg:person_je_hesser_f43893d5 ;
+    onto:hasAuthor kg:person_univ_of_california_reines_hall_irvine_ca_usa_ef7e90ac ;
+    onto:hasAuthor kg:person_dominion_astrophysical_obs_v8x_4m6_victoria_bc_canada_e26d04fd .
+
+kg:paper_027
+    a onto:Paper ;
+    onto:title "Variable Stars in the Fornax Dwarf Galaxy" ;
+    onto:abstract "We present the first results of a search for variable stars in the Fornax dwarf galaxy." ;
+    onto:doi "10.1017/s0252921100057845" ;
+    onto:openAireID "https://explore.openaire.eu/search/publication?pid=10.1017/s0252921100057845" ;
+    onto:hasAuthor kg:person_dbersier_research_7d83702e ;
+    onto:hasAuthor kg:person_peter_rwood_research_d36e8401 .
+
+kg:paper_028
+    a onto:Paper ;
+    onto:title "Chemistry of Stars in the Sculptor Dwarf Galaxy from VLT-FLAMES" ;
+    onto:abstract "The chemical composition of 91 stars in the Sculptor dwarf spheroidal galaxy is presented as determined from spectra taken with the FLAMES multiobject spectrograph in the Medusa mode. The analysis methods are outlined. The [\u03b1/Fe] ratios are shown for Mg, Ca, and Ti, and compared with those of Galactic stars. Heavy element abundance ratios (Y, Ba, and Eu) are also presented. Since the Sculptor dwarf galaxy has had a significantly different star formation history and chemical evolution than the Galaxy, then comparison of Sculptor's metalpoor (old) stars to similar metallicity stars in the Galaxy can be used to discuss galaxy formation scenarios, as well as test some of our fundamental assumptions in stellar nucleosynthesis." ;
+    onto:doi "10.1017/s1743921305006356" ;
+    onto:openAireID "https://explore.openaire.eu/search/publication?pid=10.1017/s1743921305006356" ;
+    onto:hasAuthor kg:person_kim_avenn_macalester_college_grand_avenue_saint_paul_mn_527a6936 ;
+    onto:hasAuthor kg:person_vhill_gepi_umr_observatoire_de_meudon_cnrs_france_12f65a40 .
+
+kg:paper_029
+    a onto:Paper ;
+    onto:title "Exploring Halo Substructure with Giant Stars. VIII. The Extended Structure of the Sculptor Dwarf Spheroidal Galaxy" ;
+    onto:abstract "We explore the spatial distribution of stars in the Sculptor dwarf spheroidal (dSph) galaxy over an area of 7.82 deg 2 , including coverage of the central region but extending mostly south and east of the dSph core. Two methods are used to identify stars that are most likely associated with the dSph, and these filtered samples of stars are used to map its spatial structure. First, following the method of previous contributions in this series, we utilize Washington M, T 2 \u00fe DDO51 photometry to identify red giant branch (RGB) star candidates with approximately the same distance and metallicity as the Sculptor dSph. Second, a prominent blue horizontal branch (BHB) population provides a fairly populous and pure sample of Sculptor stars having broadband colors unlike the bulk of the Galactic field star population. A spectroscopically observed subset of Sculptor candidate stars (147 total stars: $5% of all Sculptor candidates and $10% of Sculptor giant candidates) yields a systemic heliocentric velocity for the system of v hel \u00bc 110:43 AE 0:79 km s \u00c01 , in good agreement with previous studies. We also find a global velocity dispersion of v \u00bc 8:8 AE 0:6 km s \u00c01 , with slight indications of a rise in the velocity dispersion past $0.4r lim . These spectra also provide a check on the reliability of our candidate Sculptor giant sample to M $ 19; 94% of the photometrically selected Sculptor giant star candidates with follow-up spectroscopy are found to be kinematically associated with Sculptor, while 4 out of 10 stars outside of our Sculptor giant star selection criteria that we tested spectroscopically appear to be velocity members of Sculptor. These percentages are in agreement with results for an additional 22 Sculptor field stars with radial velocities in the literature. All available velocities show that our methodology for picking Sculptor giants is both reliable and conservative. Thus, these giant star samples should provide a reliable means to explore the structure of the Sculptor dSph. Nevertheless, considerable care has been taken to assess the level of background contamination in our photometric sample to ensure an accurately derived density profile of the Sculptor dSph to large radii. Multiple background assessments verify that we detect a considerable stellar density of Sculptor stars to the limits of our main survey area for both the RGB and BHB candidate samples. While we find that a King profile of limiting radius r lim \u00bc 79A6 fits the density profile of Sculptor well to $60 0 , beyond this, we identify a ''break'' in the profile and a clearly detected population of Sculptor stars following a AE / r \u00c02 decline to more than 2r lim . This break population must signify either the presence of an extremely broad distribution of bound ''halo stars'' around the Sculptor dSph or the presence of unbound tidal debris. If the latter is true, we determine a fractional mass-loss rate of approximately 0.042 Gyr \u00c01 for the Sculptor dSph. Additional support for the notion that there is tidal disruption comes from the two-dimensional distribution of our Sculptor candidate stars; both the RGB and BHB samples show increasingly elongated isodensity contours with radius that point to an apparent stretching reminiscent of what is seen in models of disrupting satellite galaxies. Finally, we find that RGB stars that are more likely to be metal-poor (based on their color and magnitude) are significantly less centrally concentrated and therefore constitute the primary contributing stellar population to the likely tidally stripped parts of the dSph." ;
+    onto:doi "10.1086/496975" ;
+    onto:openAireID "https://explore.openaire.eu/search/publication?pid=10.1086/496975" ;
+    onto:hasAuthor kg:person_kyle_bwestfall_5a2828a8 ;
+    onto:hasAuthor kg:person_steven_rmajewski_cc4856fe ;
+    onto:hasAuthor kg:person_james_costheimer_f295ec9c ;
+    onto:hasAuthor kg:person_peter_mfrinchaboy_57664d09 ;
+    onto:hasAuthor kg:person_william_ekunkel_visiting_astronomer_cerro_tololo_inter_american_7108c077 ;
+    onto:hasAuthor kg:person_richard_jpatterson_3ed88daf ;
+    onto:hasAuthor kg:person_robert_link_301d1352 .
+
+kg:paper_030
+    a onto:Paper ;
+    onto:title "The ESO-Sculptor Survey: Galaxy Populations and Luminosity Function at z < 0.5" ;
+    onto:abstract "We briefly show results on the redshift and space distribution of field galaxies with different spectral types in the ESO-Sculptor survey (ESS). We also show results on the ESS galaxy luminosity function. Galaxy PopulationsUnderstanding the formation and evolution of galaxies [2] requires a detailed knowledge of the different galaxy populations as a function of redshift and in terms of the local density. In order to obtain an unbiased description of the different galaxy populations for the ESS, we have used a spectral classification approach which is more tightly related to the underlying physics and to the" ;
+    onto:doi "10.48550/arxiv.astro-ph/9808360" ;
+    onto:openAireID "https://explore.openaire.eu/search/publication?pid=10.48550/arxiv.astro-ph/9808360" ;
+    onto:hasAuthor kg:person_gaspar_galaz_carnegie_institution_of_washington_las_campanas_observa_tory_casilla_la_serena_chile_ea38f952 ;
+    onto:hasAuthor kg:person_val_rie_de_lapparent_e6c4d787 .
+
+kg:person_aa_nucita_b3b90050
+    a onto:Person ;
+    onto:personName "AA Nucita" .
+
+kg:person_adam_leroy_2a2e0220
+    a onto:Person ;
+    onto:personName "Adam Leroy" .
+
+kg:person_agualandris_7ccf1f5d
+    a onto:Person ;
+    onto:personName "AGualandris" .
+
+kg:person_al_kashin_8330f8bb
+    a onto:Person ;
+    onto:personName "AL Kashin" .
+
+kg:person_al_longinotti_d99c9125
+    a onto:Person ;
+    onto:personName "AL Longinotti" .
+
+kg:person_alan_alves_brito_c1482fb0
+    a onto:Person ;
+    onto:personName "Alan Alves-Brito" .
+
+kg:person_antonio_usero_d362c1fd
+    a onto:Person ;
+    onto:personName "Antonio Usero" .
+
+kg:person_aqadir_43064782
+    a onto:Person ;
+    onto:personName "AQadir" .
+
+kg:person_asegreto_19ab8a21
+    a onto:Person ;
+    onto:personName "ASegreto" .
+
+kg:person_ashley_barnes_cabdf7f1
+    a onto:Person ;
+    onto:personName "Ashley Barnes" .
+
+kg:person_beno_t_epinat_e153ff4e
+    a onto:Person ;
+    onto:personName "Beno\u00eet Epinat" .
+
+kg:person_benoit_famaey_f_d5fa55f2
+    a onto:Person ;
+    onto:personName "Benoit Famaey - - - F -" .
+
+kg:person_chao_liu_key_laboratory_of_optical_astronomy_8c7c7c7a
+    a onto:Person ;
+    onto:personName "Chao Liu Key Laboratory of Optical Astronomy" .
+
+kg:person_christine_wilson_343848ae
+    a onto:Person ;
+    onto:personName "Christine Wilson" .
+
+kg:person_chunyi_zhang_edf4f323
+    a onto:Person ;
+    onto:personName "Chunyi Zhang" .
+
+kg:person_clare_ldobbs_e_52cac618
+    a onto:Person ;
+    onto:personName "Clare LDobbs E" .
+
+kg:person_cosima_eibensteiner_e1052e16
+    a onto:Person ;
+    onto:personName "Cosima Eibensteiner" .
+
+kg:person_daizhong_liu_04206cdb
+    a onto:Person ;
+    onto:personName "Daizhong Liu" .
+
+kg:person_daniel_adale_92a15e4e
+    a onto:Person ;
+    onto:personName "Daniel ADale - - -" .
+
+kg:person_daniel_wweedman_dyer_e31de249
+    a onto:Person ;
+    onto:personName "Daniel WWeedman Dyer" .
+
+kg:person_dario_colombo_04aed7d4
+    a onto:Person ;
+    onto:personName "Dario Colombo" .
+
+kg:person_dbersier_research_7d83702e
+    a onto:Person ;
+    onto:personName "DBersier Research" .
+
+kg:person_dboubert_magdalen_college_833ed9cc
+    a onto:Person ;
+    onto:personName "DBoubert Magdalen College" .
+
+kg:person_debra_meloy_elmegreen_ibm_thomas_j_watson_research_5ece69e0
+    a onto:Person ;
+    onto:personName "Debra Meloy Elmegreen IBM Thomas J. Watson Research" .
+
+kg:person_derkal_d2488ac8
+    a onto:Person ;
+    onto:personName "DErkal" .
+
+kg:person_dhatzidimitriou_physics_eef7f4cc
+    a onto:Person ;
+    onto:personName "DHatzidimitriou Physics" .
+
+kg:person_dominion_astrophysical_obs_v8x_4m6_victoria_bc_canada_e26d04fd
+    a onto:Person ;
+    onto:personName "Dominion Astrophysical Obs V8X 4M6 Victoria BC Canada" .
+
+kg:person_duncan_aforbes_astrophysics_supercomputing_swinburne_744e5e8b
+    a onto:Person ;
+    onto:personName "Duncan AForbes Astrophysics Supercomputing Swinburne" .
+
+kg:person_duncan_aforbes_c2c9ed47
+    a onto:Person ;
+    onto:personName "Duncan AForbes" .
+
+kg:person_dvetrugno_560e3036
+    a onto:Person ;
+    onto:personName "DVetrugno" .
+
+kg:person_erin_mentuch_095bdc32
+    a onto:Person ;
+    onto:personName "Erin Mentuch" .
+
+kg:person_eva_schinnerer_1113255d
+    a onto:Person ;
+    onto:personName "Eva Schinnerer" .
+
+kg:person_evan_nkirby_the_538d634c
+    a onto:Person ;
+    onto:personName "Evan NKirby - - - The" .
+
+kg:person_fde_paolis_1482ab58
+    a onto:Person ;
+    onto:personName "FDe Paolis" .
+
+kg:person_frank_bigiel_210f619b
+    a onto:Person ;
+    onto:personName "Frank Bigiel" .
+
+kg:person_gaspar_galaz_carnegie_institution_of_washington_las_campanas_observa_tory_casilla_la_serena_chile_ea38f952
+    a onto:Person ;
+    onto:personName "Gaspar Galaz Carnegie Institution of Washington Las Campanas Observa-tory. Casilla La Serena Chile" .
+
+kg:person_george_k_thau_0f85043c
+    a onto:Person ;
+    onto:personName "George K THau" .
+
+kg:person_gingrosso_562bcfa6
+    a onto:Person ;
+    onto:personName "GIngrosso" .
+
+kg:person_gminiutti_dep_de_astrofisica_centro_de_astrobiologia_csic_inta_25ea1c1f
+    a onto:Person ;
+    onto:personName "GMiniutti Dep. de Astrofisica Centro de Astrobiologia CSIC-INTA" .
+
+kg:person_green_bank_west_virginia_1d97d266
+    a onto:Person ;
+    onto:personName "Green Bank West Virginia" .
+
+kg:person_gspada_cae6f051
+    a onto:Person ;
+    onto:personName "GSpada\u00ee" .
+
+kg:person_gyegorian_ae495483
+    a onto:Person ;
+    onto:personName "GYegorian" .
+
+kg:person_hbradt_8e78b42c
+    a onto:Person ;
+    onto:personName "HBradt" .
+
+kg:person_heidi_jo_newberg_b309e646
+    a onto:Person ;
+    onto:personName "Heidi Jo Newberg" .
+
+kg:person_hg_khachatryan_e3e7a08a
+    a onto:Person ;
+    onto:personName "HG Khachatryan" .
+
+kg:person_hsi_an_pan_126ec05b
+    a onto:Person ;
+    onto:personName "Hsi-An Pan" .
+
+kg:person_id_karachentsev_special_astrophysical_05f992ac
+    a onto:Person ;
+    onto:personName "ID Karachentsev Special Astrophysical" .
+
+kg:person_itsuki_ogami_the_9c8fd58b
+    a onto:Person ;
+    onto:personName "Itsuki Ogami The" .
+
+kg:person_ivana_be_li_47c87176
+    a onto:Person ;
+    onto:personName "Ivana Be\u0161li\u0107" .
+
+kg:person_jakob_den_brok_da8abf87
+    a onto:Person ;
+    onto:personName "Jakob Den Brok" .
+
+kg:person_james_costheimer_f295ec9c
+    a onto:Person ;
+    onto:personName "James COstheimer" .
+
+kg:person_jay_strader_harvard_smithsonian_fcb167e5
+    a onto:Person ;
+    onto:personName "Jay Strader Harvard-Smithsonian" .
+
+kg:person_jchristopher_mihos_a426c068
+    a onto:Person ;
+    onto:personName "JChristopher Mihos - - -" .
+
+kg:person_je_hesser_f43893d5
+    a onto:Person ;
+    onto:personName "JE Hesser" .
+
+kg:person_jean_pbrodie_uc_observatories_lick_35445c57
+    a onto:Person ;
+    onto:personName "Jean PBrodie UC Observatories Lick" .
+
+kg:person_jean_pbrodie_uco_lick_f16fc9f3
+    a onto:Person ;
+    onto:personName "Jean PBrodie UCO Lick" .
+
+kg:person_jerome_pety_33672a10
+    a onto:Person ;
+    onto:personName "Jerome Pety" .
+
+kg:person_jing_li_key_laboratory_of_galaxies_and_cosmology_shanghai_eef373dd
+    a onto:Person ;
+    onto:personName "Jing Li Key Laboratory of Galaxies and Cosmology Shanghai" .
+
+kg:person_joan_font_60172d31
+    a onto:Person ;
+    onto:personName "Joan Font" .
+
+kg:person_john_ebeckman_c3b0a818
+    a onto:Person ;
+    onto:personName "John EBeckman" .
+
+kg:person_junfeng_wang_b5407142
+    a onto:Person ;
+    onto:personName "Junfeng Wang - - -" .
+
+kg:person_karem_pe_al_castillo_4654d86c
+    a onto:Person ;
+    onto:personName "Karem Pe \u00d1al\u00f3 Castillo" .
+
+kg:person_katherine_lrhode_7c703f4f
+    a onto:Person ;
+    onto:personName "Katherine LRhode" .
+
+kg:person_khyati_malhan_433x_f_60ede050
+    a onto:Person ;
+    onto:personName "Khyati Malhan - - -433X F -" .
+
+kg:person_kim_avenn_macalester_college_grand_avenue_saint_paul_mn_527a6936
+    a onto:Person ;
+    onto:personName "Kim AVenn Macalester College Grand Avenue Saint Paul MN" .
+
+kg:person_kyle_bwestfall_5a2828a8
+    a onto:Person ;
+    onto:personName "Kyle BWestfall" .
+
+kg:person_laboratorio_di_astrof_sica_frascati_italy_4d2865c8
+    a onto:Person ;
+    onto:personName "Laboratorio di Astrof\u00edsica Frascati Italy" .
+
+kg:person_lcarlin_lsst_north_cherry_avenue_tucson_az_usa_5d18dc2c
+    a onto:Person ;
+    onto:personName "LCarlin LSST North Cherry Avenue Tucson AZ USA" .
+
+kg:person_lchemin_lab_umr_cnrs_universit_de_bordeaux_floirac_france_bf401ef5
+    a onto:Person ;
+    onto:personName "LChemin LAB UMR CNRS Universit\u00e9 de Bordeaux Floirac France" .
+
+kg:person_lee_rspitler_24aca935
+    a onto:Person ;
+    onto:personName "Lee RSpitler" .
+
+kg:person_li_cai_deng_key_laboratory_of_optical_astronomy_da603b28
+    a onto:Person ;
+    onto:personName "Li-Cai Deng Key Laboratory of Optical Astronomy" .
+
+kg:person_ln_makarova_special_astrophysical_73b35cac
+    a onto:Person ;
+    onto:personName "LN Makarova Special Astrophysical" .
+
+kg:person_luis_aanchordoqui_b6af394a
+    a onto:Person ;
+    onto:personName "Luis AAnchordoqui" .
+
+kg:person_lukas_neumann_6613f42c
+    a onto:Person ;
+    onto:personName "Lukas Neumann" .
+
+kg:person_m_lanie_chevance_dc845f5a
+    a onto:Person ;
+    onto:personName "M\u00e9lanie Chevance - - -" .
+
+kg:person_mar_a_jjim_nez_donaire_d226ad5f
+    a onto:Person ;
+    onto:personName "Mar\u00eda JJim\u00e9nez-Donaire - - -" .
+
+kg:person_matthew_gcoleman_research_6cc83121
+    a onto:Person ;
+    onto:personName "Matthew GColeman Research" .
+
+kg:person_mei_xiaochun_c0ee23eb
+    a onto:Person ;
+    onto:personName "Mei Xiaochun" .
+
+kg:person_mguainazzi_c7f0b4f1
+    a onto:Person ;
+    onto:personName "MGuainazzi" .
+
+kg:person_michele_bellazzini_810x_f_06f9206f
+    a onto:Person ;
+    onto:personName "Michele Bellazzini - - -810X F -" .
+
+kg:person_miguel_querejeta_72cbdf33
+    a onto:Person ;
+    onto:personName "Miguel Querejeta - - -" .
+
+kg:person_miguel_querejeta_af15646c
+    a onto:Person ;
+    onto:personName "Miguel Querejeta" .
+
+kg:person_miho_nishigaki_the_2e0230a3
+    a onto:Person ;
+    onto:personName "Miho NIshigaki - - - The" .
+
+kg:person_min_du_119cc777
+    a onto:Person ;
+    onto:personName "Min Du - - -" .
+
+kg:person_morton_sroberts_b8c55074
+    a onto:Person ;
+    onto:personName "Morton SRoberts" .
+
+kg:person_neill_reid_cd8572b3
+    a onto:Person ;
+    onto:personName "Neill Reid" .
+
+kg:person_nicolas_fmartin_202x_f_cc413c91
+    a onto:Person ;
+    onto:personName "Nicolas FMartin - - -202X F -" .
+
+kg:person_pb_stetson_07025ce3
+    a onto:Person ;
+    onto:personName "PB Stetson" .
+
+kg:person_peter_mfrinchaboy_57664d09
+    a onto:Person ;
+    onto:personName "Peter MFrinchaboy" .
+
+kg:person_peter_rwood_research_d36e8401
+    a onto:Person ;
+    onto:personName "Peter RWood Research" .
+
+kg:person_ph_hjetzer_physik_institut_universit_t_z_rich_winterthurerstrasse_z_rich_switzerland_625c9d12
+    a onto:Person ;
+    onto:personName "Ph HJetzer Physik-Institut Universit\u00e4t Z\u00fcrich Winterthurerstrasse Z\u00fcrich Switzerland" .
+
+kg:person_physics_4122fa5d
+    a onto:Person ;
+    onto:personName "Physics" .
+
+kg:person_qi_ran_xia_key_laboratory_of_optical_astronomy_7357afc4
+    a onto:Person ;
+    onto:personName "Qi-Ran Xia Key Laboratory of Optical Astronomy" .
+
+kg:person_raymond_gcarlberg_f_cb131dd3
+    a onto:Person ;
+    onto:personName "Raymond GCarlberg - - - F -" .
+
+kg:person_richard_jpatterson_3ed88daf
+    a onto:Person ;
+    onto:personName "Richard JPatterson" .
+
+kg:person_robert_link_301d1352
+    a onto:Person ;
+    onto:personName "Robert Link" .
+
+kg:person_robert_nwhitehurst_0d745787
+    a onto:Person ;
+    onto:personName "Robert NWhitehurst" .
+
+kg:person_rodrigo_aibata_f_bf2fe2db
+    a onto:Person ;
+    onto:personName "Rodrigo AIbata - - - F -" .
+
+kg:person_rosemary_f_gwyse_the_95f93229
+    a onto:Person ;
+    onto:personName "Rosemary F GWyse - - - The" .
+
+kg:person_s_de_accd3e85
+    a onto:Person ;
+    onto:personName "s. de - - -" .
+
+kg:person_s_ren_slarsen_uc_observatories_lick_ec2e78a1
+    a onto:Person ;
+    onto:personName "S\u00f8ren SLarsen UC Observatories Lick" .
+
+kg:person_sean_tlinden_412c8f62
+    a onto:Person ;
+    onto:personName "Sean TLinden - - -" .
+
+kg:person_sidney_van_den_bergh_david_dunlap_d9a0dc75
+    a onto:Person ;
+    onto:personName "Sidney Van Den Bergh David Dunlap" .
+
+kg:person_simon_c_oglover_6823e5b2
+    a onto:Person ;
+    onto:personName "Simon C OGlover" .
+
+kg:person_snaranan_fa1ec98e
+    a onto:Person ;
+    onto:personName "SNaranan" .
+
+kg:person_sophia_kstuber_387x_4bbd744f
+    a onto:Person ;
+    onto:personName "Sophia KStuber - - -387X" .
+
+kg:person_srappaport_fde56c5d
+    a onto:Person ;
+    onto:personName "SRappaport" .
+
+kg:person_ssargsyan_16854833
+    a onto:Person ;
+    onto:personName "SSargsyan" .
+
+kg:person_steven_rmajewski_cc4856fe
+    a onto:Person ;
+    onto:personName "Steven RMajewski" .
+
+kg:person_ta_smecker_hane_21c144af
+    a onto:Person ;
+    onto:personName "TA Smecker-Hane" .
+
+kg:person_takanobu_kirihara_the_adc1e8c0
+    a onto:Person ;
+    onto:personName "Takanobu Kirihara - - - The" .
+
+kg:person_tian_wen_cao_ffb6bf70
+    a onto:Person ;
+    onto:personName "Tian-Wen Cao" .
+
+kg:person_univ_of_california_reines_hall_irvine_ca_usa_ef7e90ac
+    a onto:Person ;
+    onto:personName "Univ. of California - Reines Hall Irvine CA USA" .
+
+kg:person_val_rie_de_lapparent_e6c4d787
+    a onto:Person ;
+    onto:personName "Val\u00e9rie De Lapparent" .
+
+kg:person_vg_gurzadyan_62bfa204
+    a onto:Person ;
+    onto:personName "VG Gurzadyan" .
+
+kg:person_vhill_gepi_umr_observatoire_de_meudon_cnrs_france_12f65a40
+    a onto:Person ;
+    onto:personName "VHill GEPI UMR Observatoire de Meudon CNRS France" .
+
+kg:person_vla_parola_5afe04f0
+    a onto:Person ;
+    onto:personName "VLa Parola" .
+
+kg:person_wendy_lfreedman_the_observatories_of_the_carnegie_institution_of_washington_pasadena_ca_usa_0ef3adde
+    a onto:Person ;
+    onto:personName "Wendy LFreedman The Observatories of the Carnegie Institution of Washington Pasadena Ca USA" .
+
+kg:person_william_ekunkel_visiting_astronomer_cerro_tololo_inter_american_7108c077
+    a onto:Person ;
+    onto:personName "William EKunkel Visiting Astronomer Cerro Tololo Inter-American" .
+
+kg:person_wmayer_082a6e64
+    a onto:Person ;
+    onto:personName "WMayer" .
+
+kg:person_wu_tao_he_0f06ae0b
+    a onto:Person ;
+    onto:personName "Wu-Tao He - - -" .
+
+kg:person_xiang_xiang_xue_key_laboratory_of_optical_astronomy_980d6a44
+    a onto:Person ;
+    onto:personName "Xiang-Xiang Xue Key Laboratory of Optical Astronomy" .
+
+kg:person_xu_kuan_32cc8caf
+    a onto:Person ;
+    onto:personName "Xu Kuan" .
+
+kg:person_yan_xu_key_laboratory_of_optical_astronomy_20554423
+    a onto:Person ;
+    onto:personName "Yan Xu Key Laboratory of Optical Astronomy" .
+
+kg:person_yong_zhang_nanjing_f1d62add
+    a onto:Person ;
+    onto:personName "Yong Zhang Nanjing" .
+
+kg:person_yonghui_hou_nanjing_93ab1c58
+    a onto:Person ;
+    onto:personName "Yonghui Hou Nanjing" .
+
+kg:person_yu_hsuan_teng_c9bcad51
+    a onto:Person ;
+    onto:personName "Yu-Hsuan Teng - - -" .
+
+kg:person_yuan_li_research_85ae6e4b
+    a onto:Person ;
+    onto:personName "Yuan Li Research" .
+
+kg:person_yuefei_wang_nanjing_175f2078
+    a onto:Person ;
+    onto:personName "Yuefei Wang Nanjing" .
+
+kg:person_zhao_yu_li_85d5bfb5
+    a onto:Person ;
+    onto:personName "Zhao-Yu Li" .
+
+kg:person_zihuang_cao_key_laboratory_of_optical_astronomy_4773109c
+    a onto:Person ;
+    onto:personName "Zihuang Cao Key Laboratory of Optical Astronomy" .
+
