@@ -12,3 +12,5 @@ data/intermediate/
 .cache/
 
 slides/
+queries
+outputs
