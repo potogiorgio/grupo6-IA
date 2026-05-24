@@ -5,6 +5,7 @@ import os
 import re
 from datetime import date
 from json import dumps
+from typing import Optional
 
 
 INPUT_CSV = "data/intermediate/papers_master.csv"
@@ -64,6 +65,29 @@ def read_rows(path: str) -> list[dict]:
         return list(reader)
 
 
+def read_similarity_rows(path: Optional[str]) -> list[dict]:
+    if not path:
+        return []
+
+    if not os.path.exists(path):
+        raise FileNotFoundError(f"No existe {path}")
+
+    with open(path, newline="", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        required = {
+            "similarity_id",
+            "source_paper",
+            "target_paper",
+            "similarity_score",
+            "similarity_metric",
+            "representation_method",
+        }
+        missing = required - set(reader.fieldnames or [])
+        if missing:
+            raise ValueError(f"Faltan columnas en {path}: {sorted(missing)}")
+        return list(reader)
+
+
 def add_triples(lines: list[str], subject: str, predicates: list[tuple[str, str]]) -> None:
     if not predicates:
         return
@@ -75,7 +99,7 @@ def add_triples(lines: list[str], subject: str, predicates: list[tuple[str, str]
     lines.append("")
 
 
-def build_turtle(rows: list[dict]) -> str:
+def build_turtle(rows: list[dict], similarity_rows: Optional[list[dict]] = None) -> str:
     lines = [
         "@prefix kg: <https://w3id.org/grupo6-ia/resource/> .",
         "@prefix onto: <https://w3id.org/grupo6-ia/ontology#> .",
@@ -92,6 +116,14 @@ def build_turtle(rows: list[dict]) -> str:
     ]
 
     people = {}
+    similarity_rows = similarity_rows or []
+    similarity_by_source = {}
+    paper_ids = {local_name(row.get("id", ""), "paper") for row in rows}
+
+    for row in similarity_rows:
+        source = local_name(row.get("source_paper", ""), "")
+        if source in paper_ids:
+            similarity_by_source.setdefault(source, []).append(row)
 
     for row in rows:
         paper_id = local_name(row.get("id", ""), "paper")
@@ -117,7 +149,44 @@ def build_turtle(rows: list[dict]) -> str:
             people.setdefault(pid, author)
             predicates.append(("onto:hasAuthor", f"kg:{pid}"))
 
+        for sim_row in similarity_by_source.get(paper_id, []):
+            sim_id = local_name(sim_row.get("similarity_id", ""), "similarity")
+            predicates.append(("onto:hasSimilarityRelation", f"kg:{sim_id}"))
+
         add_triples(lines, paper_ref, predicates)
+
+    for row in similarity_rows:
+        sim_id = local_name(row.get("similarity_id", ""), "similarity")
+        target_id = local_name(row.get("target_paper", ""), "")
+        source_id = local_name(row.get("source_paper", ""), "")
+
+        if source_id not in paper_ids or target_id not in paper_ids:
+            continue
+
+        predicates = [
+            ("a", "onto:SimilarityRelation"),
+            ("onto:similarPaper", f"kg:{target_id}"),
+            ("onto:similarityScore", literal(row.get("similarity_score", ""), "xsd:float")),
+            ("onto:similarityMetric", literal(row.get("similarity_metric", ""))),
+        ]
+
+        details = []
+        representation = (row.get("representation_method") or "").strip()
+        threshold = (row.get("similarity_threshold") or "").strip()
+        selection_method = (row.get("selection_method") or "").strip()
+        rank = (row.get("rank") or "").strip()
+        if representation:
+            details.append(f"representation_method={representation}")
+        if threshold:
+            details.append(f"similarity_threshold={threshold}")
+        if selection_method:
+            details.append(f"selection_method={selection_method}")
+        if rank:
+            details.append(f"rank={rank}")
+        if details:
+            predicates.append(("dcterms:description", literal("; ".join(details))))
+
+        add_triples(lines, f"kg:{sim_id}", predicates)
 
     for pid, name in sorted(people.items()):
         add_triples(
@@ -136,10 +205,12 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Genera un RDF/KG minimo desde papers_master.csv")
     parser.add_argument("--input", default=INPUT_CSV, help="CSV maestro de entrada")
     parser.add_argument("--output", default=OUTPUT_TTL, help="Archivo Turtle de salida")
+    parser.add_argument("--similarity", default=None, help="CSV opcional con relaciones de similarity evaluadas")
     args = parser.parse_args()
 
     rows = read_rows(args.input)
-    turtle = build_turtle(rows)
+    similarity_rows = read_similarity_rows(args.similarity)
+    turtle = build_turtle(rows, similarity_rows)
 
     os.makedirs(os.path.dirname(args.output), exist_ok=True)
     with open(args.output, "w", encoding="utf-8") as f:
@@ -150,6 +221,7 @@ def main() -> int:
     print(f"Guardado: {args.output}")
     print(f"Papers exportados: {len(rows)}")
     print(f"Personas exportadas: {author_count}")
+    print(f"Relaciones de similarity integradas: {len(similarity_rows)}")
     return 0
 
 

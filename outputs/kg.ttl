@@ -6,7 +6,7 @@
 kg:knowledge_graph
     a dcterms:Dataset ;
     dcterms:title "Knowledge Graph de publicaciones sobre galaxias"@es ;
-    dcterms:created "2026-05-24"^^xsd:date ;
+    dcterms:created "2026-05-25"^^xsd:date ;
     dcterms:source "data/intermediate/papers_master.csv" ;
     dcterms:conformsTo <https://w3id.org/grupo6-ia/ontology> .
 
@@ -25,7 +25,9 @@ kg:paper_002
     onto:abstract "The spiral structure of the Milky Way galaxy has always been somewhat elusive because of our internal vantage point. This review will present methods and data for determining the overall pattern, and will summarize various models that have been proposed. Observations of spirals in external galaxies will also be discussed, because they can provide insight into the spiral structure of the Milky Way. OBSERVATIONS OF SPIRAL STRUCTURE IN OUR GALAXY 1,Spectrophotometric distancesThere are four common methods for determining the distributions of stars and gas. The first method, plotting known stellar distances, is the most direct way to determine the structure of our Galaxy. The only disadvantages of this method are that distances are usually accurate to only M0%, which leads to large uncertainties for distant stars, and that there is a relatively small number of objects to which this method may be applied. Morgan, Sharpless and Osterbrock (1952) first found that OB associations outlined spiral arms in the Milky Way. Open clusters with earliest spectral types less than B3 also prove to be good spiral tracers, as demonstrated by Becker and Fenkart (1970, 1971), Fenkart (1979), and Vogt and Moffat (1975). Figure 1 shows the local spiral structure obtained from these open clusters. Individual 0 stars are not perfect tracers, however. Lynds (1980a) found that only the hottest 0 stars trace the spiral arms; the later types occur in both the arm and interarm regions. A map of exciting stars in HII regions was made by Georgelin and Georgelin (1976). This will be discussed in \u00a71.2. Long-period Cepheids (P>15 days) also tend to occur in spiral arms (Kraft and Schmidt 1963, Tammann 1970, Humphreys 1976, Efremov et a^. 1981, and Berman and Mishurov 1981). Southern surveys reveal that A stars and early M stars show some concentration to spiral arms (Westerlund 1963, McCuskey and Houk 1971, McCuskey 1974); a small part of the Carina Arm is mapped out by A stars 255 H. van Woerden et al. (eds.), The Milky Way Galaxy, 255-272." ;
     onto:doi "10.1017/s0074180900242587" ;
     onto:openAireID "https://explore.openaire.eu/search/publication?pid=10.1017/s0074180900242587" ;
-    onto:hasAuthor kg:person_debra_meloy_elmegreen_ibm_thomas_j_watson_research_5ece69e0 .
+    onto:hasAuthor kg:person_debra_meloy_elmegreen_ibm_thomas_j_watson_research_5ece69e0 ;
+    onto:hasSimilarityRelation kg:semantic_similarity_0008 ;
+    onto:hasSimilarityRelation kg:semantic_similarity_0009 .
 
 kg:paper_003
     a onto:Paper ;
@@ -45,7 +47,8 @@ kg:paper_004
     onto:openAireID "https://explore.openaire.eu/search/publication?pid=10.48550/arxiv.astro-ph/0107082" ;
     onto:hasAuthor kg:person_s_ren_slarsen_uc_observatories_lick_ec2e78a1 ;
     onto:hasAuthor kg:person_duncan_aforbes_astrophysics_supercomputing_swinburne_744e5e8b ;
-    onto:hasAuthor kg:person_jean_pbrodie_uc_observatories_lick_35445c57 .
+    onto:hasAuthor kg:person_jean_pbrodie_uc_observatories_lick_35445c57 ;
+    onto:hasSimilarityRelation kg:semantic_similarity_0001 .
 
 kg:paper_005
     a onto:Paper ;
@@ -160,7 +163,8 @@ kg:paper_014
     onto:doi "10.1017/s0074180900200867" ;
     onto:openAireID "https://explore.openaire.eu/search/publication?pid=10.1007/978-94-011-3432-3_93" ;
     onto:hasAuthor kg:person_neill_reid_cd8572b3 ;
-    onto:hasAuthor kg:person_wendy_lfreedman_the_observatories_of_the_carnegie_institution_of_washington_pasadena_ca_usa_0ef3adde .
+    onto:hasAuthor kg:person_wendy_lfreedman_the_observatories_of_the_carnegie_institution_of_washington_pasadena_ca_usa_0ef3adde ;
+    onto:hasSimilarityRelation kg:semantic_similarity_0003 .
 
 kg:paper_015
     a onto:Paper ;
@@ -219,7 +223,8 @@ kg:paper_019
     onto:doi "10.3847/2041-8213/ac7c06" ;
     onto:openAireID "https://explore.openaire.eu/search/publication?pid=10.3847/2041-8213/ac7c06" ;
     onto:hasAuthor kg:person_sean_tlinden_412c8f62 ;
-    onto:hasAuthor kg:person_jchristopher_mihos_a426c068 .
+    onto:hasAuthor kg:person_jchristopher_mihos_a426c068 ;
+    onto:hasSimilarityRelation kg:semantic_similarity_0005 .
 
 kg:paper_020
     a onto:Paper ;
@@ -296,7 +301,9 @@ kg:paper_025
     onto:abstract "This contribution describes a recent photometric survey of the Fornax dwarf spheroidal galaxy. CCD photometry in two colours (V and I) was obtained for a 10 degree 2 region centred on Fornax. By selecting stars sharing the colour-magnitude space of this system's RGB, we were able to remove the majority of field stars, and thereby probe the structure of Fornax at a previously unattained level. The data indicate that this dwarf galaxy contains two shells, both aligned with the Fornax major axis. Also, two 'lobed' structures sharing the alignment of these shells were discovered beyond the nominal tidal radius. These structures appear to be the remnant of a companion dwarf galaxy which merged with Fornax approximately 2 Gyr ago." ;
     onto:doi "10.1017/s1743921305003455" ;
     onto:openAireID "https://explore.openaire.eu/search/publication?pid=10.1017/s1743921305003455" ;
-    onto:hasAuthor kg:person_matthew_gcoleman_research_6cc83121 .
+    onto:hasAuthor kg:person_matthew_gcoleman_research_6cc83121 ;
+    onto:hasSimilarityRelation kg:semantic_similarity_0002 ;
+    onto:hasSimilarityRelation kg:semantic_similarity_0004 .
 
 kg:paper_026
     a onto:Paper ;
@@ -308,7 +315,8 @@ kg:paper_026
     onto:hasAuthor kg:person_pb_stetson_07025ce3 ;
     onto:hasAuthor kg:person_je_hesser_f43893d5 ;
     onto:hasAuthor kg:person_univ_of_california_reines_hall_irvine_ca_usa_ef7e90ac ;
-    onto:hasAuthor kg:person_dominion_astrophysical_obs_v8x_4m6_victoria_bc_canada_e26d04fd .
+    onto:hasAuthor kg:person_dominion_astrophysical_obs_v8x_4m6_victoria_bc_canada_e26d04fd ;
+    onto:hasSimilarityRelation kg:semantic_similarity_0010 .
 
 kg:paper_027
     a onto:Paper ;
@@ -350,6 +358,62 @@ kg:paper_030
     onto:openAireID "https://explore.openaire.eu/search/publication?pid=10.48550/arxiv.astro-ph/9808360" ;
     onto:hasAuthor kg:person_gaspar_galaz_carnegie_institution_of_washington_las_campanas_observa_tory_casilla_la_serena_chile_ea38f952 ;
     onto:hasAuthor kg:person_val_rie_de_lapparent_e6c4d787 .
+
+kg:semantic_similarity_0001
+    a onto:SimilarityRelation ;
+    onto:similarPaper kg:paper_009 ;
+    onto:similarityScore "0.7962"^^xsd:float ;
+    onto:similarityMetric "cosine_similarity" ;
+    dcterms:description "representation_method=sentence-transformers/all-MiniLM-L6-v2; selection_method=top_10; rank=1" .
+
+kg:semantic_similarity_0002
+    a onto:SimilarityRelation ;
+    onto:similarPaper kg:paper_026 ;
+    onto:similarityScore "0.7613"^^xsd:float ;
+    onto:similarityMetric "cosine_similarity" ;
+    dcterms:description "representation_method=sentence-transformers/all-MiniLM-L6-v2; selection_method=top_10; rank=2" .
+
+kg:semantic_similarity_0003
+    a onto:SimilarityRelation ;
+    onto:similarPaper kg:paper_022 ;
+    onto:similarityScore "0.7271"^^xsd:float ;
+    onto:similarityMetric "cosine_similarity" ;
+    dcterms:description "representation_method=sentence-transformers/all-MiniLM-L6-v2; selection_method=top_10; rank=3" .
+
+kg:semantic_similarity_0004
+    a onto:SimilarityRelation ;
+    onto:similarPaper kg:paper_027 ;
+    onto:similarityScore "0.7195"^^xsd:float ;
+    onto:similarityMetric "cosine_similarity" ;
+    dcterms:description "representation_method=sentence-transformers/all-MiniLM-L6-v2; selection_method=top_10; rank=4" .
+
+kg:semantic_similarity_0005
+    a onto:SimilarityRelation ;
+    onto:similarPaper kg:paper_021 ;
+    onto:similarityScore "0.7071"^^xsd:float ;
+    onto:similarityMetric "cosine_similarity" ;
+    dcterms:description "representation_method=sentence-transformers/all-MiniLM-L6-v2; selection_method=top_10; rank=5" .
+
+kg:semantic_similarity_0008
+    a onto:SimilarityRelation ;
+    onto:similarPaper kg:paper_019 ;
+    onto:similarityScore "0.689"^^xsd:float ;
+    onto:similarityMetric "cosine_similarity" ;
+    dcterms:description "representation_method=sentence-transformers/all-MiniLM-L6-v2; selection_method=top_10; rank=8" .
+
+kg:semantic_similarity_0009
+    a onto:SimilarityRelation ;
+    onto:similarPaper kg:paper_021 ;
+    onto:similarityScore "0.6651"^^xsd:float ;
+    onto:similarityMetric "cosine_similarity" ;
+    dcterms:description "representation_method=sentence-transformers/all-MiniLM-L6-v2; selection_method=top_10; rank=9" .
+
+kg:semantic_similarity_0010
+    a onto:SimilarityRelation ;
+    onto:similarPaper kg:paper_027 ;
+    onto:similarityScore "0.6631"^^xsd:float ;
+    onto:similarityMetric "cosine_similarity" ;
+    dcterms:description "representation_method=sentence-transformers/all-MiniLM-L6-v2; selection_method=top_10; rank=10" .
 
 kg:person_aa_nucita_b3b90050
     a onto:Person ;
