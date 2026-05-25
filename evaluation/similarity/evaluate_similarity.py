@@ -1,9 +1,20 @@
 import argparse
 import csv
 import os
+import warnings
 from importlib.metadata import PackageNotFoundError, version
 from itertools import combinations
 from typing import Optional
+
+os.environ.setdefault("PYTHONWARNINGS", "ignore:urllib3 v2 only supports OpenSSL")
+warnings.filterwarnings("ignore", message="urllib3 v2 only supports OpenSSL.*")
+
+try:
+    from urllib3.exceptions import NotOpenSSLWarning
+
+    warnings.filterwarnings("ignore", category=NotOpenSSLWarning)
+except Exception:
+    pass
 
 from sklearn.metrics.pairwise import cosine_similarity
 
@@ -11,8 +22,8 @@ from sklearn.metrics.pairwise import cosine_similarity
 INPUT_CSV = "data/intermediate/papers_master.csv"
 GOLD_CSV = "data/evaluation/similarity_gold.csv"
 OUT_CSV = "outputs/semantic_similarity_relations_embeddings.csv"
-REPORT_MD = "outputs/similarity_evaluation_embeddings.md"
 REVIEW_CSV = "data/evaluation/similarity_manual_review.csv"
+COMPARISON_CSV = "outputs/comparisons/similarity_model_comparison.csv"
 
 DEFAULT_MODELS = [
     "sentence-transformers/all-MiniLM-L6-v2",
@@ -184,52 +195,56 @@ def accepted_relation_rows(rows: list[dict], selected_model: str) -> list[dict]:
     ]
 
 
-def write_report(path: str, papers: list[dict], rows_by_model: dict[str, list[dict]], top_k: int, selected_model: str, local_files_only: bool) -> None:
-    lines = [
-        "# Evaluacion de similarity con sentence embeddings",
-        "",
-        "## Configuracion",
-        "",
-        f"- Entrada: `{INPUT_CSV}`",
-        f"- Gold positivo de referencia: `{GOLD_CSV}`",
-        f"- Revision manual asistida: `{REVIEW_CSV}`",
-        "- Texto usado: `abstract`",
-        f"- Metrica: `{SIMILARITY_METRIC}`",
-        f"- Ranking: top {top_k} pares por modelo",
-        f"- Modelo elegido para salida KG: `{selected_model}`",
-        f"- Modo offline/cache local: `{str(local_files_only).lower()}`",
-        f"- Version local de sentence-transformers: `{package_version('sentence-transformers')}`",
-        "- Etiquetas relevantes para precision@k: `similar`, `parcialmente similar`",
-        "- Revisiones exactas de modelos Hugging Face: pendiente fijar hash/revision para la entrega final",
-        "",
-        "Modelos comparados:",
-        "",
-        *[f"- `{model_name}`" for model_name in rows_by_model],
-        "",
-        "## Resultados",
-        "",
-        "| Modelo | Pares revisados | Precision@k manual | Precision@k contra gold positivo |",
-        "|---|---:|---:|---:|",
+def write_comparison_csv(
+    path: str,
+    rows_by_model: dict[str, list[dict]],
+    top_k: int,
+    selected_model: str,
+    local_files_only: bool,
+) -> None:
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    fieldnames = [
+        "selected",
+        "model_name",
+        "top_k",
+        "reviewed_pairs",
+        "manual_precision_at_k",
+        "gold_positive_precision_at_k",
+        "similarity_metric",
+        "local_files_only",
+        "sentence_transformers_version",
     ]
+    with open(path, "w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
 
+        for model_name, rows in rows_by_model.items():
+            manual_precision = precision_at_k(rows, top_k)
+            reviewed = sum(1 for row in rows[:top_k] if (row.get("final_label") or "").strip())
+            writer.writerow({
+                "selected": "yes" if model_name == selected_model else "no",
+                "model_name": model_name,
+                "top_k": top_k,
+                "reviewed_pairs": f"{reviewed}/{min(top_k, len(rows))}",
+                "manual_precision_at_k": "" if manual_precision is None else f"{manual_precision:.4f}",
+                "gold_positive_precision_at_k": f"{gold_precision_at_k(rows, top_k):.4f}",
+                "similarity_metric": SIMILARITY_METRIC,
+                "local_files_only": str(local_files_only).lower(),
+                "sentence_transformers_version": package_version("sentence-transformers"),
+            })
+
+
+def print_summary(rows_by_model: dict[str, list[dict]], top_k: int) -> None:
     for model_name, rows in rows_by_model.items():
         manual_precision = precision_at_k(rows, top_k)
         reviewed = sum(1 for row in rows[:top_k] if (row.get("final_label") or "").strip())
         manual_text = "pendiente" if manual_precision is None else f"{manual_precision:.4f}"
         gold_precision = gold_precision_at_k(rows, top_k)
-        lines.append(f"| `{model_name}` | {reviewed}/{min(top_k, len(rows))} | {manual_text} | {gold_precision:.4f} |")
-
-    lines.extend([
-        "",
-        "## Nota metodologica",
-        "",
-        "Esta evaluacion compara modelos de sentence embeddings de Hugging Face sobre abstracts. Para cada modelo se calculan embeddings, cosine similarity entre todos los pares de papers y se exporta el top-k para revision manual asistida. La metrica usada para comparar modelos es precision@k manual: cada par se marca como `similar`, `parcialmente similar` o `no similar`; las dos primeras etiquetas cuentan como relevantes. La columna contra gold positivo es solo una referencia automatica inicial, porque el gold actual no contiene pares negativos exhaustivos.",
-    ])
-
-    os.makedirs(os.path.dirname(path), exist_ok=True)
-    with open(path, "w", encoding="utf-8") as f:
-        f.write("\n".join(lines))
-        f.write("\n")
+        print(
+            f"{model_name}: reviewed={reviewed}/{min(top_k, len(rows))}, "
+            f"manual_precision_at_k={manual_text}, "
+            f"gold_positive_precision_at_k={gold_precision:.4f}"
+        )
 
 
 def main() -> int:
@@ -237,8 +252,8 @@ def main() -> int:
     parser.add_argument("--input", default=INPUT_CSV)
     parser.add_argument("--gold", default=GOLD_CSV)
     parser.add_argument("--output", default=OUT_CSV)
-    parser.add_argument("--report", default=REPORT_MD)
     parser.add_argument("--review", default=REVIEW_CSV)
+    parser.add_argument("--comparison", default=COMPARISON_CSV)
     parser.add_argument("--top-k", type=int, default=DEFAULT_TOP_K)
     parser.add_argument("--models", nargs="+", default=DEFAULT_MODELS)
     parser.add_argument("--selected-model", default=DEFAULT_SELECTED_MODEL)
@@ -270,14 +285,15 @@ def main() -> int:
 
     write_csv(args.output, accepted_relation_rows(all_rows, args.selected_model))
     write_csv(args.review, all_rows)
-    write_report(args.report, papers, rows_by_model, args.top_k, args.selected_model, local_files_only)
+    write_comparison_csv(args.comparison, rows_by_model, args.top_k, args.selected_model, local_files_only)
 
     print(f"Guardado: {args.output}")
     print(f"Guardado: {args.review}")
-    print(f"Guardado: {args.report}")
+    print(f"Guardado: {args.comparison}")
     print(f"Papers evaluados: {len(papers)}")
     print(f"Modelos evaluados: {len(args.models)}")
     print(f"Pares exportados: {len(all_rows)}")
+    print_summary(rows_by_model, args.top_k)
     return 0
 
 

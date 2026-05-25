@@ -3,3 +3,7 @@ matplotlib
 wordcloud
 scikit-learn
 sentence-transformers
+numpy
+pandas
+bertopic
+gensim
