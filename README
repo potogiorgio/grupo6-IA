@@ -35,14 +35,6 @@ Se utilizará para recuperar publicaciones, metadatos, proyectos, funding y rela
 
 Se utilizará para identificar y normalizar organizaciones.
 
-### Wikidata
-
-Se utilizará para enriquecer galaxias, conceptos astronómicos, organizaciones y, si aplica, personas.
-
-### ORCID
-
-Se utilizará solo si se pueden obtener identificadores ORCID de autores desde OpenAIRE u otra fuente.
-
 ### DOI
 
 Se utilizará como identificador persistente del paper cuando esté disponible.
