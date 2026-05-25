@@ -88,6 +88,29 @@ def read_similarity_rows(path: Optional[str]) -> list[dict]:
         return list(reader)
 
 
+def read_topic_rows(path: Optional[str]) -> list[dict]:
+    if not path:
+        return []
+
+    if not os.path.exists(path):
+        raise FileNotFoundError(f"No existe {path}")
+
+    with open(path, newline="", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        required = {
+            "topic_assignment_id",
+            "paper_id",
+            "topic_id",
+            "topic_score",
+            "topic_label",
+            "topic_model",
+        }
+        missing = required - set(reader.fieldnames or [])
+        if missing:
+            raise ValueError(f"Faltan columnas en {path}: {sorted(missing)}")
+        return list(reader)
+
+
 def add_triples(lines: list[str], subject: str, predicates: list[tuple[str, str]]) -> None:
     if not predicates:
         return
@@ -99,7 +122,11 @@ def add_triples(lines: list[str], subject: str, predicates: list[tuple[str, str]
     lines.append("")
 
 
-def build_turtle(rows: list[dict], similarity_rows: Optional[list[dict]] = None) -> str:
+def build_turtle(
+    rows: list[dict],
+    similarity_rows: Optional[list[dict]] = None,
+    topic_rows: Optional[list[dict]] = None,
+) -> str:
     lines = [
         "@prefix kg: <https://w3id.org/grupo6-ia/resource/> .",
         "@prefix onto: <https://w3id.org/grupo6-ia/ontology#> .",
@@ -117,13 +144,20 @@ def build_turtle(rows: list[dict], similarity_rows: Optional[list[dict]] = None)
 
     people = {}
     similarity_rows = similarity_rows or []
+    topic_rows = topic_rows or []
     similarity_by_source = {}
+    topics_by_paper = {}
     paper_ids = {local_name(row.get("id", ""), "paper") for row in rows}
 
     for row in similarity_rows:
         source = local_name(row.get("source_paper", ""), "")
         if source in paper_ids:
             similarity_by_source.setdefault(source, []).append(row)
+
+    for row in topic_rows:
+        paper_id = local_name(row.get("paper_id", ""), "")
+        if paper_id in paper_ids:
+            topics_by_paper.setdefault(paper_id, []).append(row)
 
     for row in rows:
         paper_id = local_name(row.get("id", ""), "paper")
@@ -152,6 +186,10 @@ def build_turtle(rows: list[dict], similarity_rows: Optional[list[dict]] = None)
         for sim_row in similarity_by_source.get(paper_id, []):
             sim_id = local_name(sim_row.get("similarity_id", ""), "similarity")
             predicates.append(("onto:hasSimilarityRelation", f"kg:{sim_id}"))
+
+        for topic_row in topics_by_paper.get(paper_id, []):
+            assignment_id = local_name(topic_row.get("topic_assignment_id", ""), "topic_assignment")
+            predicates.append(("onto:hasTopicAssignment", f"kg:{assignment_id}"))
 
         add_triples(lines, paper_ref, predicates)
 
@@ -188,6 +226,45 @@ def build_turtle(rows: list[dict], similarity_rows: Optional[list[dict]] = None)
 
         add_triples(lines, f"kg:{sim_id}", predicates)
 
+    topic_entities = {}
+    for row in topic_rows:
+        paper_id = local_name(row.get("paper_id", ""), "")
+        if paper_id not in paper_ids:
+            continue
+
+        assignment_id = local_name(row.get("topic_assignment_id", ""), "topic_assignment")
+        topic_model = local_name(row.get("topic_model", ""), "topic_model")
+        topic_id = local_name(row.get("topic_id", ""), "topic")
+        topic_ref = f"kg:topic_{topic_model}_{topic_id}"
+        topic_entities[topic_ref] = row.get("topic_label", "")
+
+        predicates = [
+            ("a", "onto:TopicAssignment"),
+            ("onto:assignedTopic", topic_ref),
+            ("onto:topicScore", literal(row.get("topic_score", ""), "xsd:float")),
+        ]
+
+        details = []
+        for field in ("topic_model", "config_id", "embedding_model", "is_outlier", "n_topics", "vectorizer"):
+            value = (row.get(field) or "").strip()
+            if value:
+                details.append(f"{field}={value}")
+        if details:
+            predicates.append(("dcterms:description", literal("; ".join(details))))
+
+        add_triples(lines, f"kg:{assignment_id}", predicates)
+
+    for topic_ref, label in sorted(topic_entities.items()):
+        add_triples(
+            lines,
+            topic_ref,
+            [
+                ("a", "onto:Topic"),
+                ("onto:topicName", literal(label)),
+                ("onto:topicLabel", literal(label)),
+            ],
+        )
+
     for pid, name in sorted(people.items()):
         add_triples(
             lines,
@@ -206,11 +283,13 @@ def main() -> int:
     parser.add_argument("--input", default=INPUT_CSV, help="CSV maestro de entrada")
     parser.add_argument("--output", default=OUTPUT_TTL, help="Archivo Turtle de salida")
     parser.add_argument("--similarity", default=None, help="CSV opcional con relaciones de similarity evaluadas")
+    parser.add_argument("--topics", default=None, help="CSV opcional con asignaciones de topics evaluadas")
     args = parser.parse_args()
 
     rows = read_rows(args.input)
     similarity_rows = read_similarity_rows(args.similarity)
-    turtle = build_turtle(rows, similarity_rows)
+    topic_rows = read_topic_rows(args.topics)
+    turtle = build_turtle(rows, similarity_rows, topic_rows)
 
     os.makedirs(os.path.dirname(args.output), exist_ok=True)
     with open(args.output, "w", encoding="utf-8") as f:
@@ -222,6 +301,7 @@ def main() -> int:
     print(f"Papers exportados: {len(rows)}")
     print(f"Personas exportadas: {author_count}")
     print(f"Relaciones de similarity integradas: {len(similarity_rows)}")
+    print(f"Asignaciones de topic integradas: {len(topic_rows)}")
     return 0
 
 
