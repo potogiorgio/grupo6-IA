@@ -12,3 +12,7 @@ transformers
 torch
 umap-learn
 hdbscan
+streamlit
+plotly
+networkx
+pyvis
