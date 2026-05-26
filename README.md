@@ -575,7 +575,7 @@ En concreto, se ha utilizado para:
 - obtener ayuda en la implementación de scripts Python;
 - depurar errores de ejecución;
 - mejorar la estructura del README;
-- apoyar la redacción de explicaciones sobre NER, ROR, provenance y RO-Crate;
+- apoyar la redacción de explicaciones sobre Topics, Similiraty, NER, ROR, provenance y RO-Crate;
 - revisar y mejorar partes del pipeline.
 
 Todas las decisiones técnicas finales, la ejecución de los scripts, la validación de resultados, la selección de modelos y la integración en el Knowledge Graph han sido revisadas y realizadas por los miembros del grupo.
