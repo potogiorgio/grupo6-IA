@@ -121,6 +121,21 @@ def build_provenance():
             "description": "Extracts persons, organizations, funders, grant IDs and project IDs from acknowledgements.",
         },
         {
+            "id": "ror_enrichment",
+            "label": "ROR organization enrichment",
+            "script": "src/enrich_organizations_ror.py",
+            "inputs": [
+                "outputs/funding_entities.csv"
+            ],
+            "outputs": [
+                "outputs/organization_ror_matches.csv"
+            ],
+            "models": [
+                "ROR API v2 affiliation matching"
+            ],
+            "description": "Matches extracted organizations against ROR to obtain persistent organization identifiers and country metadata.",
+        },
+        {
             "id": "kg_construction",
             "label": "Knowledge Graph construction",
             "script": "src/build_kg.py",
@@ -130,6 +145,7 @@ def build_provenance():
                 "outputs/paper_topics.csv",
                 "outputs/funding_entities.csv",
                 "ontologia/ontology.ttl",
+                "outputs/organization_ror_matches.csv",
             ],
             "outputs": ["outputs/kg.ttl"],
             "models": [],

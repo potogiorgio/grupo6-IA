@@ -328,7 +328,7 @@
       "name": "RDF Knowledge Graph",
       "description": "Final RDF Knowledge Graph in Turtle format.",
       "encodingFormat": "text/turtle",
-      "contentSize": 259499
+      "contentSize": 297491
     },
     {
       "@id": "outputs/semantic_similarity_relations_embeddings.csv",
@@ -360,7 +360,7 @@
       "name": "Funding and NER entities",
       "description": "CSV containing extracted entities from acknowledgements.",
       "encodingFormat": "text/csv",
-      "contentSize": 165303
+      "contentSize": 165251
     },
     {
       "@id": "outputs/provenance.json",
@@ -368,7 +368,7 @@
       "name": "Provenance JSON",
       "description": "JSON provenance record describing scripts, inputs, outputs and models used in the workflow.",
       "encodingFormat": "application/json",
-      "contentSize": 4940
+      "contentSize": 5473
     },
     {
       "@id": "outputs/provenance.ttl",
@@ -376,7 +376,7 @@
       "name": "Provenance RDF",
       "description": "RDF/PROV-O provenance record describing scripts, inputs, outputs and models used in the workflow.",
       "encodingFormat": "text/turtle",
-      "contentSize": 11535
+      "contentSize": 12665
     },
     {
       "@id": "requirements.txt",

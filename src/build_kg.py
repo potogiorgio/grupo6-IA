@@ -141,6 +141,44 @@ def read_funding_rows(path: Optional[str]) -> list[dict]:
         if missing:
             raise ValueError(f"Faltan columnas en {path}: {sorted(missing)}")
         return list(reader)
+    
+def read_ror_rows(path: Optional[str]) -> dict[str, dict]:
+        if not path:
+            return {}
+
+        if not os.path.exists(path):
+            raise FileNotFoundError(f"No existe {path}")
+
+        matches = {}
+
+        with open(path, newline="", encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+
+            required = {
+                "organization_name",
+                "matched",
+                "chosen",
+                "ror_id",
+                "ror_name",
+                "country",
+            }
+            missing = required - set(reader.fieldnames or [])
+            if missing:
+                raise ValueError(f"Faltan columnas en {path}: {sorted(missing)}")
+
+            for row in reader:
+                name = (row.get("organization_name") or "").strip().lower()
+                matched = (row.get("matched") or "").strip().lower()
+                chosen = (row.get("chosen") or "").strip().lower()
+                ror_id = (row.get("ror_id") or "").strip()
+
+                if not name:
+                    continue
+
+                if matched == "yes" and chosen == "yes" and ror_id:
+                    matches[name] = row
+
+        return matches
 
 
 def add_triples(lines: list[str], subject: str, predicates: list[tuple[str, str]]) -> None:
@@ -159,6 +197,7 @@ def build_turtle(
     similarity_rows: Optional[list[dict]] = None,
     topic_rows: Optional[list[dict]] = None,
     funding_rows: Optional[list[dict]] = None,
+    ror_matches: Optional[dict[str, dict]] = None,
 ) -> str:
     lines = [
         "@prefix kg: <https://w3id.org/grupo6-ia/resource/> .",
@@ -176,12 +215,14 @@ def build_turtle(
     ]
 
     people = {}
+    acknowledged_people = {}
     organizations = {}
     projects = {}
 
     similarity_rows = similarity_rows or []
     topic_rows = topic_rows or []
     funding_rows = funding_rows or []
+    ror_matches = ror_matches or {}
 
     similarity_by_source = {}
     topics_by_paper = {}
@@ -243,34 +284,52 @@ def build_turtle(
             if not entity_text:
                 continue
 
-            if entity_type in {"FUNDER", "ORGANIZATION", "ORG"}:
-                org_id = resource_id("org", entity_text)
-                organizations.setdefault(
-                    org_id,
-                    {
-                        "name": entity_text,
-                        "type": entity_type,
-                        "context": funding_row.get("context", ""),
-                        "method": funding_row.get("method", ""),
-                        "confidence": funding_row.get("confidence", ""),
-                    },
-                )
-                predicates.append(("onto:acknowledgesOrganization", f"kg:{org_id}"))
+            if entity_type == "PERSON":
+                    pid = resource_id("person_ack", entity_text)
+                    acknowledged_people.setdefault(
+                        pid,
+                        {
+                            "name": entity_text,
+                            "type": entity_type,
+                            "context": funding_row.get("context", ""),
+                            "method": funding_row.get("method", ""),
+                            "confidence": funding_row.get("confidence", ""),
+                        },
+                    )
+                    predicates.append(("onto:acknowledgesPerson", f"kg:{pid}"))
+
+            elif entity_type in {"FUNDER", "ORGANIZATION", "ORG"}:
+                    org_id = resource_id("org", entity_text)
+                    ror_match = ror_matches.get(entity_text.strip().lower(), {})
+                    organizations.setdefault(
+                        org_id,
+                        {
+                            "name": entity_text,
+                            "type": entity_type,
+                            "context": funding_row.get("context", ""),
+                            "method": funding_row.get("method", ""),
+                            "confidence": funding_row.get("confidence", ""),
+                            "ror_id": ror_match.get("ror_id", ""),
+                            "ror_name": ror_match.get("ror_name", ""),
+                            "country": ror_match.get("country", ""),
+                        },
+                    )
+                    predicates.append(("onto:acknowledgesOrganization", f"kg:{org_id}"))
 
             elif entity_type in {"GRANT_ID", "PROJECT_ID"}:
-                project_id = resource_id("project", entity_text)
-                projects.setdefault(
-                    project_id,
-                    {
-                        "name": entity_text,
-                        "funding_id": funding_row.get("grant_id") or entity_text,
-                        "type": entity_type,
-                        "context": funding_row.get("context", ""),
-                        "method": funding_row.get("method", ""),
-                        "confidence": funding_row.get("confidence", ""),
-                    },
-                )
-                predicates.append(("onto:fundedBy", f"kg:{project_id}"))
+                    project_id = resource_id("project", entity_text)
+                    projects.setdefault(
+                        project_id,
+                        {
+                            "name": entity_text,
+                            "funding_id": funding_row.get("grant_id") or entity_text,
+                            "type": entity_type,
+                            "context": funding_row.get("context", ""),
+                            "method": funding_row.get("method", ""),
+                            "confidence": funding_row.get("confidence", ""),
+                        },
+                    )
+                    predicates.append(("onto:fundedBy", f"kg:{project_id}"))
 
         add_triples(lines, paper_ref, predicates)
 
@@ -359,12 +418,39 @@ def build_turtle(
                 ("onto:personName", literal(name)),
             ],
         )
+    for pid, data in sorted(acknowledged_people.items()):
+        predicates = [
+            ("a", "onto:Person"),
+            ("onto:personName", literal(data["name"])),
+        ]
+
+        if data.get("type"):
+            predicates.append(("onto:entityType", literal(data["type"])))
+
+        if data.get("method"):
+            predicates.append(("onto:extractionMethod", literal(data["method"])))
+
+        if data.get("confidence"):
+            predicates.append(("onto:confidenceScore", literal(data["confidence"], "xsd:float")))
+
+        if data.get("context"):
+            predicates.append(("dcterms:description", literal(data["context"])))
+
+        add_triples(lines, f"kg:{pid}", predicates)
 
     for org_id, data in sorted(organizations.items()):
         predicates = [
             ("a", "onto:Organization"),
             ("onto:organizationName", literal(data["name"])),
         ]
+        if data.get("ror_id"):
+            predicates.append(("onto:rorID", literal(data["ror_id"])))
+
+        if data.get("ror_name"):
+            predicates.append(("dcterms:alternative", literal(data["ror_name"])))
+
+        if data.get("country"):
+             predicates.append(("onto:country", literal(data["country"])))
 
         if data.get("type"):
             predicates.append(("onto:entityType", literal(data["type"])))
@@ -411,32 +497,35 @@ def main() -> int:
     parser.add_argument("--similarity", default=None, help="CSV opcional con relaciones de similarity evaluadas")
     parser.add_argument("--topics", default=None, help="CSV opcional con asignaciones de topics evaluadas")
     parser.add_argument("--funding", default=None, help="CSV opcional con entidades NER/funding")
+    parser.add_argument("--ror", default=None, help="CSV opcional con matches ROR de organizaciones")
     args = parser.parse_args()
 
     rows = read_rows(args.input)
     similarity_rows = read_similarity_rows(args.similarity)
     topic_rows = read_topic_rows(args.topics)
     funding_rows = read_funding_rows(args.funding)
+    ror_matches = read_ror_rows(args.ror)
 
-    turtle = build_turtle(rows, similarity_rows, topic_rows, funding_rows)
+    turtle = build_turtle(rows, similarity_rows, topic_rows, funding_rows, ror_matches)
 
     os.makedirs(os.path.dirname(args.output), exist_ok=True)
     with open(args.output, "w", encoding="utf-8") as f:
         f.write(turtle)
         f.write("\n")
 
-    author_count = sum(1 for line in turtle.splitlines() if "a onto:Person" in line)
+    person_count = sum(1 for line in turtle.splitlines() if "a onto:Person" in line)
     organization_count = sum(1 for line in turtle.splitlines() if "a onto:Organization" in line)
     project_count = sum(1 for line in turtle.splitlines() if "a onto:Project" in line)
 
     print(f"Guardado: {args.output}")
     print(f"Papers exportados: {len(rows)}")
-    print(f"Personas exportadas: {author_count}")
+    print(f"Personas exportadas: {person_count}")
     print(f"Organizaciones exportadas: {organization_count}")
     print(f"Proyectos exportados: {project_count}")
     print(f"Relaciones de similarity integradas: {len(similarity_rows)}")
     print(f"Asignaciones de topic integradas: {len(topic_rows)}")
     print(f"Entidades NER/funding integradas: {len(funding_rows)}")
+    print(f"Organizaciones enriquecidas con ROR: {len(ror_matches)}")
 
     return 0
 

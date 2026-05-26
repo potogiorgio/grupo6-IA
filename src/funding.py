@@ -106,6 +106,11 @@ def is_bad_entity(entity_text: str, entity_type: str) -> bool:
     if lower in BAD_ENTITIES:
         return True
 
+    # Evita entidades que empiecen con palabras basura:
+    # "and 11333003" -> se debería limpiar antes o descartar
+    if re.match(r"^(and|or|the|from|with|that)\s+", lower):
+        return True
+
     if len(text) < 2:
         return True
 
@@ -133,6 +138,12 @@ def add_entity(
     confidence: float,
 ):
     entity_text = normalize_text(entity_text)
+    entity_text = re.sub(
+    r"^(and|or|the|from|with|that)\s+",
+    "",
+    entity_text,
+    flags=re.IGNORECASE
+    ).strip()
     entity_type = normalize_text(entity_type).upper()
 
     if is_bad_entity(entity_text, entity_type):
