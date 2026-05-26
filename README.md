@@ -162,329 +162,82 @@ pip install -r requirements.txt
 
 ## 6. Pipeline completa de ejecución
 
-### 6.1. Iniciar GROBID
+### 6.1. Ejecución con Docker (Recomendado)
 
+El proyecto está totalmente dockerizado para facilitar su ejecución.
+
+**Iniciar GROBID y procesar todo el pipeline:**
+Este comando descarga PDFs, extrae texto, ejecuta modelos de IA y construye el KG.
+```bash
+docker compose run --rm pipeline
+```
+
+**Levantar la Web App (Demo):**
+```bash
+docker compose up demo
+```
+Luego accede a `http://localhost:8501`.
+
+---
+
+### 6.2. Ejecución Manual (Local)
+
+#### A. Iniciar GROBID
 ```bash
 docker compose up -d grobid
 ```
 
-Comprobar que GROBID está activo:
-
+#### B. Pipeline de procesamiento
 ```bash
-curl http://localhost:8070/api/isalive
-```
-
-En PowerShell:
-
-```powershell
-Invoke-WebRequest -Uri http://localhost:8070/api/isalive
-```
-
----
-
-### 6.2. Descargar PDFs
-
-```bash
+# 1. Descargar PDFs
 python src/download_pdfs.py
-```
 
-Este paso descarga los PDFs de los papers seleccionados.
-
----
-
-### 6.3. Procesar PDFs con GROBID
-
-```bash
+# 2. Procesar con GROBID
 python src/run_grobid.py --limit 0
-```
 
-Este paso genera ficheros TEI XML a partir de los PDFs.
-
----
-
-### 6.4. Generar CSV maestro
-
-```bash
+# 3. Generar CSV maestro
 python src/extract_papers_master.py
-```
 
-Este paso genera:
-
-```text
-data/intermediate/papers_master.csv
-```
-
-El fichero maestro contiene metadatos, títulos, abstracts, autores y acknowledgements.
-
----
-
-### 6.5. Generar similitud semántica entre papers
-
-Primera ejecución, permitiendo descarga de modelos:
-
-```bash
+# 4. Análisis de IA (Similitud y Topics)
 python src/generate_similarity.py --allow-download
-```
-
-Si los modelos ya están descargados:
-
-```bash
-python src/generate_similarity.py
-```
-
-Este paso genera:
-
-```text
-outputs/semantic_similarity_relations_embeddings.csv
-```
-
-El modelo utilizado es:
-
-```text
-sentence-transformers/all-mpnet-base-v2
-```
-
----
-
-### 6.6. Generar topics
-
-Primera ejecución, permitiendo descarga de modelos:
-
-```bash
 python src/generate_topics.py --allow-download
-```
 
-Si los modelos ya están descargados:
+# 5. Extracción de Galaxias
+python src/extract_galaxies.py
 
-```bash
-python src/generate_topics.py
-```
-
-Este paso genera:
-
-```text
-outputs/paper_topics.csv
-outputs/topics_info.csv
-```
-
-La generación de topics utiliza embeddings, BERTopic, UMAP y HDBSCAN.
-
----
-
-### 6.7. Evaluar modelos NER
-
-```bash
-python evaluation/ner/evaluate_hf_ner_models.py --allow-download
-```
-
-Este paso compara varios modelos HuggingFace sobre un gold standard manual:
-
-```text
-data/evaluation/ner/ner_gold.csv
-```
-
-y genera:
-
-```text
-data/evaluation/ner/ner_model_comparison.csv
-```
-
-El modelo seleccionado para la extracción final es:
-
-```text
-dslim/bert-base-NER
-```
-
-La extracción final combina:
-
-- HuggingFace NER para `PERSON` y `ORGANIZATION`;
-- expresiones regulares para `GRANT_ID` y `PROJECT_ID`;
-- reglas de contexto para `FUNDER`.
-
----
-
-### 6.8. Extraer entidades NER/funding
-
-```bash
+# 6. NER y Funding
 python src/funding.py --allow-download
-```
-
-Si el modelo ya está descargado:
-
-```bash
-python src/funding.py
-```
-
-Este paso genera:
-
-```text
-outputs/funding_entities.csv
-```
-
-El fichero contiene entidades extraídas de acknowledgements:
-
-```text
-PERSON
-ORGANIZATION
-FUNDER
-GRANT_ID
-PROJECT_ID
-```
-
----
-
-### 6.9. Enriquecer organizaciones con ROR
-
-Primero se puede probar con un límite pequeño:
-
-```bash
-python src/enrich_organizations_ror.py --limit 20
-```
-
-Ejecución completa:
-
-```bash
 python src/enrich_organizations_ror.py
-```
 
-Este paso genera:
-
-```text
-outputs/organization_ror_matches.csv
-```
-
-El enriquecimiento con ROR permite añadir identificadores persistentes y país a algunas organizaciones detectadas.
-
-Solo se integran en el KG los resultados marcados como:
-
-```text
-matched = yes
-chosen = yes
-```
-
----
-
-### 6.10. Construir el Knowledge Graph
-
-```bash
+# 7. Construcción del Knowledge Graph
 python src/build_kg.py \
   --similarity outputs/semantic_similarity_relations_embeddings.csv \
   --topics outputs/paper_topics.csv \
   --funding outputs/funding_entities.csv \
+  --galaxies outputs/paper_galaxies.csv \
   --ror outputs/organization_ror_matches.csv
-```
 
-Este paso genera:
-
-```text
-outputs/kg.ttl
-```
-
-El KG integra:
-
-- papers;
-- autores;
-- topics;
-- relaciones de similitud;
-- personas reconocidas en acknowledgements;
-- organizaciones reconocidas en acknowledgements;
-- grants y funding IDs;
-- identificadores ROR cuando están disponibles.
-
----
-
-### 6.11. Generar provenance
-
-```bash
+# 8. Metadatos y Validación
 python src/generate_provenance.py
-```
-
-Este paso genera:
-
-```text
-outputs/provenance.json
-outputs/provenance.ttl
-```
-
-La provenance registra:
-
-- scripts ejecutados;
-- inputs;
-- outputs;
-- modelos usados;
-- actividades de la pipeline.
-
----
-
-### 6.12. Generar RO-Crate
-
-```bash
 python src/generate_rocrate.py
-```
-
-Este paso genera:
-
-```text
-ro-crate-metadata.json
-```
-
-El RO-Crate describe el proyecto como Research Object e incluye datos, código, outputs, KG, provenance, queries, modelos y workflow.
-
----
-
-### 6.13. Validar KG y provenance
-
-```bash
 python src/validate_kg.py
-```
-
-La validación comprueba que:
-
-- `outputs/kg.ttl` parsea correctamente como Turtle;
-- `outputs/provenance.ttl` parsea correctamente como Turtle;
-- existen papers, autores, topics, relaciones de similitud y entidades de funding;
-- existen relaciones `acknowledgesOrganization`, `acknowledgesPerson`, `fundedBy` y `fundingID`;
-- las referencias a autores, organizaciones, proyectos, topics y relaciones de similitud están definidas;
-- no aparecen falsos positivos conocidos como `project_that`, `project_with` o `project_and`.
-
-También puede validarse solo el KG:
-
-```bash
-python src/validate_kg.py --skip-provenance
 ```
 
 ---
 ## 7. Demo Streamlit
 
-La demo permite consumir el Knowledge Graph mediante una interfaz visual.
+La demo interactiva permite consumir el Knowledge Graph de forma visual y técnica.
 
-Ejecutar:
+**Características principales:**
+- **Explorador de Papers:** Detalle de autores, topics, similitudes y galaxias estudiadas.
+- **Consola SPARQL:** Permite ejecutar consultas personalizadas directamente sobre el KG.
+- **Visualización de Umbrales:** Muestra los scores de IA junto a sus umbrales de corte (thresholds).
+- **Rankings:** Estadísticas de las galaxias y organizaciones más mencionadas.
 
+Ejecutar localmente:
 ```bash
 streamlit run demo/app.py
 ```
-
-La demo carga:
-
-```text
-outputs/kg.ttl
-outputs/provenance.ttl
-```
-
-y permite explorar:
-
-- resumen del KG;
-- queries SPARQL;
-- explorador de papers;
-- autores;
-- topics;
-- papers similares;
-- organizaciones reconocidas;
-- personas reconocidas;
-- funding IDs;
-- organizaciones enriquecidas con ROR;
-- provenance del pipeline;
-- visualizaciones de topics y organizaciones.
 
 ---
 
@@ -497,6 +250,7 @@ data/intermediate/papers_master.csv
 outputs/semantic_similarity_relations_embeddings.csv
 outputs/paper_topics.csv
 outputs/topics_info.csv
+outputs/paper_galaxies.csv
 outputs/funding_entities.csv
 outputs/organization_ror_matches.csv
 outputs/kg.ttl

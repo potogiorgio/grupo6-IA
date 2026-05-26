@@ -3,13 +3,41 @@ services:
     image: lfoppiano/grobid:0.7.2
     ports:
       - "8070:8070"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8070/api/isalive"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
-  analysis:
+  pipeline:
     build: .
     depends_on:
-      - grobid
-    environment:
-      GROBID_URL: "http://grobid:8070/api/processFulltextDocument"
+      grobid:
+        condition: service_healthy
     volumes:
-      - ./outputs:/app/outputs
-      - ./data:/app/data
+      - .:/app
+    environment:
+      - GROBID_URL=http://grobid:8070/api
+    command: >
+      sh -c "
+      python src/download_pdfs.py &&
+      python src/run_grobid.py --limit 0 &&
+      python src/extract_papers_master.py &&
+      python src/generate_similarity.py --allow-download &&
+      python src/generate_topics.py --allow-download &&
+      python src/extract_galaxies.py &&
+      python src/funding.py --allow-download &&
+      python src/enrich_organizations_ror.py &&
+      python src/build_kg.py --similarity outputs/semantic_similarity_relations_embeddings.csv --topics outputs/paper_topics.csv --funding outputs/funding_entities.csv --galaxies outputs/paper_galaxies.csv &&
+      python src/generate_provenance.py &&
+      python src/generate_rocrate.py &&
+      python src/validate_kg.py
+      "
+
+  demo:
+    build: .
+    ports:
+      - "8501:8501"
+    volumes:
+      - .:/app
+    command: streamlit run demo/app.py
