@@ -13,6 +13,24 @@ El objetivo es crear un **grafo de conocimiento** de publicaciones científicas 
 
 ---
 
+## Declaración de uso de IA
+
+Durante el desarrollo del proyecto se ha utilizado IA generativa como apoyo para tareas de asistencia técnica, depuración, redacción y organización del código y la documentación.
+
+En concreto, se ha utilizado para:
+
+- obtener ayuda en la implementación de scripts Python;
+- depurar errores de ejecución;
+- mejorar la estructura del README;
+- apoyar la redacción de explicaciones sobre Topics, Similiraty, NER, ROR, provenance y RO-Crate;
+- revisar y mejorar partes del pipeline.
+
+Todas las decisiones técnicas finales, la ejecución de los scripts, la validación de resultados, la selección de modelos y la integración en el Knowledge Graph han sido revisadas y realizadas por los miembros del grupo.
+
+El uso de IA generativa no sustituye la evaluación experimental del proyecto. Los resultados incluidos en el repositorio proceden de la ejecución de la pipeline sobre el corpus seleccionado y se validan mediante los scripts incluidos en el repositorio.
+
+---
+
 ## 1. Objetivo
 
 El objetivo del proyecto es realizar un análisis avanzado de publicaciones científicas mediante técnicas de Open Science, NLP y Knowledge Graphs.
@@ -23,9 +41,10 @@ El sistema permite:
 - extraer metadatos, autores, abstracts y acknowledgements;
 - agrupar papers por topics;
 - calcular similitud semántica entre papers;
+- identificar galaxias estudiadas en cada paper;
 - extraer personas, organizaciones, financiadores y grants desde acknowledgements;
 - enriquecer organizaciones mediante ROR;
-- construir un Knowledge Graph RDF;
+- construir un Knowledge Graph RDF con relaciones n-arias y umbrales;
 - validar el KG y su provenance;
 - consumir el KG mediante consultas SPARQL y una demo visual.
 
@@ -33,11 +52,16 @@ El sistema permite:
 
 El KG permitirá responder preguntas como:
 
-- ¿Qué papers estudian una misma galaxia?
-- ¿Qué papers son similares por su abstract aunque no estudien exactamente el mismo objeto?
-- ¿Qué autores e instituciones trabajan sobre las mismas galaxias o temas?
-- ¿Qué organizaciones financian investigación sobre determinados objetos astronómicos?
-- ¿Qué topics emergen en el corpus y qué papers pertenecen a cada topic según un modelo de IA evaluado?
+- **¿Qué papers estudian una misma galaxia?** Permite agrupar conocimiento sobre objetos astronómicos específicos (ej. M31, Vía Láctea).
+- **¿Qué papers son similares por su abstract aunque no estudien exactamente el mismo objeto?** Ayuda a encontrar metodologías o modelos teóricos aplicables a diferentes galaxias.
+- **¿Qué autores e instituciones trabajan sobre las mismas galaxias o temas?** Facilita la identificación de redes de colaboración y centros de experiencia en subcampos específicos de la astrofísica. Por ejemplo, permite ver qué grupos de investigación dominan el estudio de la dinámica de galaxias espirales.
+- **¿Qué organizaciones financian investigación sobre determinados objetos astronómicos?** Permite analizar el impacto de la financiación en el descubrimiento y estudio de objetos celestes.
+- **¿Qué topics emergen en el corpus y qué papers pertenecen a cada topic?** Facilita la exploración temática del dominio.
+
+### Ejemplos de Scores y Relaciones
+
+- **Topic Score:** Representa la fuerza de pertenencia de un paper a un topic (probabilidad). Ejemplo: Un paper sobre "rotación galáctica" puede tener un `topicScore` de 0.85 para el Topic 0 (dinámica) y un `threshold` de 0.60.
+- **Similarity Score:** Cuantifica la similitud semántica entre dos papers basada en sus abstracts. Ejemplo: El Paper A y el Paper B tienen un `similarityScore` de 0.92, indicando que tratan temas casi idénticos, permitiendo al investigador saltar de una lectura a otra relacionada.
 
 ---
 
@@ -45,24 +69,18 @@ El KG permitirá responder preguntas como:
 
 ### OpenAIRE
 
-OpenAIRE se utiliza como fuente inicial para recuperar publicaciones científicas del dominio seleccionado, junto con metadatos principales y enlaces a los PDFs.
-
-Estos datos se usan como punto de partida para descargar los papers, procesarlos con GROBID y construir el fichero maestro `papers_master.csv`.
-
-### DOI
-
-El DOI se utiliza como identificador persistente de los papers cuando está disponible. En el Knowledge Graph se almacena como propiedad del recurso `Paper`.
+OpenAIRE se utiliza como fuente principal para recuperar publicaciones científicas del dominio seleccionado, junto con metadatos principales y enlaces a los PDFs. **No se utiliza la API de ArXiv directamente**, sino que se aprovecha la agregación de OpenAIRE.
 
 ### ROR
 
 ROR se utiliza para enriquecer organizaciones detectadas en acknowledgements. El script `src/enrich_organizations_ror.py` consulta la API de ROR y genera un fichero de correspondencias con identificadores persistentes de organizaciones.
 
-Los matches aceptados se integran en el Knowledge Graph mediante:
+### Wikidata
 
-```text
-onto:rorID
-onto:country
-```
+Se utiliza Wikidata para:
+1.  Obtener identificadores persistentes de las galaxias detectadas.
+2.  Normalizar nombres de objetos astronómicos y obtener metadatos adicionales como el tipo de galaxia.
+3.  Vincular autores y organizaciones con sus perfiles globales cuando están disponibles.
 
 ---
 
@@ -84,6 +102,7 @@ outputs/
 ├── semantic_similarity_relations_embeddings.csv
 ├── paper_topics.csv
 ├── topics_info.csv
+├── paper_galaxies.csv
 ├── provenance.json
 └── provenance.ttl
 
@@ -93,6 +112,7 @@ src/
 ├── extract_papers_master.py
 ├── generate_similarity.py
 ├── generate_topics.py
+├── extract_galaxies.py
 ├── funding.py
 ├── enrich_organizations_ror.py
 ├── build_kg.py
@@ -565,19 +585,3 @@ python src/validate_kg.py
 ## 13. Licencia
 
 Este repositorio se desarrolla como parte de la práctica de la asignatura Open Science and Artificial Intelligence in Research Software Engineering.
-
-## Declaración de uso de IA
-
-Durante el desarrollo del proyecto se ha utilizado IA generativa como apoyo para tareas de asistencia técnica, depuración, redacción y organización del código y la documentación.
-
-En concreto, se ha utilizado para:
-
-- obtener ayuda en la implementación de scripts Python;
-- depurar errores de ejecución;
-- mejorar la estructura del README;
-- apoyar la redacción de explicaciones sobre Topics, Similiraty, NER, ROR, provenance y RO-Crate;
-- revisar y mejorar partes del pipeline.
-
-Todas las decisiones técnicas finales, la ejecución de los scripts, la validación de resultados, la selección de modelos y la integración en el Knowledge Graph han sido revisadas y realizadas por los miembros del grupo.
-
-El uso de IA generativa no sustituye la evaluación experimental del proyecto. Los resultados incluidos en el repositorio proceden de la ejecución de la pipeline sobre el corpus seleccionado y se validan mediante los scripts incluidos en el repositorio.

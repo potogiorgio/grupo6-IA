@@ -2,6 +2,7 @@ import csv
 import os
 import sys
 import urllib.request
+import ssl
 from urllib.error import URLError, HTTPError
 
 CSV_PATH = os.path.join("data", "papers.csv")
@@ -11,6 +12,9 @@ def safe_makedirs(path: str) -> None:
     os.makedirs(path, exist_ok=True)
 
 def download(url: str, out_path: str) -> None:
+    # Disable SSL verification
+    context = ssl._create_unverified_context()
+    
     req = urllib.request.Request(
         url,
         headers={
@@ -19,7 +23,7 @@ def download(url: str, out_path: str) -> None:
         },
     )
 
-    with urllib.request.urlopen(req, timeout=60) as resp:
+    with urllib.request.urlopen(req, timeout=60, context=context) as resp:
         content_type = resp.headers.get("Content-Type", "")
         data = resp.read()
 

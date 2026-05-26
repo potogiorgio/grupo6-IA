@@ -128,6 +128,14 @@
     rdfs:domain :Paper ;
     rdfs:range :SimilarityRelation .
 
+:sourcePaper
+    a owl:ObjectProperty ;
+    rdfs:isDefinedBy <https://w3id.org/grupo6-ia/ontology> ;
+    rdfs:label "paper origen"@es ;
+    rdfs:label "sourcePaper"@en ;
+    rdfs:domain :SimilarityRelation ;
+    rdfs:range :Paper .
+
 :similarPaper
     a owl:ObjectProperty ;
     rdfs:isDefinedBy <https://w3id.org/grupo6-ia/ontology> ;
@@ -314,6 +322,18 @@
     rdfs:label "similarityMetric"@en ;
     rdfs:domain :SimilarityRelation ;
     rdfs:range xsd:string .
+
+:threshold
+    a owl:DatatypeProperty ;
+    rdfs:isDefinedBy <https://w3id.org/grupo6-ia/ontology> ;
+    rdfs:label "umbral"@es ;
+    rdfs:label "threshold"@en ;
+    rdfs:comment "Umbral utilizado para filtrar o definir la pertenencia en una relacion n-aria."@es ;
+    rdfs:domain [
+        a owl:Class ;
+        owl:unionOf (:SimilarityRelation :TopicAssignment)
+    ] ;
+    rdfs:range xsd:float .
 
 :topicScore
     a owl:DatatypeProperty ;

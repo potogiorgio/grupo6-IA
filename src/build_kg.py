@@ -89,6 +89,7 @@ def read_similarity_rows(path: Optional[str]) -> list[dict]:
             "similarity_metric",
             "representation_method",
         }
+        # Hacemos el threshold opcional por si acaso, pero lo usaremos si existe
         missing = required - set(reader.fieldnames or [])
         if missing:
             raise ValueError(f"Faltan columnas en {path}: {sorted(missing)}")
@@ -112,9 +113,25 @@ def read_topic_rows(path: Optional[str]) -> list[dict]:
             "topic_label",
             "topic_model",
         }
+        # Hacemos el threshold opcional por si acaso
         missing = required - set(reader.fieldnames or [])
         if missing:
             raise ValueError(f"Faltan columnas en {path}: {sorted(missing)}")
+        return list(reader)
+
+def read_galaxy_rows(path: Optional[str]) -> list[dict]:
+    if not path:
+        return []
+
+    if not os.path.exists(path):
+        return []
+
+    with open(path, newline="", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        required = {"paper_id", "galaxy_name", "mention", "wikidata_id", "section"}
+        missing = required - set(reader.fieldnames or [])
+        if missing:
+            return []
         return list(reader)
 
 
@@ -198,12 +215,14 @@ def build_turtle(
     topic_rows: Optional[list[dict]] = None,
     funding_rows: Optional[list[dict]] = None,
     ror_matches: Optional[dict[str, dict]] = None,
+    galaxy_rows: Optional[list[dict]] = None,
 ) -> str:
     lines = [
         "@prefix kg: <https://w3id.org/grupo6-ia/resource/> .",
         "@prefix onto: <https://w3id.org/grupo6-ia/ontology#> .",
         "@prefix dcterms: <http://purl.org/dc/terms/> .",
         "@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .",
+        "@prefix skos: <http://www.w3.org/2004/02/skos/core#> .",
         "",
         "kg:knowledge_graph",
         "    a dcterms:Dataset ;",
@@ -218,15 +237,18 @@ def build_turtle(
     acknowledged_people = {}
     organizations = {}
     projects = {}
+    galaxies = {}
 
     similarity_rows = similarity_rows or []
     topic_rows = topic_rows or []
     funding_rows = funding_rows or []
     ror_matches = ror_matches or {}
+    galaxy_rows = galaxy_rows or []
 
     similarity_by_source = {}
     topics_by_paper = {}
     funding_by_paper = {}
+    galaxies_by_paper = {}
 
     paper_ids = {local_name(row.get("id", ""), "paper") for row in rows}
 
@@ -244,6 +266,11 @@ def build_turtle(
         paper_id = local_name(row.get("paper_id", ""), "")
         if paper_id in paper_ids:
             funding_by_paper.setdefault(paper_id, []).append(row)
+
+    for row in galaxy_rows:
+        paper_id = local_name(row.get("paper_id", ""), "")
+        if paper_id in paper_ids:
+            galaxies_by_paper.setdefault(paper_id, []).append(row)
 
     for row in rows:
         paper_id = local_name(row.get("id", ""), "paper")
@@ -276,6 +303,19 @@ def build_turtle(
         for topic_row in topics_by_paper.get(paper_id, []):
             assignment_id = local_name(topic_row.get("topic_assignment_id", ""), "topic_assignment")
             predicates.append(("onto:hasTopicAssignment", f"kg:{assignment_id}"))
+
+        for g_row in galaxies_by_paper.get(paper_id, []):
+             g_name = g_row.get("galaxy_name", "")
+             g_id = resource_id("galaxy", g_name)
+             evidence_id = resource_id("evidence", f"{paper_id}_{g_name}")
+             
+             galaxies.setdefault(g_id, {
+                 "name": g_name,
+                 "wikidata_id": g_row.get("wikidata_id", "")
+             })
+             
+             predicates.append(("onto:hasGalaxyStudyEvidence", f"kg:{evidence_id}"))
+             predicates.append(("onto:studiesGalaxy", f"kg:{g_id}"))
 
         for funding_row in funding_by_paper.get(paper_id, []):
             entity_text = (funding_row.get("entity_text") or "").strip()
@@ -343,10 +383,15 @@ def build_turtle(
 
         predicates = [
             ("a", "onto:SimilarityRelation"),
+            ("onto:sourcePaper", f"kg:{source_id}"),
             ("onto:similarPaper", f"kg:{target_id}"),
             ("onto:similarityScore", literal(row.get("similarity_score", ""), "xsd:float")),
             ("onto:similarityMetric", literal(row.get("similarity_metric", ""))),
         ]
+
+        threshold = (row.get("similarity_threshold") or "").strip()
+        if threshold:
+             predicates.append(("onto:threshold", literal(threshold, "xsd:float")))
 
         details = []
         representation = (row.get("representation_method") or "").strip()
@@ -386,6 +431,10 @@ def build_turtle(
             ("onto:assignedTopic", topic_ref),
             ("onto:topicScore", literal(row.get("topic_score", ""), "xsd:float")),
         ]
+
+        threshold = (row.get("topic_threshold") or "").strip()
+        if threshold:
+             predicates.append(("onto:threshold", literal(threshold, "xsd:float")))
 
         details = []
         for field in ("topic_model", "config_id", "embedding_model", "is_outlier", "n_topics", "vectorizer"):
@@ -487,6 +536,33 @@ def build_turtle(
 
         add_triples(lines, f"kg:{project_id}", predicates)
 
+    # Añadir evidencias y galaxias
+    for row in galaxy_rows:
+        paper_id = local_name(row.get("paper_id", ""), "")
+        g_name = row.get("galaxy_name", "")
+        if paper_id not in paper_ids:
+            continue
+            
+        evidence_id = resource_id("evidence", f"{paper_id}_{g_name}")
+        g_id = resource_id("galaxy", g_name)
+        
+        add_triples(lines, f"kg:{evidence_id}", [
+            ("a", "onto:GalaxyStudyEvidence"),
+            ("onto:identifiesGalaxy", f"kg:{g_id}"),
+            ("onto:mentionText", literal(row.get("mention", ""))),
+            ("onto:sourceSection", literal(row.get("section", "")))
+        ])
+
+    for g_id, data in sorted(galaxies.items()):
+        predicates = [
+            ("a", "onto:Galaxy"),
+            ("onto:galaxyName", literal(data["name"]))
+        ]
+        if data.get("wikidata_id"):
+             predicates.append(("onto:galaxyWikidataID", literal(data["wikidata_id"])))
+             
+        add_triples(lines, f"kg:{g_id}", predicates)
+
     return "\n".join(lines)
 
 
@@ -498,6 +574,7 @@ def main() -> int:
     parser.add_argument("--topics", default=None, help="CSV opcional con asignaciones de topics evaluadas")
     parser.add_argument("--funding", default=None, help="CSV opcional con entidades NER/funding")
     parser.add_argument("--ror", default=None, help="CSV opcional con matches ROR de organizaciones")
+    parser.add_argument("--galaxies", default=None, help="CSV opcional con galaxias extraidas")
     args = parser.parse_args()
 
     rows = read_rows(args.input)
@@ -505,8 +582,9 @@ def main() -> int:
     topic_rows = read_topic_rows(args.topics)
     funding_rows = read_funding_rows(args.funding)
     ror_matches = read_ror_rows(args.ror)
+    galaxy_rows = read_galaxy_rows(args.galaxies)
 
-    turtle = build_turtle(rows, similarity_rows, topic_rows, funding_rows, ror_matches)
+    turtle = build_turtle(rows, similarity_rows, topic_rows, funding_rows, ror_matches, galaxy_rows)
 
     os.makedirs(os.path.dirname(args.output), exist_ok=True)
     with open(args.output, "w", encoding="utf-8") as f:
@@ -516,16 +594,19 @@ def main() -> int:
     person_count = sum(1 for line in turtle.splitlines() if "a onto:Person" in line)
     organization_count = sum(1 for line in turtle.splitlines() if "a onto:Organization" in line)
     project_count = sum(1 for line in turtle.splitlines() if "a onto:Project" in line)
+    galaxy_count = sum(1 for line in turtle.splitlines() if "a onto:Galaxy" in line)
 
     print(f"Guardado: {args.output}")
     print(f"Papers exportados: {len(rows)}")
     print(f"Personas exportadas: {person_count}")
     print(f"Organizaciones exportadas: {organization_count}")
     print(f"Proyectos exportados: {project_count}")
+    print(f"Galaxias exportadas: {galaxy_count}")
     print(f"Relaciones de similarity integradas: {len(similarity_rows)}")
     print(f"Asignaciones de topic integradas: {len(topic_rows)}")
     print(f"Entidades NER/funding integradas: {len(funding_rows)}")
     print(f"Organizaciones enriquecidas con ROR: {len(ror_matches)}")
+    print(f"Galaxias integradas: {len(galaxy_rows)}")
 
     return 0
 

@@ -119,6 +119,10 @@ def final_rows(
 ) -> list[dict]:
     reviewed = bool(review_labels)
     accepted = []
+    
+    # El threshold efectivo es el score mas bajo de los top_k
+    min_score = rows[-1]["similarity_score"] if rows else 0.0
+
     for rank, row in enumerate(rows, start=1):
         key = pair_key(row["source_paper"], row["target_paper"])
         label = review_labels.get(key, "")
@@ -132,6 +136,7 @@ def final_rows(
             "rank": rank,
             **row,
             "selection_method": f"top_{top_k}",
+            "similarity_threshold": min_score,
             "in_gold": "yes" if key in gold else "no",
             "gold_relation_type": gold_row.get("relation_type", ""),
             "final_label": label,
@@ -154,6 +159,7 @@ def write_csv(path: str, rows: list[dict]) -> None:
         "similarity_metric",
         "representation_method",
         "selection_method",
+        "similarity_threshold",
         "in_gold",
         "gold_relation_type",
         "final_label",

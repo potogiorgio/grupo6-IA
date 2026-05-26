@@ -30,13 +30,17 @@ def load_graph():
 
 
 def query_df(graph, query):
-    results = graph.query(query)
-    rows = []
+    try:
+        results = graph.query(query)
+        rows = []
 
-    for row in results:
-        rows.append({str(var): str(value) for var, value in row.asdict().items()})
+        for row in results:
+            rows.append({str(var): str(value) for var, value in row.asdict().items()})
 
-    return pd.DataFrame(rows)
+        return pd.DataFrame(rows)
+    except Exception as e:
+        st.error(f"Error al ejecutar la consulta: {e}")
+        return pd.DataFrame()
 
 
 def get_papers(graph):
@@ -88,12 +92,13 @@ def get_topics(graph, paper_uri):
     query = f"""
     PREFIX onto: <{ONTO}>
 
-    SELECT ?topicLabel ?topicScore
+    SELECT ?topicLabel ?topicScore ?threshold
     WHERE {{
       <{paper_uri}> onto:hasTopicAssignment ?assignment .
       ?assignment onto:assignedTopic ?topic ;
                   onto:topicScore ?topicScore .
       ?topic onto:topicLabel ?topicLabel .
+      OPTIONAL {{ ?assignment onto:threshold ?threshold . }}
     }}
     ORDER BY DESC(?topicScore)
     """
@@ -105,13 +110,14 @@ def get_similar_papers(graph, paper_uri):
     query = f"""
     PREFIX onto: <{ONTO}>
 
-    SELECT ?similarPaper ?similarTitle ?score ?metric
+    SELECT ?similarTitle ?score ?threshold ?metric
     WHERE {{
       <{paper_uri}> onto:hasSimilarityRelation ?relation .
       ?relation onto:similarPaper ?similarPaper ;
                 onto:similarityScore ?score ;
                 onto:similarityMetric ?metric .
       ?similarPaper onto:title ?similarTitle .
+      OPTIONAL {{ ?relation onto:threshold ?threshold . }}
     }}
     ORDER BY DESC(?score)
     """
@@ -119,16 +125,37 @@ def get_similar_papers(graph, paper_uri):
     return query_df(graph, query)
 
 
+def get_galaxies(graph, paper_uri):
+    query = f"""
+    PREFIX onto: <{ONTO}>
+
+    SELECT ?galaxyName ?mentionText ?section ?wikidataID
+    WHERE {{
+      <{paper_uri}> onto:hasGalaxyStudyEvidence ?evidence .
+      ?evidence onto:identifiesGalaxy ?galaxy ;
+                onto:mentionText ?mentionText ;
+                onto:sourceSection ?section .
+      ?galaxy onto:galaxyName ?galaxyName .
+      OPTIONAL {{ ?galaxy onto:galaxyWikidataID ?wikidataID . }}
+    }}
+    ORDER BY ?galaxyName
+    """
+    
+    return query_df(graph, query)
+
+
 def get_acknowledged_organizations(graph, paper_uri):
     query = f"""
     PREFIX onto: <{ONTO}>
 
-    SELECT ?organizationName ?entityType ?confidence
+    SELECT ?organizationName ?entityType ?rorID ?wikidataID ?country
     WHERE {{
       <{paper_uri}> onto:acknowledgesOrganization ?organization .
       ?organization onto:organizationName ?organizationName .
       OPTIONAL {{ ?organization onto:entityType ?entityType . }}
-      OPTIONAL {{ ?organization onto:confidenceScore ?confidence . }}
+      OPTIONAL {{ ?organization onto:rorID ?rorID . }}
+      OPTIONAL {{ ?organization onto:organizationWikidataID ?wikidataID . }}
+      OPTIONAL {{ ?organization onto:country ?country . }}
     }}
     ORDER BY ?organizationName
     """
@@ -156,14 +183,13 @@ def get_funding(graph, paper_uri):
     query = f"""
     PREFIX onto: <{ONTO}>
 
-    SELECT ?projectName ?fundingID ?entityType ?confidence
+    SELECT ?projectName ?fundingID ?entityType
     WHERE {{
       <{paper_uri}> onto:fundedBy ?project .
       ?project a onto:Project ;
                onto:projectName ?projectName ;
                onto:fundingID ?fundingID .
       OPTIONAL {{ ?project onto:entityType ?entityType . }}
-      OPTIONAL {{ ?project onto:confidenceScore ?confidence . }}
     }}
     ORDER BY ?fundingID
     """
@@ -185,6 +211,8 @@ def get_counts(graph):
         onto:Topic
         onto:TopicAssignment
         onto:SimilarityRelation
+        onto:Galaxy
+        onto:GalaxyStudyEvidence
       }}
 
       ?resource a ?type .
@@ -220,6 +248,24 @@ def get_top_organizations(graph):
     return query_df(graph, query)
 
 
+def get_top_galaxies(graph):
+    query = f"""
+    PREFIX onto: <{ONTO}>
+
+    SELECT ?galaxyName (COUNT(?paper) AS ?mentions)
+    WHERE {{
+      ?paper a onto:Paper ;
+             onto:studiesGalaxy ?galaxy .
+      ?galaxy onto:galaxyName ?galaxyName .
+    }}
+    GROUP BY ?galaxyName
+    ORDER BY DESC(?mentions)
+    LIMIT 20
+    """
+
+    return query_df(graph, query)
+
+
 def get_provenance_activities(graph):
     query = f"""
     PREFIX prov: <{PROV}>
@@ -238,7 +284,7 @@ def get_provenance_activities(graph):
 
 
 def show_df(df, empty_message):
-    if df.empty:
+    if df is None or df.empty:
         st.info(empty_message)
     else:
         st.dataframe(df, use_container_width=True, hide_index=True)
@@ -252,7 +298,7 @@ def main():
     )
 
     st.title("📚 Knowledge Graph Explorer")
-    st.caption("Demo para consumir el Knowledge Graph generado a partir de 30 papers de Astrophysics of Galaxies.")
+    st.caption("Demo interactiva para explorar el Grafo de Conocimiento y realizar consultas SPARQL (Astrophysics of Galaxies).")
 
     graph = load_graph()
 
@@ -262,7 +308,8 @@ def main():
         [
             "Resumen del KG",
             "Explorador de papers",
-            "Organizaciones",
+            "Consulta SPARQL Libre",
+            "Organizaciones y Galaxias",
             "Provenance",
         ],
     )
@@ -275,28 +322,27 @@ def main():
         counts = get_counts(graph)
 
         with col1:
-            st.subheader("Conteos")
+            st.subheader("Entidades en el Grafo")
             show_df(counts, "No se encontraron conteos.")
 
         with col2:
-            st.subheader("Qué demuestra esta demo")
+            st.subheader("Acerca de esta aplicación")
             st.markdown(
                 """
-                Esta aplicación consume directamente los ficheros RDF:
+                Esta aplicación carga en memoria y consulta de forma dinámica los archivos Turtle generados por la pipeline:
 
-                - `outputs/kg.ttl`
-                - `outputs/provenance.ttl`
+                - `outputs/kg.ttl` (Grafo principal)
+                - `outputs/provenance.ttl` (Trazabilidad PROV-O)
 
-                La demo permite explorar papers, autores, topics, similitud semántica,
-                entidades NER extraídas de acknowledgements, grants y provenance del pipeline.
+                **Novedades implementadas:**
+                - Extracción y visualización de **Galaxias** (ej. Andromeda, Milky Way).
+                - Inclusión de **umbrales (thresholds)** en Topics y Similitudes semánticas.
+                - Herramienta de **consulta SPARQL libre** integrada en el menú.
                 """
             )
 
-        st.subheader("Top organizaciones reconocidas")
-        show_df(get_top_organizations(graph), "No se encontraron organizaciones.")
-
     elif page == "Explorador de papers":
-        st.header("Explorador de artículos")
+        st.header("Explorador de artículos científicos")
 
         papers = get_papers(graph)
 
@@ -319,72 +365,101 @@ def main():
 
             abstract = details.iloc[0].get("abstract", "")
             if abstract:
-                with st.expander("Abstract"):
+                with st.expander("Abstract del Paper", expanded=False):
                     st.write(abstract)
 
-        tab_authors, tab_topics, tab_similarity, tab_orgs, tab_people, tab_funding = st.tabs(
+        tabs = st.tabs(
             [
-                "Autores",
-                "Topic",
-                "Papers similares",
-                "Organizaciones",
-                "Personas agradecidas",
-                "Funding / Grants",
+                "🔭 Galaxias Estudiadas",
+                "🧠 Topics (IA)",
+                "🔗 Similitud Semántica",
+                "👥 Autores",
+                "🏢 Organizaciones / Funding",
             ]
         )
 
-        with tab_authors:
+        with tabs[0]:
+            st.subheader("Objetos Astronómicos")
+            show_df(get_galaxies(graph, selected_paper), "No se han detectado galaxias en el título/abstract de este paper.")
+
+        with tabs[1]:
+            st.subheader("Topics asignados (BERTopic)")
+            show_df(get_topics(graph, selected_paper), "Este paper no tiene topic asignado.")
+
+        with tabs[2]:
+            st.subheader("Papers más similares (HuggingFace Embeddings)")
+            show_df(get_similar_papers(graph, selected_paper), "No hay relaciones de similitud para este paper.")
+
+        with tabs[3]:
             st.subheader("Autores")
             show_df(get_authors(graph, selected_paper), "Este paper no tiene autores registrados.")
 
-        with tab_topics:
-            st.subheader("Topic asignado")
-            show_df(get_topics(graph, selected_paper), "Este paper no tiene topic asignado.")
+        with tabs[4]:
+            colA, colB = st.columns(2)
+            with colA:
+                st.subheader("Organizaciones (Agradecimientos)")
+                show_df(
+                    get_acknowledged_organizations(graph, selected_paper),
+                    "No hay organizaciones reconocidas.",
+                )
+                st.subheader("Personas (Agradecimientos)")
+                show_df(
+                    get_acknowledged_people(graph, selected_paper),
+                    "No hay personas reconocidas.",
+                )
+            with colB:
+                st.subheader("Funding IDs / Proyectos")
+                show_df(
+                    get_funding(graph, selected_paper),
+                    "No hay grants o funding IDs registrados.",
+                )
 
-        with tab_similarity:
-            st.subheader("Papers similares")
-            show_df(get_similar_papers(graph, selected_paper), "No hay relaciones de similitud para este paper.")
+    elif page == "Consulta SPARQL Libre":
+        st.header("Consola de Consultas SPARQL")
+        
+        st.markdown("Escribe y ejecuta consultas directamente sobre la ontología. Los namespaces `onto:` y `kg:` ya están precargados en el motor subyacente o puedes redefinirlos.")
 
-        with tab_orgs:
-            st.subheader("Organizaciones reconocidas en acknowledgements")
-            show_df(
-                get_acknowledged_organizations(graph, selected_paper),
-                "No hay organizaciones reconocidas para este paper.",
-            )
+        default_query = f"""PREFIX onto: <{ONTO}>
+PREFIX kg: <https://w3id.org/grupo6-ia/resource/>
 
-        with tab_people:
-            st.subheader("Personas reconocidas en acknowledgements")
-            show_df(
-                get_acknowledged_people(graph, selected_paper),
-                "No hay personas reconocidas para este paper.",
-            )
+SELECT ?paperTitle ?galaxyName
+WHERE {{
+  ?paper a onto:Paper ;
+         onto:title ?paperTitle ;
+         onto:studiesGalaxy ?galaxy .
+  ?galaxy onto:galaxyName ?galaxyName .
+}}
+LIMIT 15
+"""
 
-        with tab_funding:
-            st.subheader("Funding IDs / Grants")
-            show_df(
-                get_funding(graph, selected_paper),
-                "No hay grants o funding IDs registrados para este paper.",
-            )
+        query = st.text_area("Consulta SPARQL", value=default_query, height=250)
+        
+        if st.button("Ejecutar Consulta", type="primary"):
+            with st.spinner("Ejecutando SPARQL..."):
+                df_results = query_df(graph, query)
+                st.success(f"Consulta completada. Filas devueltas: {len(df_results) if df_results is not None else 0}")
+                show_df(df_results, "La consulta no devolvió resultados.")
 
-    elif page == "Organizaciones":
-        st.header("Organizaciones reconocidas")
+    elif page == "Organizaciones y Galaxias":
+        st.header("Estadísticas Generales")
 
-        st.markdown(
-            """
-            Esta vista muestra las organizaciones detectadas en la sección de acknowledgements
-            y cuántas veces aparecen enlazadas desde papers.
-            """
-        )
-
-        show_df(get_top_organizations(graph), "No se encontraron organizaciones.")
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.subheader("Top 20 Galaxias Estudiadas")
+            show_df(get_top_galaxies(graph), "No se encontraron galaxias.")
+            
+        with col2:
+            st.subheader("Top 20 Organizaciones (Acknowledgements)")
+            show_df(get_top_organizations(graph), "No se encontraron organizaciones.")
 
     elif page == "Provenance":
-        st.header("Provenance del pipeline")
+        st.header("Trazabilidad y Provenance (PROV-O)")
 
         st.markdown(
             """
-            Esta vista consume `outputs/provenance.ttl` y muestra las actividades registradas
-            con PROV-O: scripts, modelos, inputs y outputs del workflow.
+            Esta vista muestra las actividades registradas en el pipeline de IA y extracción:
+            scripts ejecutados, modelos empleados, inputs procesados y outputs generados.
             """
         )
 

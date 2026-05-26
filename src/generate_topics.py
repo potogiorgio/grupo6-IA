@@ -167,6 +167,7 @@ def write_paper_topics(path: str, papers: list[dict], result: dict) -> None:
         "config_id",
         "embedding_model",
         "is_outlier",
+        "topic_threshold",
     ]
     with open(path, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
@@ -185,6 +186,7 @@ def write_paper_topics(path: str, papers: list[dict], result: dict) -> None:
                 "config_id": CONFIG_ID,
                 "embedding_model": EMBEDDING_MODEL,
                 "is_outlier": "yes" if is_outlier else "no",
+                "topic_threshold": "0.60",
             })
 
 
