@@ -7,3 +7,8 @@ numpy
 pandas
 bertopic
 gensim
+rdflib
+transformers
+torch
+umap-learn
+hdbscan

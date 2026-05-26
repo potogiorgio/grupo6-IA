@@ -1,0 +1,502 @@
+{
+  "@context": "https://w3id.org/ro/crate/1.1/context",
+  "@graph": [
+    {
+      "@id": "ro-crate-metadata.json",
+      "@type": "CreativeWork",
+      "conformsTo": {
+        "@id": "https://w3id.org/ro/crate/1.1"
+      },
+      "about": {
+        "@id": "./"
+      }
+    },
+    {
+      "@id": "./",
+      "@type": "Dataset",
+      "name": "Grupo 6 IA - Knowledge Graph of Astrophysics of Galaxies publications",
+      "description": "Research Object describing a reproducible pipeline for analysing 30 scientific papers about Astrophysics of Galaxies. The workflow extracts metadata and acknowledgements with GROBID, computes semantic similarity and topic modeling from abstracts, extracts NER/funding entities from acknowledgements using HuggingFace models and rules, and builds an RDF Knowledge Graph.",
+      "datePublished": "2026-05-26",
+      "license": {
+        "@id": "LICENSE"
+      },
+      "author": [
+        {
+          "@id": "#grupo-6"
+        }
+      ],
+      "hasPart": [
+        {
+          "@id": "data/papers.csv"
+        },
+        {
+          "@id": "data/intermediate/papers_master.csv"
+        },
+        {
+          "@id": "data/evaluation/ner/ner_gold.csv"
+        },
+        {
+          "@id": "data/evaluation/ner/ner_model_comparison.csv"
+        },
+        {
+          "@id": "ontologia/ontology.ttl"
+        },
+        {
+          "@id": "outputs/kg.ttl"
+        },
+        {
+          "@id": "outputs/semantic_similarity_relations_embeddings.csv"
+        },
+        {
+          "@id": "outputs/paper_topics.csv"
+        },
+        {
+          "@id": "outputs/topics_info.csv"
+        },
+        {
+          "@id": "outputs/funding_entities.csv"
+        },
+        {
+          "@id": "outputs/provenance.json"
+        },
+        {
+          "@id": "outputs/provenance.ttl"
+        },
+        {
+          "@id": "queries/"
+        },
+        {
+          "@id": "src/"
+        },
+        {
+          "@id": "evaluation/"
+        },
+        {
+          "@id": "requirements.txt"
+        },
+        {
+          "@id": "Dockerfile"
+        },
+        {
+          "@id": "docker-compose.yml"
+        },
+        {
+          "@id": "README.md"
+        }
+      ],
+      "mentions": [
+        {
+          "@id": "#workflow"
+        },
+        {
+          "@id": "#model-all-mpnet-base-v2"
+        },
+        {
+          "@id": "#model-dslim-bert-base-ner"
+        },
+        {
+          "@id": "#grobid"
+        },
+        {
+          "@id": "#bertopic"
+        }
+      ]
+    },
+    {
+      "@id": "#grupo-6",
+      "@type": "Organization",
+      "name": "Grupo 6 IA"
+    },
+    {
+      "@id": "#grupo-6",
+      "@type": "Organization",
+      "name": "Grupo 6 IA"
+    },
+    {
+      "@id": "LICENSE",
+      "@type": "CreativeWork",
+      "name": "Project license"
+    },
+    {
+      "@id": "#workflow",
+      "@type": "ComputationalWorkflow",
+      "name": "Publication analysis and KG construction workflow",
+      "description": "Pipeline that downloads papers, processes PDFs with GROBID, extracts a master CSV, computes semantic similarity, performs topic modeling, extracts NER/funding entities, builds the RDF Knowledge Graph and validates the final KG.",
+      "step": [
+        {
+          "@id": "#step-download-pdfs"
+        },
+        {
+          "@id": "#step-grobid"
+        },
+        {
+          "@id": "#step-master-csv"
+        },
+        {
+          "@id": "#step-similarity"
+        },
+        {
+          "@id": "#step-topics"
+        },
+        {
+          "@id": "#step-ner-funding"
+        },
+        {
+          "@id": "#step-build-kg"
+        },
+        {
+          "@id": "#step-validate-kg"
+        }
+      ]
+    },
+    {
+      "@id": "#step-download-pdfs",
+      "@type": "HowToStep",
+      "name": "Download PDFs",
+      "description": "Download paper PDFs from the metadata CSV.",
+      "instrument": {
+        "@id": "src/download_pdfs.py"
+      },
+      "workExample": "python src/download_pdfs.py"
+    },
+    {
+      "@id": "#step-grobid",
+      "@type": "HowToStep",
+      "name": "Run GROBID",
+      "description": "Extract TEI XML files from downloaded PDFs.",
+      "instrument": {
+        "@id": "src/run_grobid.py"
+      },
+      "workExample": "docker compose up -d grobid && python src/run_grobid.py --limit 0"
+    },
+    {
+      "@id": "#step-master-csv",
+      "@type": "HowToStep",
+      "name": "Generate master CSV",
+      "description": "Create papers_master.csv with extracted metadata, abstracts and acknowledgements.",
+      "instrument": {
+        "@id": "src/extract_papers_master.py"
+      },
+      "workExample": "python src/extract_papers_master.py"
+    },
+    {
+      "@id": "#step-similarity",
+      "@type": "HowToStep",
+      "name": "Generate semantic similarity",
+      "description": "Compute abstract similarity using HuggingFace sentence embeddings.",
+      "instrument": {
+        "@id": "src/generate_similarity.py"
+      },
+      "workExample": "python src/generate_similarity.py --allow-download"
+    },
+    {
+      "@id": "#step-topics",
+      "@type": "HowToStep",
+      "name": "Generate topics",
+      "description": "Generate topic assignments using BERTopic and sentence embeddings.",
+      "instrument": {
+        "@id": "src/generate_topics.py"
+      },
+      "workExample": "python src/generate_topics.py --allow-download"
+    },
+    {
+      "@id": "#step-ner-funding",
+      "@type": "HowToStep",
+      "name": "Extract NER/funding entities",
+      "description": "Extract persons, organizations, funders, grants and project identifiers from acknowledgements using the selected HuggingFace NER model and regex rules.",
+      "instrument": {
+        "@id": "src/funding.py"
+      },
+      "workExample": "python src/funding.py --allow-download"
+    },
+    {
+      "@id": "#step-build-kg",
+      "@type": "HowToStep",
+      "name": "Build RDF Knowledge Graph",
+      "description": "Integrate papers, authors, topics, similarity and funding entities into RDF.",
+      "instrument": {
+        "@id": "src/build_kg.py"
+      },
+      "workExample": "python src/build_kg.py --similarity outputs/semantic_similarity_relations_embeddings.csv --topics outputs/paper_topics.csv --funding outputs/funding_entities.csv"
+    },
+    {
+      "@id": "#step-validate-kg",
+      "@type": "HowToStep",
+      "name": "Validate KG",
+      "description": "Validate that the final Turtle file parses correctly and contains expected entities.",
+      "instrument": {
+        "@id": "src/validate_kg.py"
+      },
+      "workExample": "python src/validate_kg.py"
+    },
+    {
+      "@id": "#grobid",
+      "@type": "SoftwareApplication",
+      "name": "GROBID",
+      "description": "Tool used to extract structured TEI XML from scientific PDFs."
+    },
+    {
+      "@id": "#model-all-mpnet-base-v2",
+      "@type": "SoftwareApplication",
+      "name": "sentence-transformers/all-mpnet-base-v2",
+      "description": "HuggingFace/Sentence Transformers model used to compute abstract embeddings."
+    },
+    {
+      "@id": "#model-dslim-bert-base-ner",
+      "@type": "SoftwareApplication",
+      "name": "dslim/bert-base-NER",
+      "description": "Selected HuggingFace NER model used for acknowledgements entity extraction."
+    },
+    {
+      "@id": "#bertopic",
+      "@type": "SoftwareApplication",
+      "name": "BERTopic",
+      "description": "Topic modeling library used to group papers by themes."
+    },
+    {
+      "@id": "src/",
+      "@type": "Dataset",
+      "name": "Source code",
+      "description": "Python scripts implementing the pipeline."
+    },
+    {
+      "@id": "evaluation/",
+      "@type": "Dataset",
+      "name": "Evaluation scripts",
+      "description": "Scripts used to evaluate similarity, topics and NER models."
+    },
+    {
+      "@id": "queries/",
+      "@type": "Dataset",
+      "name": "SPARQL queries",
+      "description": "Reference SPARQL queries for the generated RDF Knowledge Graph."
+    },
+    {
+      "@id": "outputs/",
+      "@type": "Dataset",
+      "name": "Generated outputs",
+      "description": "Generated CSV and RDF outputs of the pipeline."
+    },
+    {
+      "@id": "data/evaluation/ner/",
+      "@type": "Dataset",
+      "name": "NER evaluation data",
+      "description": "Gold standard and model comparison files for NER evaluation."
+    },
+    {
+      "@id": "data/papers.csv",
+      "@type": "File",
+      "name": "Paper metadata",
+      "description": "Initial metadata file with selected papers.",
+      "encodingFormat": "text/csv",
+      "contentSize": 8240
+    },
+    {
+      "@id": "data/intermediate/papers_master.csv",
+      "@type": "File",
+      "name": "Master papers CSV",
+      "description": "CSV containing extracted metadata, abstracts and acknowledgements.",
+      "encodingFormat": "text/csv",
+      "contentSize": 65869
+    },
+    {
+      "@id": "data/evaluation/ner/ner_gold.csv",
+      "@type": "File",
+      "name": "NER gold standard",
+      "description": "Manually annotated gold standard used to evaluate HuggingFace NER models.",
+      "encodingFormat": "text/csv"
+    },
+    {
+      "@id": "data/evaluation/ner/ner_model_comparison.csv",
+      "@type": "File",
+      "name": "NER model comparison",
+      "description": "Precision, recall and F1 comparison of the tested HuggingFace NER models.",
+      "encodingFormat": "text/csv",
+      "contentSize": 1289
+    },
+    {
+      "@id": "ontologia/ontology.ttl",
+      "@type": "File",
+      "name": "Ontology",
+      "description": "RDF/OWL ontology defining the classes and properties of the KG.",
+      "encodingFormat": "text/turtle",
+      "contentSize": 13105
+    },
+    {
+      "@id": "outputs/kg.ttl",
+      "@type": "File",
+      "name": "RDF Knowledge Graph",
+      "description": "Final RDF Knowledge Graph in Turtle format.",
+      "encodingFormat": "text/turtle",
+      "contentSize": 259499
+    },
+    {
+      "@id": "outputs/semantic_similarity_relations_embeddings.csv",
+      "@type": "File",
+      "name": "Semantic similarity output",
+      "description": "CSV containing semantic similarity relations between papers.",
+      "encodingFormat": "text/csv",
+      "contentSize": 5889
+    },
+    {
+      "@id": "outputs/paper_topics.csv",
+      "@type": "File",
+      "name": "Paper topic assignments",
+      "description": "CSV containing paper-to-topic assignments.",
+      "encodingFormat": "text/csv",
+      "contentSize": 6496
+    },
+    {
+      "@id": "outputs/topics_info.csv",
+      "@type": "File",
+      "name": "Topics information",
+      "description": "CSV containing topic labels and top words.",
+      "encodingFormat": "text/csv",
+      "contentSize": 1260
+    },
+    {
+      "@id": "outputs/funding_entities.csv",
+      "@type": "File",
+      "name": "Funding and NER entities",
+      "description": "CSV containing extracted entities from acknowledgements.",
+      "encodingFormat": "text/csv",
+      "contentSize": 165303
+    },
+    {
+      "@id": "outputs/provenance.json",
+      "@type": "File",
+      "name": "Provenance JSON",
+      "description": "JSON provenance record describing scripts, inputs, outputs and models used in the workflow.",
+      "encodingFormat": "application/json",
+      "contentSize": 4940
+    },
+    {
+      "@id": "outputs/provenance.ttl",
+      "@type": "File",
+      "name": "Provenance RDF",
+      "description": "RDF/PROV-O provenance record describing scripts, inputs, outputs and models used in the workflow.",
+      "encodingFormat": "text/turtle",
+      "contentSize": 11535
+    },
+    {
+      "@id": "requirements.txt",
+      "@type": "File",
+      "name": "Python requirements",
+      "description": "Python dependencies required by the pipeline.",
+      "encodingFormat": "text/plain",
+      "contentSize": 151
+    },
+    {
+      "@id": "Dockerfile",
+      "@type": "File",
+      "name": "Dockerfile",
+      "description": "Docker image definition.",
+      "encodingFormat": "text/plain",
+      "contentSize": 289
+    },
+    {
+      "@id": "docker-compose.yml",
+      "@type": "File",
+      "name": "Docker Compose configuration",
+      "description": "Docker Compose services, including GROBID.",
+      "encodingFormat": "text/yaml",
+      "contentSize": 308
+    },
+    {
+      "@id": "README.md",
+      "@type": "File",
+      "name": "README",
+      "description": "Documentation and reproducibility instructions.",
+      "encodingFormat": "text/markdown",
+      "contentSize": 1539
+    },
+    {
+      "@id": "src/download_pdfs.py",
+      "@type": "SoftwareSourceCode",
+      "name": "download_pdfs.py",
+      "description": "Downloads PDFs for the selected papers.",
+      "programmingLanguage": "Python",
+      "encodingFormat": "text/x-python"
+    },
+    {
+      "@id": "src/run_grobid.py",
+      "@type": "SoftwareSourceCode",
+      "name": "run_grobid.py",
+      "description": "Runs GROBID over the downloaded PDFs.",
+      "programmingLanguage": "Python",
+      "encodingFormat": "text/x-python"
+    },
+    {
+      "@id": "src/extract_papers_master.py",
+      "@type": "SoftwareSourceCode",
+      "name": "extract_papers_master.py",
+      "description": "Builds the master CSV from TEI XML files.",
+      "programmingLanguage": "Python",
+      "encodingFormat": "text/x-python"
+    },
+    {
+      "@id": "src/generate_similarity.py",
+      "@type": "SoftwareSourceCode",
+      "name": "generate_similarity.py",
+      "description": "Generates semantic similarity relations.",
+      "programmingLanguage": "Python",
+      "encodingFormat": "text/x-python"
+    },
+    {
+      "@id": "src/generate_topics.py",
+      "@type": "SoftwareSourceCode",
+      "name": "generate_topics.py",
+      "description": "Generates topic modeling outputs.",
+      "programmingLanguage": "Python",
+      "encodingFormat": "text/x-python"
+    },
+    {
+      "@id": "src/funding.py",
+      "@type": "SoftwareSourceCode",
+      "name": "funding.py",
+      "description": "Extracts NER/funding entities from acknowledgements.",
+      "programmingLanguage": "Python",
+      "encodingFormat": "text/x-python"
+    },
+    {
+      "@id": "src/build_kg.py",
+      "@type": "SoftwareSourceCode",
+      "name": "build_kg.py",
+      "description": "Builds the RDF Knowledge Graph.",
+      "programmingLanguage": "Python",
+      "encodingFormat": "text/x-python"
+    },
+    {
+      "@id": "src/validate_kg.py",
+      "@type": "SoftwareSourceCode",
+      "name": "validate_kg.py",
+      "description": "Validates the final RDF Knowledge Graph.",
+      "programmingLanguage": "Python",
+      "encodingFormat": "text/x-python"
+    },
+    {
+      "@id": "src/generate_rocrate.py",
+      "@type": "SoftwareSourceCode",
+      "name": "generate_rocrate.py",
+      "description": "Generates this RO-Crate metadata file.",
+      "programmingLanguage": "Python",
+      "encodingFormat": "text/x-python"
+    },
+    {
+      "@id": "src/generate_provenance.py",
+      "@type": "SoftwareSourceCode",
+      "name": "generate_provenance.py",
+      "description": "Generates JSON and RDF provenance metadata for the pipeline.",
+      "programmingLanguage": "Python",
+      "encodingFormat": "text/x-python"
+    },
+    {
+      "@id": "evaluation/ner/evaluate_hf_ner_models.py",
+      "@type": "SoftwareSourceCode",
+      "name": "evaluate_hf_ner_models.py",
+      "description": "Compares HuggingFace NER models on the gold standard.",
+      "programmingLanguage": "Python",
+      "encodingFormat": "text/x-python"
+    }
+  ]
+}
