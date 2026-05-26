@@ -1,0 +1,61 @@
+paper_id,entity_text,entity_type
+paper_001,IAU,ORGANIZATION
+paper_001,National Science and Engineering Research Council,FUNDER
+paper_001,NSERC,FUNDER
+paper_003,Magdalen College,ORGANIZATION
+paper_003,Rudolf Peierls Centre for Theoretical Physics,ORGANIZATION
+paper_003,European Space Agency,ORGANIZATION
+paper_003,ESA,ORGANIZATION
+paper_003,Gaia Data Processing and Analysis Consortium,ORGANIZATION
+paper_003,DPAC,ORGANIZATION
+paper_003,Gaia Multilateral Agreement,PROJECT_ID
+paper_004,National Science Foundation,FUNDER
+paper_004,AST9900732,GRANT_ID
+paper_004,University of California Santa Cruz,ORGANIZATION
+paper_004,NATO Collaborative Research,FUNDER
+paper_004,CRG 971552,GRANT_ID
+paper_004,Carl Grillmair,PERSON
+paper_004,Lick Observatory,ORGANIZATION
+paper_005,Michael Unger,PERSON
+paper_005,U.S. National Science Foundation,FUNDER
+paper_005,National Science Foundation,FUNDER
+paper_005,NSF,FUNDER
+paper_005,PHY-2412679,GRANT_ID
+paper_007,Ray Weymann,PERSON
+paper_007,Steward Observatory,ORGANIZATION
+paper_007,Kitt Peak National Observatory,ORGANIZATION
+paper_007,NSF,FUNDER
+paper_007,GP-25317,GRANT_ID
+paper_008,XMM-Newton,ORGANIZATION
+paper_008,ESA,FUNDER
+paper_008,NASA,FUNDER
+paper_008,Spanish Ministry of Science and Innovation,FUNDER
+paper_008,AYA2010-21490-C02-02,GRANT_ID
+paper_008,Stefano Bianchi,PERSON
+paper_009,CNPq,FUNDER
+paper_009,200227/2008-4,GRANT_ID
+paper_009,FONDECYT,FUNDER
+paper_009,3100013,GRANT_ID
+paper_009,ARC,FUNDER
+paper_009,NSF,FUNDER
+paper_009,AST-0917706,GRANT_ID
+paper_009,AST-0909237,GRANT_ID
+paper_009,Caroline Foster,PERSON
+paper_009,Bill Harris,PERSON
+paper_009,JPL/Caltech,ORGANIZATION
+paper_009,1310512,GRANT_ID
+paper_009,UC Berkeley,ORGANIZATION
+paper_009,AST-0071048,GRANT_ID
+paper_009,National Science Foundation,FUNDER
+paper_009,AST-0808099,GRANT_ID
+paper_009,Steve Zepf,PERSON
+paper_009,Arunav Kundu,PERSON
+paper_011,Planck,ORGANIZATION
+paper_011,Legacy Archive for Microwave Background Data Analysis,ORGANIZATION
+paper_011,LAMBDA,ORGANIZATION
+paper_011,HEALPix,ORGANIZATION
+paper_011,INFN,FUNDER
+paper_011,TAsP,PROJECT_ID
+paper_011,Swiss National Science Foundation,FUNDER
+paper_011,DST Centre of Excellence in Mathematical & Statistical Sciences,ORGANIZATION
+paper_011,University of the Witwatersrand,ORGANIZATION
