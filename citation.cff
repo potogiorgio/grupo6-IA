@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+title: "AstroKG: AI-Powered Knowledge Graph for Astrophysics Research"
+message: If you use this software, please cite it using the metadata below.
+authors:
+   - family-names: "Barrera Colmenares"
+     given-names: "Michele"
+   - family-names: "Blanco Carrasco"
+     given-names: "Jorge"
+   - family-names: "Squillari"
+     given-names: "Maria Agostina"
+   - family-names: "Pecker Matesanz"
+     given-names: "Andrés"
+date-released: 2026
+version: 1.0.0
+doi: https://doi.org/10.5281/zenodo.20410455
+repository-code: https://github.com/potogiorgio/grupo6-IA.git
+license: MIT
