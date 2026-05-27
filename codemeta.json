@@ -1,0 +1,47 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+  "@type": "SoftwareSourceCode",
+  "name": "AstroKG",
+  "description": "AI-powered Knowledge Graph for astrophysics research based on OpenAIRE metadata, GROBID extraction, BERTopic, semantic similarity, NER, ROR and Wikidata enrichment.",
+  "codeRepository": "https://github.com/potogiorgio/grupo6-IA",
+  "identifier": "https://doi.org/10.5281/zenodo.20410455",
+  "sameAs": [
+    "https://doi.org/10.5281/zenodo.20410455"
+  ],
+  "programmingLanguage": "Python",
+  "license": "https://spdx.org/licenses/MIT",
+  "version": "1.0.0",
+  "datePublished": "2026-05-27",
+  "author": [
+    {
+      "@type": "Person",
+      "givenName": "Michele",
+      "familyName": "Barrera Colmenares"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Jorge",
+      "familyName": "Blanco Carrasco"
+    },
+    {
+      "@type": "Person",
+      "givenName": " María Agostina",
+      "familyName": "Squillari"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Andrés",
+      "familyName": "Pecker Matesanz"
+    }
+  ],
+  "softwareRequirements": [
+    "Python 3.10+",
+    "rdflib",
+    "pandas",
+    "sentence-transformers",
+    "bertopic",
+    "transformers",
+    "torch",
+    "streamlit"
+  ]
+}
