@@ -1,5 +1,7 @@
 # Open Science and AI in Research Software Engineering - Grupo 6
 
+https://doi.org/10.5281/zenodo.20410455
+
 Este es el repositorio del **Grupo 6**.
 
 El objetivo es crear un **grafo de conocimiento** de publicaciones científicas en el ámbito de **Astrophysics of Galaxies**.
@@ -334,8 +336,3 @@ python src/generate_rocrate.py
 python src/validate_kg.py
 ```
 
----
-
-## 13. Licencia
-
-Este repositorio se desarrolla como parte de la práctica de la asignatura Open Science and Artificial Intelligence in Research Software Engineering.
